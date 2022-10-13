@@ -7,8 +7,8 @@ using Object = UnityEngine.Object;
 
 public class PoolManager
 {
-    Dictionary<string, Pool> poolDict = new Dictionary<string, Pool>();
-    Transform root;
+    private Dictionary<string, Pool> poolDict = new Dictionary<string, Pool>();
+    private Transform root;
 
     public void Start()
     {
@@ -29,7 +29,9 @@ public class PoolManager
         poolDict.Add(original.name, pool);
     }
 
-    // Pool에 집어넣기
+    /// <summary>
+    /// Pool에 오브젝트 넣는 함수
+    /// </summary>
     public void Push(Poolable poolable)
     {
         string name = poolable.gameObject.name;
@@ -43,24 +45,30 @@ public class PoolManager
         poolDict[name].Push(poolable);
     }
 
-    // 해당 오브젝트가져오기
-    public Poolable Pop(GameObject original, Transform parent = null)
+    /// <summary>
+    /// Pool에서 오브젝트의 이름을 가진 오브젝트 인스턴스를 반환하는 함수.
+    /// </summary>
+    public Poolable Pop(GameObject original, Transform parent = null, Vector3? position = null, Quaternion? rotation = null)
     {
         if (!poolDict.ContainsKey(original.name))
         {
             CreatePool(original);
         }
 
-        return poolDict[original.name].Pop(parent);
+        return poolDict[original.name].Pop(parent, position, rotation);
     }
 
-    public void Clear()
+    /// <summary>
+    /// Pool에서 같은 이름을 가진 오브젝트 인스턴스를 반환하는 함수.
+    /// </summary>
+    public Poolable Pop(string originalName, Transform parent = null, Vector3? position = null, Quaternion? rotation = null)
     {
-        foreach (Transform child in root)
+        if (!poolDict.ContainsKey(originalName))
         {
-            Object.Destroy(child.gameObject);
+            Debug.LogError("Has No Pool");
+            return null;
         }
 
-        poolDict.Clear();
+        return poolDict[originalName].Pop(parent, position, rotation);
     }
 }
