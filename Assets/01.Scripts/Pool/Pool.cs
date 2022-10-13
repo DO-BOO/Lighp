@@ -26,7 +26,7 @@ public class Pool
         }
     }
 
-    // 오브젝트 하나 생성
+    // 오브젝트 인스턴스를 하나 생성하고 반환하는 함수
     Poolable Create()
     {
         GameObject obj = Object.Instantiate<GameObject>(Original);
@@ -42,28 +42,21 @@ public class Pool
         return component;
     }
 
-    // 다 썼을 때 스택에 넣는다
+    // Pool에 넣어주는 함수
     public void Push(Poolable poolable)
     {
         if (poolable == null) return;
 
         poolable.transform.parent = Root;
+        poolable.ResetData();
         poolable.gameObject.SetActive(false);
         poolable.IsUsing = false;
 
         poolStack.Push(poolable);
     }
 
-    // 풀에서 빼기
-    public Poolable Pop(Transform parent)
-    {
-        Poolable pool = Pop();
-        pool.transform.SetParent(parent);
-
-        return pool;
-    }
-
-    public Poolable Pop()
+    // 풀에서 빼서 반환하는 함수
+    public Poolable Pop(Transform parent = null, Vector3? position = null, Quaternion? rotation = null)
     {
         Poolable poolable;
 
@@ -76,17 +69,29 @@ public class Pool
             poolable = Create();
         }
 
+        poolable.transform.SetParent(parent);
+
+        // pos & rot => SetPositionAndRotation
+        if (position.HasValue && rotation.HasValue)
+        {
+            poolable.transform.SetPositionAndRotation(position.Value, rotation.Value);
+        }
+
+        // else 
+        else if (position.HasValue)
+        {
+            poolable.transform.position = position.Value;
+        }
+
+        else if(rotation.HasValue)
+        {
+            poolable.transform.rotation = rotation.Value;
+        }
+
+        poolable.SetData();
         poolable.IsUsing = true;
         poolable.gameObject.SetActive(true);
 
         return poolable;
-    }
-
-    public Poolable Pop(Transform parent, Vector3 position, Quaternion quat)
-    {
-        Poolable pool = Pop(parent);
-        pool.transform.SetPositionAndRotation(position, quat);
-
-        return pool;
     }
 }
