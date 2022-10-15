@@ -7,5 +7,10 @@ using UnityEngine;
 /// </summary>
 public class Define
 {
+    public const string HORIZONTAL  = "Horizontal";
+    public const string VERTICAL    = "Vertical";
+    public const string JUMP        = "Jump";
 
+    #region SHEET_URL
+    #endregion
 }
