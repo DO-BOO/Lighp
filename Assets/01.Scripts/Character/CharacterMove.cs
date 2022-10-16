@@ -48,6 +48,8 @@ public abstract class CharacterMove : MonoBehaviour
         {
             ForwardToVelocity(rotTime);
         }
+
+        OnMove(rigid.velocity);
     }
 
     // 보고 있는 방향을 가는 방향으로 설정해주는 함수
@@ -72,4 +74,6 @@ public abstract class CharacterMove : MonoBehaviour
 
         rigid.AddForce(velocity.Value * jumpForce, ForceMode.Impulse);
     }
+
+    protected virtual void OnMove(Vector3 velocity) { }
 }

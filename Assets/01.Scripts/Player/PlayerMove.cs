@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlayerMove : CharacterMove
 {
+    protected Animator animator;
+
     protected override void Start()
     {
+        animator = GetComponent<Animator>();
         base.Start();
     }
 
@@ -26,9 +29,15 @@ public class PlayerMove : CharacterMove
 
     private void InputJump()
     {
-        if(Input.GetButtonDown(Define.JUMP))
+        if (Input.GetButtonDown(Define.JUMP))
         {
             Jump(moveStat.jumpForce);
         }
+    }
+
+    protected override void OnMove(Vector3 velocity)
+    {
+        Debug.Log(rigid.velocity.sqrMagnitude);
+        animator.SetBool("IsMove", velocity.sqrMagnitude > 0.1f);
     }
 }

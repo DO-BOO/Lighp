@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dad2814db0aacbb4fab807ec0d9d0f02
+guid: 45ebcd6636dcab145baf8143dcef5c64
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,17 +7,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Glass
-    second: {fileID: 2100000, guid: de22c7780c828cc4da2e3d567cbd076c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LightEye
+      name: Bulb_Eye
     second: {fileID: 2100000, guid: 151f5abe9f389ba44abde666bb9bfc74, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: player
+      name: Bulb_Glass
+    second: {fileID: 2100000, guid: de22c7780c828cc4da2e3d567cbd076c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bulb_Player
     second: {fileID: 2100000, guid: b8492c8f9520b1d4c89f23507c1e12da, type: 2}
   materials:
     materialImportMode: 2
@@ -106,11 +106,11 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
