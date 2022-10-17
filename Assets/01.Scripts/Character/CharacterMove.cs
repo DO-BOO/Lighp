@@ -6,11 +6,10 @@ using UnityEngine;
 /// 캐릭터의 이동을 담당하는 클래스
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public abstract class CharacterMove : MonoBehaviour
+public abstract class CharacterMove : Character
 {
     [SerializeField]
     protected MoveStat moveStat;
-    protected Rigidbody rigid;
     public bool IsCurrentMoving
     {
         get
@@ -22,9 +21,11 @@ public abstract class CharacterMove : MonoBehaviour
     public Vector3 Velocity => rigid.velocity;
 
     #region CONTROL
+    // 움직일 수 있는 상태인가 아닌가
     private bool canMove = true;
     public bool CanMove { get => canMove; set => canMove = value; }
 
+    // 점프할 수 있는 상태인가 아닌가
     private bool canJump = true;
     public bool CanJump { get => canJump; set => canJump = value; }
     #endregion
@@ -48,6 +49,8 @@ public abstract class CharacterMove : MonoBehaviour
         {
             ForwardToVelocity(rotTime);
         }
+
+        OnMove(rigid.velocity);
     }
 
     // 보고 있는 방향을 가는 방향으로 설정해주는 함수
@@ -72,4 +75,7 @@ public abstract class CharacterMove : MonoBehaviour
 
         rigid.AddForce(velocity.Value * jumpForce, ForceMode.Impulse);
     }
+
+    // 움직일 때 자식 클래스에서 재정의할 함수
+    protected virtual void OnMove(Vector3 velocity) { }
 }
