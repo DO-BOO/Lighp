@@ -30,6 +30,7 @@ public class StateMachine : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(curState);
         // State Update 해주기
         if(curState !=null)
         {
@@ -56,13 +57,6 @@ public class StateMachine : MonoBehaviour
         // State 새로 할당
         curState = newState;
         curState.Enter();
-        Debug.Log(curState);
     }
 
-    // 확인용
-    private void OnGUI()
-    {
-        string content = curState!=null? curState.name:"(no current State)";
-        GUILayout.Label(content);
-    }
 }
