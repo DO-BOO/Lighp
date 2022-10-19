@@ -7,9 +7,19 @@ using UnityEngine;
 /// </summary>
 public sealed class PlayerMove : CharacterMove
 {
+    Vector3 forward = Vector3.zero;
+    Vector3 right = Vector3.zero;
+
     protected override void Start()
     {
         animator = GetComponent<Animator>();
+
+        forward = GameManager.Instance.MainCam.transform.forward;
+        right = GameManager.Instance.MainCam.transform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+
         base.Start();
     }
 
@@ -25,11 +35,10 @@ public sealed class PlayerMove : CharacterMove
     private void InputMove()
     {
         Vector3 moveInput = Vector3.zero;
-        Transform trn = Camera.main.transform;
 
         //trn.forward
-        moveInput.x = Input.GetAxisRaw(Define.HORIZONTAL);
-        moveInput.z = Input.GetAxisRaw(Define.VERTICAL);
+        moveInput += Input.GetAxisRaw(Define.HORIZONTAL) * right;
+        moveInput += Input.GetAxisRaw(Define.VERTICAL) * forward;
 
         Move(moveInput.normalized, moveStat.speed, true, moveStat.rotationSpeed);
     }
