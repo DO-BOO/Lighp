@@ -17,19 +17,20 @@ public class BasicMonsterMove : BaseState
     public override void Enter()
     {
         base.Enter();
-        monster.agent.SetDestination(monster.target.transform.position);
+        monster.agent.SetDestination(monster.Target.transform.position);
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        Debug.Log("ASD");
 
         if(monster.agent.remainingDistance <= stopDistance)
         {
-            stateMachine.ChangeState(((BasicMonster)stateMachine).idleState);
+            stateMachine.ChangeState(((BasicMonster)stateMachine).attackState);
         }
 
-        monster.agent.SetDestination(monster.target.transform.position);
+        monster.agent.SetDestination(monster.Target.transform.position);
     }
     public override void UpdateLate()
     {

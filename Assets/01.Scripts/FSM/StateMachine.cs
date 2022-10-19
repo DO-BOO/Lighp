@@ -10,6 +10,11 @@ public class StateMachine : MonoBehaviour
 {
     BaseState curState; // 현재 상태
 
+    protected virtual BaseState GetInitState() { return null; }
+    protected virtual float GetDistance() { return 0.0f; }
+    protected virtual void SearchTarget() {}
+
+
     private void Start()
     {
         // 기본 상태 가져오기
@@ -18,14 +23,9 @@ public class StateMachine : MonoBehaviour
         // 기본 상태가 있다면 시작
         if(curState != null)
         {
+            SearchTarget();
             curState.Enter();
         }
-    }
-
-    // 기본 상태 null
-    protected virtual BaseState GetInitState()
-    {
-        return null;
     }
 
     private void Update()
@@ -34,6 +34,7 @@ public class StateMachine : MonoBehaviour
         // State Update 해주기
         if(curState !=null)
         {
+            SearchTarget();
             curState.UpdateLogic();
         }
     }
@@ -58,5 +59,4 @@ public class StateMachine : MonoBehaviour
         curState = newState;
         curState.Enter();
     }
-
 }

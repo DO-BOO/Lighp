@@ -1,17 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-/// <summary>
-/// (기본) 몬스터 IDLE 상태 
-/// </summary>
-public class BasicMonsterIdle : BaseState
+
+public class BasicMonsterAttack : BaseState
 {
     BasicMonster monster;
 
-    // IDLE 상태 정의
-    public BasicMonsterIdle(BasicMonster stateMachine) : base("IDLE", stateMachine)
+    float attackDelay = 3.0f;
+    float nowAttackcool = 0.0f;
+
+    public BasicMonsterAttack(BasicMonster stateMachine) : base("ATTACK", stateMachine)
     {
         monster = (BasicMonster)stateMachine;
     }
@@ -19,17 +17,16 @@ public class BasicMonsterIdle : BaseState
     public override void Enter()
     {
         base.Enter();
+        nowAttackcool = 0;
+        // ATTACK 애니메이션 실행
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        if (monster.distance < 0.0f) return;
-        if (monster.distance <= monster.idleRange)
+        if (nowAttackcool <= attackDelay)
         {
-            stateMachine.ChangeState(((BasicMonster)stateMachine).moveState);
+            nowAttackcool += Time.deltaTime;
         }
     }
 
@@ -37,8 +34,10 @@ public class BasicMonsterIdle : BaseState
     {
         base.UpdateLogic();
     }
+
     public override void Exit()
     {
         base.Exit();
     }
+
 }
