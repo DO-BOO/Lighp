@@ -13,8 +13,10 @@ public sealed class PlayerMove : CharacterMove
         base.Start();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         InputMove();
         InputJump();
     }
@@ -23,6 +25,9 @@ public sealed class PlayerMove : CharacterMove
     private void InputMove()
     {
         Vector3 moveInput = Vector3.zero;
+        Transform trn = Camera.main.transform;
+
+        //trn.forward
         moveInput.x = Input.GetAxisRaw(Define.HORIZONTAL);
         moveInput.z = Input.GetAxisRaw(Define.VERTICAL);
 
