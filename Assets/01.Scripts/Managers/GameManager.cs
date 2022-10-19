@@ -6,7 +6,7 @@ public class GameManager : MonoSingleton<GameManager>
 {
     public Camera MainCam { get; private set; }
 
-    void Start()
+    private void Awake()
     {
         MainCam = Camera.main;
     }

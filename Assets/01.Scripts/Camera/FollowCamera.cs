@@ -25,7 +25,7 @@ public class FollowCamera : MonoBehaviour
     private void Start()
     {
         // 처음에 오프셋 값이 카메라와 플레이어 사이의 거리
-        camera=GetComponent<Camera>();
+        camera = GetComponent<Camera>();
         difOffset = (transform.position - target.position);
     }
 

@@ -106,7 +106,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -285,7 +285,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.6
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1702,7 +1702,7 @@ ParticleSystem:
     orbitalY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.35
+      scalar: -0.25
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -16060,8 +16060,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStat:
-    speed: 10
-    jumpForce: 17
+    speed: 13
+    jumpForce: 25
     rotationSpeed: 0.191
     maxJumpCount: 2
 --- !u!1 &6580441117677189669
