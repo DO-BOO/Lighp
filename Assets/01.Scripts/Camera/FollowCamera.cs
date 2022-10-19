@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class FollowCamera : MonoBehaviour
 {
+    public static Vector3 CharacterForward { get; private set; }
+
     [SerializeField]
     private Transform target;
 
@@ -20,6 +22,10 @@ public class FollowCamera : MonoBehaviour
     {
         // 처음에 오프셋 값이 카메라와 플레이어 사이의 거리
         difOffset = transform.position - target.position;
+
+        Debug.Log(transform.forward);
+        Debug.Log(transform.right);
+        CharacterForward = transform.forward;
     }
 
     void LateUpdate()

@@ -13,4 +13,8 @@ public class Define
 
     #region SHEET_URL
     #endregion
+
+    #region LAYER_MASK
+    public const int BOTTOM_LAYER = 1 << 6;
+    #endregion
 }
