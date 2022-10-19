@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.003
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0, g: 0.028964126, b: 0.4433962, a: 1}
+  m_AmbientSkyColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
   m_AmbientEquatorColor: {r: 0.41374153, g: 0.4258239, b: 0.49056602, a: 1}
   m_AmbientGroundColor: {r: 1, g: 0.7376391, b: 0, a: 1}
   m_AmbientIntensity: 1.61
@@ -165,7 +165,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &320103916
 GameObject:
@@ -294,8 +294,8 @@ GameObject:
   - component: {fileID: 858769215}
   - component: {fileID: 858769214}
   - component: {fileID: 858769213}
-  m_Layer: 0
-  m_Name: Surface
+  m_Layer: 6
+  m_Name: Surface (Bottom)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -434,6 +434,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: deacaf581eab6b8478e65d7aefada701, type: 3}
       propertyPath: m_Name
       value: Background
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: deacaf581eab6b8478e65d7aefada701, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: deacaf581eab6b8478e65d7aefada701, type: 3}
@@ -678,10 +682,6 @@ PrefabInstance:
     - target: {fileID: 6446221590902297889, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6845239571329987265, guid: be02706d20869814f85913b624a6dfd1, type: 3}
-      propertyPath: m_Mass
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be02706d20869814f85913b624a6dfd1, type: 3}

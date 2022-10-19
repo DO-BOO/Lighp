@@ -28,11 +28,17 @@ public abstract class CharacterMove : Character
     // 점프할 수 있는 상태인가 아닌가
     private bool canJump = true;
     public bool CanJump { get => canJump; set => canJump = value; }
+
+    protected int jumpCount { get; private set; }
     #endregion
 
     protected virtual void Start()
     {
         rigid = GetComponent<Rigidbody>();
+    }
+
+    protected virtual void Update()
+    {
     }
 
     // 캐릭터를 velocity 방향으로 움직이는 함수
@@ -67,15 +73,32 @@ public abstract class CharacterMove : Character
     protected void Jump(float jumpForce, Vector3? velocity = null)
     {
         if (!CanJump) return;
+        if (jumpCount >= moveStat.maxJumpCount) return;
 
         if (!velocity.HasValue)
         {
             velocity = Vector3.up;
         }
 
+        jumpCount++;
+
+        Vector3 vel = rigid.velocity;
+        vel.y = 0f;
+
+        rigid.velocity = vel;
+
         rigid.AddForce(velocity.Value * jumpForce, ForceMode.Impulse);
     }
 
     // 움직일 때 자식 클래스에서 재정의할 함수
     protected virtual void OnMove(Vector3 velocity) { }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 땅에 닿으면 jumpCount 초기화
+        if (1 << collision.collider.gameObject.layer == Define.BOTTOM_LAYER)
+        {
+            jumpCount = 0;
+        }
+    }
 }
