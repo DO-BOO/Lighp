@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 329950638}
   - component: {fileID: 329950637}
   - component: {fileID: 329950636}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4823,7 +4823,7 @@ GameObject:
   - component: {fileID: 813506880}
   - component: {fileID: 813506882}
   - component: {fileID: 813506881}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9635,7 +9635,7 @@ GameObject:
   - component: {fileID: 949084685}
   - component: {fileID: 949084687}
   - component: {fileID: 949084686}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14633,7 +14633,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3609733291988340052}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16011,7 +16011,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &6845239571329987271
@@ -16060,10 +16060,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStat:
-    speed: 13
+    speed: 20
     jumpForce: 25
     rotationSpeed: 0.191
     maxJumpCount: 2
+    dashForce: 0
+  blockLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &6580441117677189669
 GameObject:
   m_ObjectHideFlags: 0

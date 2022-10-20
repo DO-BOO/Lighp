@@ -7,8 +7,12 @@ using UnityEngine;
 /// </summary>
 public sealed class PlayerMove : CharacterMove
 {
-    Vector3 forward = Vector3.zero;
-    Vector3 right = Vector3.zero;
+    private Vector3 forward = Vector3.zero;
+    private Vector3 right = Vector3.zero;
+
+    // 이거 나중에 어떻게 해야할 듯하다...
+    private int isMoveHash = Animator.StringToHash("IsMove");
+    private int dashdHash = Animator.StringToHash("Dash");
 
     protected override void Start()
     {
@@ -29,6 +33,7 @@ public sealed class PlayerMove : CharacterMove
 
         InputMove();
         InputJump();
+        InputDash();
     }
 
     // Input값을 바탕으로 움직이는 함수
@@ -60,8 +65,27 @@ public sealed class PlayerMove : CharacterMove
         }
     }
 
+    private void InputDash()
+    {
+        if (InputManager.GetKeyDown(InputAction.Dash))
+        {
+            Dash(transform.forward);
+        }
+    }
+
     protected override void OnMove(Vector3 velocity)
     {
-        animator.SetBool("IsMove", velocity.sqrMagnitude > 0.1f);
+        animator.SetBool(isMoveHash, velocity.sqrMagnitude > 0.1f);
+    }
+
+    protected override void OnStartDash()
+    {
+        base.OnStartDash();
+        animator.SetTrigger(dashdHash);
+    }
+
+    protected override void OnEndDash()
+    {
+        base.OnEndDash();
     }
 }
