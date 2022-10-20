@@ -1,4 +1,4 @@
-public enum InputType
+public enum InputAction
 {
     Up,
     Down,
