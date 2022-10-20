@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Bulb_Glass
-  m_Shader: {fileID: -6465566751694194690, guid: c3147b4be93153d409bbbc12151cc9d1, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 2d3fbeab30e8bee4aad00e10fba873d3, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 6
@@ -95,13 +95,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 0
-    - _Cutoff: 0.318
+    - _Cutoff: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
@@ -115,7 +115,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RimPower: 1.59
+    - _RimPower: 0.5
     - _Smoothness: 0.867
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
