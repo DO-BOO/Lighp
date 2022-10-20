@@ -8,14 +8,19 @@ using System;
 /// <summary>
 /// 구글 스프레드시트에서 데이터 실시간으로 읽어오는 스크립트
 /// </summary>
-public class ReadSpreadData : MonoBehaviour
+public class ReadSpreadData
 {
     // key      > 스프레드 시트 주제
     // value    > 스프레드시트 데이터 (처음엔 링크)
     private Dictionary<SheetType, string> sheetDatas = new Dictionary<SheetType, string>();
+    public bool IsLoading { get; private set; } = true;
+    public void OnAwake()
+    {
+        sheetDatas.Add(SheetType.Key, Define.KEY_URL);
+    }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
-    IEnumerator Start()
+    public IEnumerator LoadData()
     {
         List<SheetType> sheetTypes = new List<SheetType>(sheetDatas.Keys);
 
@@ -26,6 +31,8 @@ public class ReadSpreadData : MonoBehaviour
 
             sheetDatas[type] = www.downloadHandler.text;
         }
+
+        IsLoading = false;
     }
 
     // sheet 타입에 맞춰 시트 데이터를 T형의 리스트로 만들어주는 함수
@@ -76,9 +83,14 @@ public class ReadSpreadData : MonoBehaviour
                 {
                     fields[i].SetValue(data, bool.Parse(column[i]));
                 }
-                else // string
+                else if (type == typeof(string))
                 {
                     fields[i].SetValue(data, column[i]);
+                }
+                // enum
+                else
+                {
+                    fields[i].SetValue(data, Enum.Parse(type, column[i]));
                 }
             }
 

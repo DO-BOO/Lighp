@@ -36,9 +36,17 @@ public sealed class PlayerMove : CharacterMove
     {
         Vector3 moveInput = Vector3.zero;
 
-        //trn.forward
-        moveInput += Input.GetAxisRaw(Define.HORIZONTAL) * right;
-        moveInput += Input.GetAxisRaw(Define.VERTICAL) * forward;
+        if (InputManager.GetKey(InputAction.Up))
+            moveInput += forward;
+
+        if (InputManager.GetKey(InputAction.Down))
+            moveInput -= forward;
+
+        if (InputManager.GetKey(InputAction.Right))
+            moveInput += right;
+
+        if (InputManager.GetKey(InputAction.Left))
+            moveInput -= right;
 
         Move(moveInput.normalized, moveStat.speed, true, moveStat.rotationSpeed);
     }
@@ -46,7 +54,7 @@ public sealed class PlayerMove : CharacterMove
     // Input값을 바탕으로 점프하는 함수
     private void InputJump()
     {
-        if (Input.GetButtonDown(Define.JUMP))
+        if (InputManager.GetKeyDown(InputAction.Jump))
         {
             Jump(moveStat.jumpForce);
         }
