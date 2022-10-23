@@ -9,10 +9,13 @@ public sealed class PlayerMove : CharacterMove
 {
     private Vector3 forward = Vector3.zero;
     private Vector3 right = Vector3.zero;
+    private Vector3 moveInput = Vector3.zero;
 
-    // 이거 나중에 어떻게 해야할 듯하다...
-    private int isMoveHash = Animator.StringToHash("IsMove");
-    private int dashdHash = Animator.StringToHash("Dash");
+    // 이거 나중에 상수로 빼든지 해서 어떻게 해야할 듯하다...
+    private readonly int isMoveHash = Animator.StringToHash("IsMove");
+    private readonly int dashdHash = Animator.StringToHash("Dash");
+
+    [SerializeField] private Particle dashParticle;
 
     protected override void Start()
     {
@@ -39,7 +42,9 @@ public sealed class PlayerMove : CharacterMove
     // Input값을 바탕으로 움직이는 함수
     private void InputMove()
     {
-        Vector3 moveInput = Vector3.zero;
+        moveInput = Vector3.zero;
+
+        if (isDash) return;
 
         if (InputManager.GetKey(InputAction.Up))
             moveInput += forward;
@@ -69,7 +74,10 @@ public sealed class PlayerMove : CharacterMove
     {
         if (InputManager.GetKeyDown(InputAction.Dash))
         {
-            Dash(transform.forward);
+            if (moveInput.sqrMagnitude < 0.01f)
+                Dash(transform.forward);
+            else
+                Dash(moveInput);
         }
     }
 
@@ -78,10 +86,19 @@ public sealed class PlayerMove : CharacterMove
         animator.SetBool(isMoveHash, velocity.sqrMagnitude > 0.1f);
     }
 
-    protected override void OnStartDash()
+    protected override void OnStartDash(bool isUpDown)
     {
-        base.OnStartDash();
+        base.OnStartDash(isUpDown);
         animator.SetTrigger(dashdHash);
+
+        // Double Dash라면 파티클 색을 진하게 한다
+        float alpha = (isDoubleDash) ? 1f : 0.2f;
+        dashParticle.SetStartColorAlpha(alpha);
+
+        float lifeTime = (isUpDown) ? 2.4f : 1.4f;
+        dashParticle.SetLifeTime(lifeTime);
+
+        dashParticle.Play();
     }
 
     protected override void OnEndDash()

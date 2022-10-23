@@ -21,10 +21,10 @@ public class Define
 
     public const float DASH_DISTANCE    = 12f;
     public const float DASH_DURATION    = 0.2f;
-    public const float DASH_COOLTIME    = 5f;
+    public const float DASH_COOLTIME    = 2f;
 
     /// <summary>
     /// DASH_DOUBLE_TIME초만에 Dash를 다시 쓰면 쿨타임이 부여된다.
     /// </summary>
-    public const float DASH_DOUBLE_TIME = 0.55f;
+    public const float DASH_DOUBLE_TIME = 0.35f;
 }

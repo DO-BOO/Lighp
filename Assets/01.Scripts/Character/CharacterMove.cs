@@ -22,6 +22,7 @@ public abstract class CharacterMove : Character
 
     public Vector3 Velocity => rigid.velocity;
     protected bool isDash = false;
+    protected bool isDoubleDash = false;
 
     [SerializeField]
     protected LayerMask blockLayer;
@@ -104,35 +105,45 @@ public abstract class CharacterMove : Character
         // 더블 대쉬
         if (doubleDashTimer < Define.DASH_DOUBLE_TIME)
         {
+            isDoubleDash = true;
             dashCoolTimer = Define.DASH_COOLTIME;
         }
 
-        OnStartDash();
-
         float distance = Define.DASH_DISTANCE;
+        bool isUpdown = false;
 
         // 상하 보정
         if (velocity.x * velocity.z < 0)
         {
             distance *= 1.7f;
+            isUpdown = true;
         }
 
         Vector3 destination = transform.position + velocity.normalized * distance;
 
+        OnStartDash(isUpdown);
         rigid.DOKill();
         rigid.DOMove(destination, Define.DASH_DURATION).OnComplete(() => { OnEndDash(); });
     }
 
     // 움직일 때 자식 클래스에서 재정의할 함수
-    protected virtual void OnMove(Vector3 velocity)
+    protected virtual void OnMove(Vector3 velocity) { }
+
+    /// <summary>
+    /// 대쉬를 할 때 자식 클래스에서 재정의할 함수
+    /// </summary>
+    /// <param name="isUpDown">상하 보정이 필요한지 아닌지</param>
+    protected virtual void OnStartDash(bool isUpDown)
     {
         // 초기화
-        doubleDashTimer = 0f; 
+        doubleDashTimer = 0f;
         isDash = true;
     }
-
-    protected virtual void OnStartDash() { }
-    protected virtual void OnEndDash() { isDash = false; }
+    protected virtual void OnEndDash()
+    {
+        isDash = false;
+        isDoubleDash = false;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
