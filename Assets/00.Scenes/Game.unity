@@ -9853,6 +9853,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 518979990749150506, guid: be02706d20869814f85913b624a6dfd1, type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 518979990749150506, guid: be02706d20869814f85913b624a6dfd1, type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 6.5
+      objectReference: {fileID: 0}
     - target: {fileID: 518979990749150508, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_LocalPosition.z
       value: -6

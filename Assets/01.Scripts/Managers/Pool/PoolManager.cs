@@ -12,7 +12,15 @@ public class PoolManager
 
     public void Start()
     {
+        root = new GameObject("@MainRoot").transform;
         Object.DontDestroyOnLoad(root);
+
+        PoolList list = Resources.Load<PoolList>("Pool/PoolList");
+
+        foreach (PoolGroup group in list.poolGroups)
+        {
+            CreatePool(group.poolObject.gameObject, group.instanceCount);
+        }
     }
 
     /// <summary>

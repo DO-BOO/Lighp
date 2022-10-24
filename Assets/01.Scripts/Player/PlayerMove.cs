@@ -15,7 +15,7 @@ public sealed class PlayerMove : CharacterMove
     private readonly int isMoveHash = Animator.StringToHash("IsMove");
     private readonly int dashdHash = Animator.StringToHash("Dash");
 
-    [SerializeField] private Particle dashParticle;
+    private Particle dashParticle;
 
     protected override void Start()
     {
@@ -86,17 +86,21 @@ public sealed class PlayerMove : CharacterMove
         animator.SetBool(isMoveHash, velocity.sqrMagnitude > 0.1f);
     }
 
-    protected override void OnStartDash(bool isUpDown)
+    protected override void OnStartDash(bool isUpDown, Vector3 destination)
     {
-        base.OnStartDash(isUpDown);
+        base.OnStartDash(isUpDown, destination);
         animator.SetTrigger(dashdHash);
+
+        dashParticle = GameManager.Instance.Pool.Pop("Dash", null, transform.position) as Particle;
+        dashParticle.transform.LookAt(destination);
 
         // Double Dash라면 파티클 색을 진하게 한다
         float alpha = (isDoubleDash) ? 1f : 0.2f;
         dashParticle.SetStartColorAlpha(alpha);
 
-        float lifeTime = (isUpDown) ? 2.4f : 1.4f;
-        dashParticle.SetLifeTime(lifeTime);
+        // 상하 길이 보정
+        float sizeY = (isUpDown) ? 9f : 6f;
+        dashParticle.SetStartSizeY(sizeY);
 
         dashParticle.Play();
     }

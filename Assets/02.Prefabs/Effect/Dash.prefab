@@ -870,7 +870,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 15
+      scalar: 50
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4833,6 +4833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a0929422224774db21f347b09f5b6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsing: 0
 --- !u!1 &7720328513857571189
 GameObject:
   m_ObjectHideFlags: 0
@@ -9659,6 +9660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a0929422224774db21f347b09f5b6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsing: 0
 --- !u!1 &8198709229744311048
 GameObject:
   m_ObjectHideFlags: 0
@@ -14490,3 +14492,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a0929422224774db21f347b09f5b6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsing: 0

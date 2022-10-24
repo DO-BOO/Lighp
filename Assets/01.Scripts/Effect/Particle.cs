@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 
 [RequireComponent(typeof(ParticleSystem))]
-public class Particle : MonoBehaviour
+public class Particle : Poolable
 {
     new private ParticleSystem particleSystem;
     public ParticleSystem ParticleSystem { get => particleSystem; }
@@ -16,10 +16,22 @@ public class Particle : MonoBehaviour
     private ParticleSystem.MainModule main;
     public ParticleSystem.MainModule MainModule { get => main; }
 
+    private float timer = 0f;
+
     private void Awake()
     {
         particleSystem = GetComponent<ParticleSystem>();
         main = particleSystem.main;
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+
+        if(!main.loop && timer > main.duration)
+        {
+            GameManager.Instance.Pool.Push(this);
+        }
     }
 
     public void SetStartColor(Color32 color)
@@ -40,6 +52,11 @@ public class Particle : MonoBehaviour
         main.startLifetime = lifeTime;
     }
 
+    public void SetStartSizeY(float y)
+    {
+        main.startSizeY = y;
+    }
+
     public void Play()
     {
         particleSystem.Play();
@@ -48,5 +65,11 @@ public class Particle : MonoBehaviour
     public void Stop()
     {
         particleSystem.Stop();
+    }
+
+    public override void ResetData()
+    {
+        timer = 0f;
+        Stop();
     }
 }

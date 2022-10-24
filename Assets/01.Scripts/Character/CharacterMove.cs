@@ -121,7 +121,7 @@ public abstract class CharacterMove : Character
 
         Vector3 destination = transform.position + velocity.normalized * distance;
 
-        OnStartDash(isUpdown);
+        OnStartDash(isUpdown, destination);
         rigid.DOKill();
         rigid.DOMove(destination, Define.DASH_DURATION).OnComplete(() => { OnEndDash(); });
     }
@@ -133,7 +133,7 @@ public abstract class CharacterMove : Character
     /// 대쉬를 할 때 자식 클래스에서 재정의할 함수
     /// </summary>
     /// <param name="isUpDown">상하 보정이 필요한지 아닌지</param>
-    protected virtual void OnStartDash(bool isUpDown)
+    protected virtual void OnStartDash(bool isUpDown, Vector3 destination)
     {
         // 초기화
         doubleDashTimer = 0f;
