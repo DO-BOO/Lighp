@@ -18,9 +18,12 @@ public class Particle : Poolable
 
     private float timer = 0f;
 
+    public FollowTarget Follow { get; private set; }
+
     private void Awake()
     {
         particleSystem = GetComponent<ParticleSystem>();
+        Follow = GetComponent<FollowTarget>();
         main = particleSystem.main;
     }
 
@@ -28,7 +31,7 @@ public class Particle : Poolable
     {
         timer += Time.deltaTime;
 
-        if(!main.loop && timer > main.duration)
+        if (!main.loop && timer > main.duration)
         {
             GameManager.Instance.Pool.Push(this);
         }

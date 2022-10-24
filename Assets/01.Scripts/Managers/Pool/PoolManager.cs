@@ -19,7 +19,7 @@ public class PoolManager
 
         foreach (PoolGroup group in list.poolGroups)
         {
-            CreatePool(group.poolObject.gameObject, group.instanceCount);
+            CreatePool(group.poolObject, group.instanceCount);
         }
     }
 
@@ -34,6 +34,8 @@ public class PoolManager
         pool.Init(original, count);
         pool.Root.parent = root;
 
+        Debug.Log(original.name);
+
         poolDict.Add(original.name, pool);
     }
 
@@ -44,9 +46,12 @@ public class PoolManager
     {
         string name = poolable.gameObject.name;
 
+        Debug.Log(name == "Dash");
+
         if (!poolDict.ContainsKey(name))
         {
-            GameObject.Destroy(poolable.gameObject);
+            Debug.Log("Destroy");
+            Object.Destroy(poolable.gameObject);
             return;
         }
 

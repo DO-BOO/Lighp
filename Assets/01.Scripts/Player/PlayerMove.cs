@@ -93,10 +93,11 @@ public sealed class PlayerMove : CharacterMove
 
         dashParticle = GameManager.Instance.Pool.Pop("Dash", null, transform.position) as Particle;
         dashParticle.transform.LookAt(destination);
+        //dashParticle.Follow.SetTarget(transform, true, false);
 
         // Double Dash라면 파티클 색을 진하게 한다
         float alpha = (isDoubleDash) ? 1f : 0.2f;
-        dashParticle.SetStartColorAlpha(alpha);
+        dashParticle?.SetStartColorAlpha(alpha);
 
         // 상하 길이 보정
         float sizeY = (isUpDown) ? 9f : 6f;

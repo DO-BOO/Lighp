@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PoolList
   m_EditorClassIdentifier: 
   poolGroups:
-  - poolObject: {fileID: 4543390659756775580, guid: 6a78e214e3ebda34ba25ccc0ad61d4fb, type: 3}
+  - poolObject: {fileID: 3899203694651620217, guid: 6a78e214e3ebda34ba25ccc0ad61d4fb, type: 3}
     instanceCount: 2

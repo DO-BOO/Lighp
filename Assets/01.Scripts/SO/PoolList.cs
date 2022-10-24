@@ -10,6 +10,6 @@ public class PoolList : ScriptableObject
 [System.Serializable]
 public class PoolGroup
 {
-    public Poolable poolObject;
+    public GameObject poolObject;
     public int instanceCount;
 }
