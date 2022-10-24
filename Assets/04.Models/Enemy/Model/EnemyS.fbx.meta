@@ -1,24 +1,9 @@
 fileFormatVersion: 2
-guid: 45ebcd6636dcab145baf8143dcef5c64
+guid: aeb01008c78b3894b81d2296dc001fc3
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Bulb_Eye
-    second: {fileID: 2100000, guid: 151f5abe9f389ba44abde666bb9bfc74, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Bulb_Glass
-    second: {fileID: 2100000, guid: de22c7780c828cc4da2e3d567cbd076c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Bulb_Player
-    second: {fileID: 2100000, guid: b8492c8f9520b1d4c89f23507c1e12da, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
