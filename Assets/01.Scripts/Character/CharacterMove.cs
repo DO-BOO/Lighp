@@ -70,15 +70,10 @@ public abstract class CharacterMove : Character
     }
 
     // 점프 함수
-    protected void Jump(float jumpForce, Vector3? velocity = null)
+    protected void Jump(float jumpForce)
     {
         if (!CanJump) return;
         if (jumpCount >= moveStat.maxJumpCount) return;
-
-        if (!velocity.HasValue)
-        {
-            velocity = Vector3.up;
-        }
 
         jumpCount++;
 
@@ -87,7 +82,7 @@ public abstract class CharacterMove : Character
 
         rigid.velocity = vel;
 
-        rigid.AddForce(velocity.Value * jumpForce, ForceMode.Impulse);
+        rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     // 움직일 때 자식 클래스에서 재정의할 함수

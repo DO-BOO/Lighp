@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class FollowCamera : MonoBehaviour
 {
-    public static Vector3 CharacterForward { get; private set; }
+    new private Camera camera;
 
     [SerializeField]
     private Transform target;
@@ -16,20 +16,22 @@ public class FollowCamera : MonoBehaviour
     [Range(0f, 1f)]
     private float damping = 0.5f;
 
+    [SerializeField]
+    [Range(0f, 30f)]
+    private float distance;
+
     private Vector3 difOffset;
 
     private void Start()
     {
         // 처음에 오프셋 값이 카메라와 플레이어 사이의 거리
-        difOffset = transform.position - target.position;
-
-        Debug.Log(transform.forward);
-        Debug.Log(transform.right);
-        CharacterForward = transform.forward;
+        camera = GetComponent<Camera>();
+        difOffset = (transform.position - target.position);
     }
 
     void LateUpdate()
     {
+        camera.orthographicSize = distance;
         Follow();
     }
 
