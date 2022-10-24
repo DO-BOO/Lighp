@@ -7,16 +7,24 @@ using UnityEngine;
 /// </summary>
 public class Define
 {
-    public const string HORIZONTAL  = "Horizontal";
-    public const string VERTICAL    = "Vertical";
-    public const string JUMP        = "Jump";
+    public const string HORIZONTAL      = "Horizontal";
+    public const string VERTICAL        = "Vertical";
+    public const string JUMP            = "Jump";
 
     #region SHEET_URL
-    public const string KEY_URL = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
-    public const string TEST_URL = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:D&gid=127633824";
+    public const string KEY_URL         = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
     #endregion
 
     #region LAYER_MASK
-    public const int BOTTOM_LAYER = 1 << 6;
+    public const int BOTTOM_LAYER       = 1 << 6;
     #endregion
+
+    public const float DASH_DISTANCE    = 12f;
+    public const float DASH_DURATION    = 0.2f;
+    public const float DASH_COOLTIME    = 2f;
+
+    /// <summary>
+    /// DASH_DOUBLE_TIME초만에 Dash를 다시 쓰면 쿨타임이 부여된다.
+    /// </summary>
+    public const float DASH_DOUBLE_TIME = 0.35f;
 }

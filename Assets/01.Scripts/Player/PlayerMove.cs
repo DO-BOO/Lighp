@@ -7,8 +7,15 @@ using UnityEngine;
 /// </summary>
 public sealed class PlayerMove : CharacterMove
 {
-    Vector3 forward = Vector3.zero;
-    Vector3 right = Vector3.zero;
+    private Vector3 forward = Vector3.zero;
+    private Vector3 right = Vector3.zero;
+    private Vector3 moveInput = Vector3.zero;
+
+    // 이거 나중에 상수로 빼든지 해서 어떻게 해야할 듯하다...
+    private readonly int isMoveHash = Animator.StringToHash("IsMove");
+    private readonly int dashdHash = Animator.StringToHash("Dash");
+
+    private Particle dashParticle;
 
     protected override void Start()
     {
@@ -29,12 +36,15 @@ public sealed class PlayerMove : CharacterMove
 
         InputMove();
         InputJump();
+        InputDash();
     }
 
     // Input값을 바탕으로 움직이는 함수
     private void InputMove()
     {
-        Vector3 moveInput = Vector3.zero;
+        moveInput = Vector3.zero;
+
+        if (isDash) return;
 
         if (InputManager.GetKey(InputAction.Up))
             moveInput += forward;
@@ -60,8 +70,44 @@ public sealed class PlayerMove : CharacterMove
         }
     }
 
+    private void InputDash()
+    {
+        if (InputManager.GetKeyDown(InputAction.Dash))
+        {
+            if (moveInput.sqrMagnitude < 0.01f)
+                Dash(transform.forward);
+            else
+                Dash(moveInput);
+        }
+    }
+
     protected override void OnMove(Vector3 velocity)
     {
-        animator.SetBool("IsMove", velocity.sqrMagnitude > 0.1f);
+        animator.SetBool(isMoveHash, velocity.sqrMagnitude > 0.1f);
+    }
+
+    protected override void OnStartDash(bool isUpDown, Vector3 destination)
+    {
+        base.OnStartDash(isUpDown, destination);
+        animator.SetTrigger(dashdHash);
+
+        dashParticle = GameManager.Instance.Pool.Pop("Dash", null, transform.position) as Particle;
+        dashParticle.transform.LookAt(destination);
+        //dashParticle.Follow.SetTarget(transform, true, false);
+
+        // Double Dash라면 파티클 색을 진하게 한다
+        float alpha = (isDoubleDash) ? 1f : 0.2f;
+        dashParticle?.SetStartColorAlpha(alpha);
+
+        // 상하 길이 보정
+        float sizeY = (isUpDown) ? 9f : 6f;
+        dashParticle.SetStartSizeY(sizeY);
+
+        dashParticle.Play();
+    }
+
+    protected override void OnEndDash()
+    {
+        base.OnEndDash();
     }
 }

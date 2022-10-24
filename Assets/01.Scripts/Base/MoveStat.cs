@@ -7,4 +7,5 @@ public struct MoveStat
     [Range(0f,1f)]
     public float rotationSpeed;
     public int maxJumpCount;
+    public float dashForce;
 }
