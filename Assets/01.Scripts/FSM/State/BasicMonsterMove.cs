@@ -5,40 +5,54 @@ using UnityEngine.AI;
 
 public class BasicMonsterMove : BaseState
 {
-    BasicMonster monster;
+    BasicCloseMonster monster;
+    Transform target;
 
-    private float stopDistance = 7f;
 
-    public BasicMonsterMove(BasicMonster stateMachine) : base("MOVE", stateMachine)
+    public BasicMonsterMove(BasicCloseMonster stateMachine) : base("MOVE", stateMachine)
     {
-        monster = (BasicMonster)stateMachine;
+        monster = (BasicCloseMonster)stateMachine;
     }
 
     public override void Enter()
     {
         base.Enter();
-        monster.agent.SetDestination(monster.Target.transform.position);
+        monster.agent.isStopped = false;
+
+        monster.anim.SetBool(monster.hashWalk, true);
+
+        target = monster.SerachTarget();
+        if (target)
+        {
+            monster.agent.SetDestination(target.position);
+        }
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        Debug.Log("ASD");
+        target = monster.SerachTarget();
 
-        if(monster.agent.remainingDistance <= stopDistance)
+        monster.agent.SetDestination(target.position);
+        if (monster.agent.remainingDistance <= monster.agent.stoppingDistance)
         {
-            stateMachine.ChangeState(((BasicMonster)stateMachine).attackState);
+            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
         }
-
-        monster.agent.SetDestination(monster.Target.transform.position);
+        
     }
+
     public override void UpdateLate()
     {
         base.UpdateLogic();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).damageState);
+        }
     }
     public override void Exit()
     {
         base.Exit();
-        monster.agent.ResetPath();
+        monster.anim.SetBool(monster.hashWalk, false);
+        monster.agent.isStopped=true;
     }
 }

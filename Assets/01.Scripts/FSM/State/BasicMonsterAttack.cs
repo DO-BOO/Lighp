@@ -4,29 +4,41 @@ using UnityEngine;
 
 public class BasicMonsterAttack : BaseState
 {
-    BasicMonster monster;
+    BasicCloseMonster monster;
+    Transform target;
 
     float attackDelay = 3.0f;
     float nowAttackcool = 0.0f;
 
-    public BasicMonsterAttack(BasicMonster stateMachine) : base("ATTACK", stateMachine)
+    public BasicMonsterAttack(BasicCloseMonster stateMachine) : base("ATTACK", stateMachine)
     {
-        monster = (BasicMonster)stateMachine;
+        monster = (BasicCloseMonster)stateMachine;
     }
 
     public override void Enter()
     {
         base.Enter();
         nowAttackcool = 0;
-        // ATTACK 애니메이션 실행
+        monster.anim.SetBool(monster.hashAttack, true);
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        target = monster.SerachTarget();
+
+        if(monster.distance > monster.agent.stoppingDistance)
+        {
+            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
+        }
         if (nowAttackcool <= attackDelay)
         {
             nowAttackcool += Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).damageState);
         }
     }
 
@@ -38,6 +50,7 @@ public class BasicMonsterAttack : BaseState
     public override void Exit()
     {
         base.Exit();
+        monster.anim.SetBool(monster.hashAttack, false);
     }
 
 }

@@ -12,7 +12,6 @@ public class StateMachine : MonoBehaviour
 
     protected virtual BaseState GetInitState() { return null; }
     protected virtual float GetDistance() { return 0.0f; }
-    protected virtual void SearchTarget() {}
 
 
     private void Start()
@@ -23,18 +22,15 @@ public class StateMachine : MonoBehaviour
         // 기본 상태가 있다면 시작
         if(curState != null)
         {
-            SearchTarget();
             curState.Enter();
         }
     }
 
     private void Update()
     {
-        Debug.Log(curState);
         // State Update 해주기
         if(curState !=null)
         {
-            SearchTarget();
             curState.UpdateLogic();
         }
     }
@@ -59,4 +55,5 @@ public class StateMachine : MonoBehaviour
         curState = newState;
         curState.Enter();
     }
+
 }

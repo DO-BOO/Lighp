@@ -8,17 +8,19 @@ using UnityEngine.AI;
 /// </summary>
 public class BasicMonsterIdle : BaseState
 {
-    BasicMonster monster;
+    BasicCloseMonster monster;
+    Transform target = null;
 
     // IDLE 상태 정의
-    public BasicMonsterIdle(BasicMonster stateMachine) : base("IDLE", stateMachine)
+    public BasicMonsterIdle(BasicCloseMonster stateMachine) : base("IDLE", stateMachine)
     {
-        monster = (BasicMonster)stateMachine;
+        monster = (BasicCloseMonster)stateMachine;
     }
 
     public override void Enter()
     {
         base.Enter();
+        target = monster.SerachTarget();
     }
 
     public override void UpdateLogic()
@@ -26,10 +28,18 @@ public class BasicMonsterIdle : BaseState
         base.UpdateLogic();
 
         //if (Input.GetKeyDown(KeyCode.Escape))
-        if (monster.distance < 0.0f) return;
-        if (monster.distance <= monster.idleRange)
+        target = monster.SerachTarget();
+
+        if (target)
         {
-            stateMachine.ChangeState(((BasicMonster)stateMachine).moveState);
+            if (monster.distance <= monster.attackRange)
+            {
+                stateMachine.ChangeState(((BasicCloseMonster)stateMachine).attackState);
+            }
+            else if (monster.distance <= monster.moveRange)
+            {
+                stateMachine.ChangeState(((BasicCloseMonster)stateMachine).moveState);
+            }
         }
     }
 
