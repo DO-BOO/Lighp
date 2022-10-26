@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ��� �Ŵ���
+/// ���?�Ŵ���
 /// </summary>
 public class Define
 {
