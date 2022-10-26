@@ -33,6 +33,10 @@ public class StateMachine : MonoBehaviour
         {
             curState.UpdateLogic();
         }
+        else
+        {
+            Debug.Log("Error");
+        }
     }
 
     private void LateUpdate()
@@ -55,5 +59,6 @@ public class StateMachine : MonoBehaviour
         curState = newState;
         curState.Enter();
     }
+
 
 }

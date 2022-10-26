@@ -29,7 +29,7 @@ public class BasicMonsterDamage : BaseState
         {
             stateMachine.ChangeState(((BasicCloseMonster)stateMachine).dieState);
         }
-        monster.anim.SetTrigger(monster.hashDamage);
+        monster.DamageAnimation();
     }
 
     public override void UpdateLogic()

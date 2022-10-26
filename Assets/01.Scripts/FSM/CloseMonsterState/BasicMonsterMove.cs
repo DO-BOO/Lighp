@@ -19,7 +19,7 @@ public class BasicMonsterMove : BaseState
         base.Enter();
         monster.agent.isStopped = false;
 
-        monster.anim.SetBool(monster.hashWalk, true);
+        monster.MoveAnimation(true);
 
         target = monster.SerachTarget();
         if (target)
@@ -44,15 +44,12 @@ public class BasicMonsterMove : BaseState
     public override void UpdateLate()
     {
         base.UpdateLogic();
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).damageState);
-        }
+        //   stateMachine.ChangeState(((BasicCloseMonster)stateMachine).damageState);
     }
     public override void Exit()
     {
         base.Exit();
-        monster.anim.SetBool(monster.hashWalk, false);
+        monster.MoveAnimation(false);
         monster.agent.isStopped=true;
     }
 }

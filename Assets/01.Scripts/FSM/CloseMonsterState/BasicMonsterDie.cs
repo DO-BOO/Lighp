@@ -14,7 +14,7 @@ public class BasicMonsterDie : BaseState
     public override void Enter()
     {
         base.Enter();
-        monster.anim.SetBool(monster.hashDie, true);
+        monster.DieAnimation(true);
     }
 
     public override void Exit()

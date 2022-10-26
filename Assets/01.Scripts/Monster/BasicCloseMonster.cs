@@ -25,7 +25,7 @@ public class BasicCloseMonster : StateMachine
 
     public float moveRange = 20.0f;
     public float attackRange = 10.0f;
-    private float colRadius = 25.0f;
+    private float colRadius = 50.0f;
     private float walkingSpeed = 10.0f;
 
     [HideInInspector]
@@ -71,4 +71,22 @@ public class BasicCloseMonster : StateMachine
         else return null;
     }
 
+    public void MoveAnimation(bool isOn)
+    {
+        //anim.SetBool(hashWalk, isOn);
+    }
+
+    public void AttackAnimation(bool isOn)
+    {
+        //anim.SetBool(hashAttack, isOn);
+    }
+
+    public void DieAnimation(bool isOn)
+    {
+        //anim.SetBool(hashDie, isOn);
+    }
+    public void DamageAnimation()
+    {
+        //anim.SetTrigger(hashDamage);
+    }
 }

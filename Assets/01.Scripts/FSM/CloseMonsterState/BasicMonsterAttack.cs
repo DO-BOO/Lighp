@@ -19,7 +19,7 @@ public class BasicMonsterAttack : BaseState
     {
         base.Enter();
         nowAttackcool = 0;
-        monster.anim.SetBool(monster.hashAttack, true);
+        monster.AttackAnimation(true);
     }
 
     public override void UpdateLogic()
@@ -50,7 +50,7 @@ public class BasicMonsterAttack : BaseState
     public override void Exit()
     {
         base.Exit();
-        monster.anim.SetBool(monster.hashAttack, false);
+        monster.AttackAnimation(false);
     }
 
 }
