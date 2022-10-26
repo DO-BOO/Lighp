@@ -6,4 +6,6 @@ public struct MoveStat
     public float jumpForce;
     [Range(0f,1f)]
     public float rotationSpeed;
+    public int maxJumpCount;
+    public float dashForce;
 }

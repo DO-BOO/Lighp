@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// »ó¼ö ¸Å´ÏÀú
+/// ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½
 /// </summary>
 public class Define
 {
@@ -13,5 +13,19 @@ public class Define
     public const int PLAYER_LAYER = 1 << 7;
 
     #region SHEET_URL
+    public const string KEY_URL         = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
     #endregion
+
+    #region LAYER_MASK
+    public const int BOTTOM_LAYER       = 1 << 6;
+    #endregion
+
+    public const float DASH_DISTANCE    = 12f;
+    public const float DASH_DURATION    = 0.2f;
+    public const float DASH_COOLTIME    = 2f;
+
+    /// <summary>
+    /// DASH_DOUBLE_TIMEï¿½Ê¸ï¿½ï¿½ï¿½ Dashï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½È´ï¿½.
+    /// </summary>
+    public const float DASH_DOUBLE_TIME = 0.35f;
 }
