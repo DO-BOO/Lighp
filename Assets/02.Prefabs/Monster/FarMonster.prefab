@@ -298,7 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 136
   blockLayerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -306,6 +306,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   moveRange: 21
   attackRange: 20
+  bullet: {fileID: 0}
   hashWalk: 765711723
   hashAttack: 1080829965
   hashDamage: 375673178
