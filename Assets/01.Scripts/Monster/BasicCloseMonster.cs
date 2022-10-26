@@ -10,7 +10,6 @@ public class BasicCloseMonster : StateMachine
     private Transform target = null;
     public float distance => GetDistance();
 
-    [HideInInspector]
     public BasicMonsterIdle idleState;
     public BasicMonsterMove moveState;
     public BasicMonsterAttack attackState;
@@ -19,7 +18,9 @@ public class BasicCloseMonster : StateMachine
 
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
+    [HideInInspector]
     public NavMeshAgent agent;
+    [HideInInspector]
     public Animator anim;
 
     public float moveRange = 20.0f;
@@ -27,9 +28,13 @@ public class BasicCloseMonster : StateMachine
     private float colRadius = 25.0f;
     private float walkingSpeed = 10.0f;
 
+    [HideInInspector]
     public int hashWalk = Animator.StringToHash("Walk");
+    [HideInInspector]
     public int hashAttack = Animator.StringToHash("Attack");
+    [HideInInspector]
     public int hashDamage = Animator.StringToHash("Damage");
+    [HideInInspector]
     public int hashDie = Animator.StringToHash("Die");
 
     private void Awake()

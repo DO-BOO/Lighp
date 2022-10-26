@@ -8,26 +8,33 @@ public class BasicFarMonster : StateMachine
     private Transform target = null;
     public float distance => GetDistance();
 
-    [HideInInspector]
-    public BasicMonsterIdle idleState;
-    public BasicMonsterMove moveState;
-    public BasicMonsterAttack attackState;
-    public BasicMonsterDamage damageState;
-    public BasicMonsterDie dieState;
+    public FarMonsterIdle idleState;
+    public FarMonsterMove moveState;
+    public FarMonsterAttack attackState;
+    public FarMonsterDamage damageState;
+    public FarMonsterDie dieState;
 
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
+    [HideInInspector]
     public NavMeshAgent agent;
+    [HideInInspector]
     public Animator anim;
 
-    public float moveRange = 20.0f;
-    public float attackRange = 10.0f;
-    private float colRadius = 25.0f;
-    private float walkingSpeed = 10.0f;
+    public float moveRange = 25.0f; // 일정 거리 이상이 되면 쫓아감
+    public float attackRange = 25.0f; // 공격 거리 안에 들어오면 공격
+    private float colRadius = 50.0f; // 인식 콜라이더 반지름
+    private float walkingSpeed = 10.0f; // 쫓아가는 스피드
 
+    public GameObject bullet;
+
+    [HideInInspector]
     public int hashWalk = Animator.StringToHash("Walk");
+    [HideInInspector]
     public int hashAttack = Animator.StringToHash("Attack");
+    [HideInInspector]
     public int hashDamage = Animator.StringToHash("Damage");
+    [HideInInspector]
     public int hashDie = Animator.StringToHash("Die");
 
     private void Awake()
@@ -35,11 +42,11 @@ public class BasicFarMonster : StateMachine
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
 
-        //idleState = new BasicMonsterIdle(this);
-        //moveState = new BasicMonsterMove(this);
-        //attackState = new BasicMonsterAttack(this);
-        //damageState = new BasicMonsterDamage(this);
-        //dieState = new BasicMonsterDie(this);
+        idleState = new FarMonsterIdle(this);
+        moveState = new FarMonsterMove(this);
+        attackState = new FarMonsterAttack(this);
+        damageState = new FarMonsterDamage(this);
+        dieState = new FarMonsterDie(this);
 
         agent.speed = walkingSpeed;
     }
