@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
@@ -21,11 +22,13 @@ public class BasicCloseMonster : StateMachine
     [HideInInspector]
     public NavMeshAgent agent;
     [HideInInspector]
+    public Rigidbody rigid;
+    [HideInInspector]
     public Animator anim;
 
     public float moveRange = 20.0f;
-    public float attackRange = 10.0f;
-    private float colRadius = 50.0f;
+    public float attackRange = 2.5f;
+    private float colRadius = 60.0f;
     private float walkingSpeed = 10.0f;
 
     [HideInInspector]
@@ -41,6 +44,7 @@ public class BasicCloseMonster : StateMachine
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
 
         idleState = new BasicMonsterIdle(this);
         moveState = new BasicMonsterMove(this);
@@ -73,20 +77,27 @@ public class BasicCloseMonster : StateMachine
 
     public void MoveAnimation(bool isOn)
     {
-        //anim.SetBool(hashWalk, isOn);
+        anim.SetBool(hashWalk, isOn);
     }
 
     public void AttackAnimation(bool isOn)
     {
-        //anim.SetBool(hashAttack, isOn);
+        anim.SetBool(hashAttack, isOn);
     }
 
     public void DieAnimation(bool isOn)
     {
-        //anim.SetBool(hashDie, isOn);
+        anim.SetBool(hashDie, isOn);
     }
     public void DamageAnimation()
     {
-        //anim.SetTrigger(hashDamage);
+        anim.SetTrigger(hashDamage);
+    }
+    public void LookTarget(Transform target)
+    {
+        Vector3 dir = target.position - transform.position;
+        dir.y = 0;
+        Quaternion rot = Quaternion.LookRotation(dir.normalized);
+        transform.rotation = rot;
     }
 }

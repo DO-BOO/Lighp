@@ -17,22 +17,18 @@ public class BasicMonsterMove : BaseState
     public override void Enter()
     {
         base.Enter();
+
         monster.agent.isStopped = false;
-
-        monster.MoveAnimation(true);
-
         target = monster.SerachTarget();
-        if (target)
-        {
-            monster.agent.SetDestination(target.position);
-        }
+        monster.MoveAnimation(true);
+        monster.agent.SetDestination(target.position);
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
         target = monster.SerachTarget();
-
+        monster.LookTarget(target);
         monster.agent.SetDestination(target.position);
         if (monster.agent.remainingDistance <= monster.agent.stoppingDistance)
         {

@@ -7,8 +7,9 @@ public class BasicMonsterAttack : BaseState
     BasicCloseMonster monster;
     Transform target;
 
-    float attackDelay = 3.0f;
+    float attackDelay = 2.0f;
     float nowAttackcool = 0.0f;
+    float attackSpeed = 3.0f;
 
     public BasicMonsterAttack(BasicCloseMonster stateMachine) : base("ATTACK", stateMachine)
     {
@@ -27,7 +28,8 @@ public class BasicMonsterAttack : BaseState
         base.UpdateLogic();
         target = monster.SerachTarget();
 
-        if(monster.distance > monster.agent.stoppingDistance)
+        monster.LookTarget(target);
+        if (monster.distance > monster.agent.stoppingDistance)
         {
             stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
         }
@@ -35,11 +37,10 @@ public class BasicMonsterAttack : BaseState
         {
             nowAttackcool += Time.deltaTime;
         }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).damageState);
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    stateMachine.ChangeState(((BasicCloseMonster)stateMachine).damageState);
+        //}
     }
 
     public override void UpdateLate()
@@ -52,5 +53,6 @@ public class BasicMonsterAttack : BaseState
         base.Exit();
         monster.AttackAnimation(false);
     }
+
 
 }
