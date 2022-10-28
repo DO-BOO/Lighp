@@ -7,6 +7,7 @@ public class GameManager : MonoSingleton<GameManager>
     public Camera MainCam { get; private set; }
 
     #region CORE
+    [field: SerializeField]
     public ReadSpreadData SpreadData { get; private set; } = new ReadSpreadData();
     public InputManager Input { get; private set; } = new InputManager();
     public PoolManager Pool { get; private set; } = new PoolManager();
@@ -25,8 +26,8 @@ public class GameManager : MonoSingleton<GameManager>
         Pool.Start();
     }
 
-    // 스프레드 시트 데이터가 있어야 실행되는 Start, Awake들은
-    // 여기에 놓아서 로드를 기다린다.
+    // 스프레드 시트 데이터가 필요한 Start, Awake들은
+    // 여기에서 로드 대기
     private IEnumerator WaitLoadSpreadData()
     {
         while (SpreadData.IsLoading)

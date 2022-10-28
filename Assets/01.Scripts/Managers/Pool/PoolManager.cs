@@ -46,11 +46,8 @@ public class PoolManager
     {
         string name = poolable.gameObject.name;
 
-        Debug.Log(name == "Dash");
-
         if (!poolDict.ContainsKey(name))
         {
-            Debug.Log("Destroy");
             Object.Destroy(poolable.gameObject);
             return;
         }

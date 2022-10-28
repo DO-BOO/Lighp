@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Reflection;
 using System;
+using System.Linq;
 
 /// <summary>
 /// 구글 스프레드시트에서 데이터 실시간으로 읽어오는 스크립트
@@ -14,9 +15,11 @@ public class ReadSpreadData
     // value    > 스프레드시트 데이터 (처음엔 링크)
     private Dictionary<SheetType, string> sheetDatas = new Dictionary<SheetType, string>();
     public bool IsLoading { get; private set; } = true;
+
     public void OnAwake()
     {
         sheetDatas.Add(SheetType.Key, Define.KEY_URL);
+        sheetDatas.Add(SheetType.Skill, Define.SKILL_URL);
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
@@ -53,11 +56,51 @@ public class ReadSpreadData
         return list;
     }
 
+    public List<T> GetDatasAsChildren<T>(SheetType sheet) where T : new()
+    {
+        List<T> list = new List<T>();
+
+        string[] row = sheetDatas[sheet].Split('\n');
+        int rowSize = row.Length;
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] column = row[i].Split('\t');
+
+            Debug.Log(column[0]);
+
+            // 맨 첫자리 빼기
+            List<string> dataList = column.ToList();
+            dataList.RemoveAt(0);
+            string[] datas = dataList.ToArray();
+
+            if (typeof(T).IsAssignableFrom(Type.GetType(column[0])))
+            {
+                list.Add(GetData<T>(datas, Type.GetType(column[0])));
+            }
+            else
+            {
+                Debug.Log(typeof(T).ToString() + " : " + column[0]);
+            }
+        }
+
+        return list;
+    }
+
     // 탭으로 나눠진 데이터를 형식에 따라 T형의 struct, class에 저장함
     // 시트 순서와 선언된 데이터 순서가 맞아야 함
-    T GetData<T>(string[] column) where T : new()
+    T GetData<T>(string[] column, Type dataType = null) where T : new()
     {
-        T data = new T();
+        object data = null;
+
+        if (dataType != null)
+        {
+            data = Activator.CreateInstance(dataType);
+        }
+        else
+        {
+            data = Activator.CreateInstance(typeof(T));
+        }
 
         // 클래스에 있는 변수들을 순서대로 저장한 배열
         FieldInfo[] fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -70,6 +113,8 @@ public class ReadSpreadData
             {
                 // string > parse
                 Type type = fields[i].FieldType;
+
+                if (string.IsNullOrEmpty(column[i])) continue;
 
                 if (type == typeof(int))
                 {
@@ -100,6 +145,6 @@ public class ReadSpreadData
             }
         }
 
-        return data;
+        return (T)data;
     }
 }

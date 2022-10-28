@@ -95,7 +95,7 @@ public sealed class PlayerMove : CharacterMove
         dashParticle.transform.LookAt(destination);
         //dashParticle.Follow.SetTarget(transform, true, false);
 
-        // Double Dash라면 파티클 색을 진하게 한다
+        // Double Dash 파티클 색 선명
         float alpha = (isDoubleDash) ? 1f : 0.2f;
         dashParticle?.SetStartColorAlpha(alpha);
 
