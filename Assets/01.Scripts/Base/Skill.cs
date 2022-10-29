@@ -59,7 +59,7 @@ public abstract class Skill
             {
                 OnEnd();
             }
-            if (secondTimer > 1f)
+            else if (secondTimer > 1f)
             {
                 UpdatePerSecond();
                 secondTimer = 0f;

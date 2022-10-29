@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterSkill : Character
 {
+    [SerializeField]
     protected List<Skill> curSkill = new List<Skill>();
 
     protected virtual void Update()
@@ -14,7 +15,7 @@ public class CharacterSkill : Character
         }
     }
 
-    protected void ExecuteCurrentSkill(KeyCode key)
+    protected void ExecuteCurrentSkill(KeyCode key = KeyCode.LeftShift)
     {
         int index = 0;
 
@@ -22,8 +23,7 @@ public class CharacterSkill : Character
         // 각각 다른 스킬이 실행되게 하기 위함
         switch(key)
         {
-            default:
-                break;
+            default: break;
         }
 
         if(curSkill[index].CanUseSkill)

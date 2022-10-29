@@ -21,8 +21,14 @@ public class Define
     public const int BOTTOM_LAYER       = 1 << 6;
     #endregion
 
+    #region DASH
     public const float DASH_DISTANCE    = 12f;
     public const float DASH_DURATION    = 0.2f;
     public const float DASH_COOLTIME    = 2f;
     public const float DASH_DOUBLE_TIME = 0.35f;
+    #endregion
+
+    #region EVENT
+    public const short ON_END_READ_DATA = 10;
+    #endregion
 }

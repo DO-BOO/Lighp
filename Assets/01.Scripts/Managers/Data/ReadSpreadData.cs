@@ -67,8 +67,6 @@ public class ReadSpreadData
         {
             string[] column = row[i].Split('\t');
 
-            Debug.Log(column[0]);
-
             // 맨 첫자리 빼기
             List<string> dataList = column.ToList();
             dataList.RemoveAt(0);

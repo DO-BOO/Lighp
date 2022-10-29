@@ -9853,18 +9853,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 518979990749150506, guid: be02706d20869814f85913b624a6dfd1, type: 3}
-      propertyPath: moveWithTransform
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 518979990749150506, guid: be02706d20869814f85913b624a6dfd1, type: 3}
-      propertyPath: InitialModule.startSizeY.scalar
-      value: 6.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 518979990749150508, guid: be02706d20869814f85913b624a6dfd1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -6
-      objectReference: {fileID: 0}
     - target: {fileID: 5926249814434975643, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_Name
       value: Player
@@ -9912,14 +9900,6 @@ PrefabInstance:
     - target: {fileID: 6446221590902297889, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6845239571329987271, guid: be02706d20869814f85913b624a6dfd1, type: 3}
-      propertyPath: m_Size.y
-      value: 4.5668974
-      objectReference: {fileID: 0}
-    - target: {fileID: 6845239571329987271, guid: be02706d20869814f85913b624a6dfd1, type: 3}
-      propertyPath: m_Center.y
-      value: 2.3065515
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be02706d20869814f85913b624a6dfd1, type: 3}

@@ -14,7 +14,7 @@ public class GameManager : MonoSingleton<GameManager>
     #endregion
 
     #region TEST
-    List<Skill> skills;
+    public List<Skill> skills;
     #endregion
 
     private void Awake()
@@ -43,5 +43,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         // ------------------- PROTOTYPE CODE --------------------
         skills = SpreadData.GetDatasAsChildren<Skill>(SheetType.Skill);
+
+        EventManager.TriggerEvent(Define.ON_END_READ_DATA);
     }
 }
