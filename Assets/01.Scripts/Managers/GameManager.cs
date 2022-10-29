@@ -34,6 +34,7 @@ public class GameManager : MonoSingleton<GameManager>
             yield return null;
         }
 
+        EventManager.TriggerEvent(Define.ON_END_READ_DATA);
         Input.OnStart();
     }
 }
