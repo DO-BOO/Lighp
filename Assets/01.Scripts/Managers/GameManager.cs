@@ -7,10 +7,10 @@ public class GameManager : MonoSingleton<GameManager>
     public Camera MainCam { get; private set; }
 
     #region CORE
-    [field: SerializeField]
     public ReadSpreadData SpreadData { get; private set; } = new ReadSpreadData();
     public InputManager Input { get; private set; } = new InputManager();
     public PoolManager Pool { get; private set; } = new PoolManager();
+    public UIManager UI { get; private set; } = new UIManager();
     #endregion
 
     #region TEST
@@ -21,13 +21,14 @@ public class GameManager : MonoSingleton<GameManager>
     {
         MainCam = Camera.main;
         SpreadData.OnAwake();
+        UI.OnAwake();
         StartCoroutine(SpreadData.LoadData());
     }
 
     private void Start()
     {
-        StartCoroutine(WaitLoadSpreadData());
         Pool.Start();
+        StartCoroutine(WaitLoadSpreadData());
     }
 
     // 스프레드 시트 데이터가 필요한 Start, Awake들은

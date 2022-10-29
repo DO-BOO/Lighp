@@ -7,10 +7,11 @@ using UnityEngine;
 public abstract class Skill
 {
     #region SET_IN_SPREAD_SHEET
+    public int number;
     protected string skillName;
 
     protected float duration;
-    protected float coolTime;
+    public float coolTime;
 
     protected float costValue;
     protected float rewardValue;
@@ -29,6 +30,8 @@ public abstract class Skill
     public bool CanUseSkill { get; set; } = true;
 
     private float coolTimer = 0f;
+    public float CoolTimer => coolTimer;
+
     private float skillTimer = 0f;
     // 1초마다 한번씩 돌아가는 타이머
     private float secondTimer = 0f;

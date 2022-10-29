@@ -11,7 +11,7 @@ public class CharacterSkill : Character
     {
         foreach (Skill skill in curSkill)
         {
-            skill.OnUpdate();
+            skill?.OnUpdate();
         }
     }
 
