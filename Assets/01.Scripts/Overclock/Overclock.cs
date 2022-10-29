@@ -4,18 +4,8 @@ using UnityEngine;
 
 public class Overclock : Skill
 {
-    public LayerMask hihi;
-    public bool hi;
-
-    public override void OnStart()
+    protected override void Execute()
     {
-    }
-
-    public override void OnUpdate()
-    {
-    }
-
-    public override void OnEnd()
-    {
+        Debug.Log("Overclock!");
     }
 }

@@ -13,6 +13,10 @@ public class GameManager : MonoSingleton<GameManager>
     public PoolManager Pool { get; private set; } = new PoolManager();
     #endregion
 
+    #region TEST
+    List<Skill> skills;
+    #endregion
+
     private void Awake()
     {
         MainCam = Camera.main;
@@ -36,5 +40,8 @@ public class GameManager : MonoSingleton<GameManager>
         }
 
         Input.OnStart();
+
+        // ------------------- PROTOTYPE CODE --------------------
+        skills = SpreadData.GetDatasAsChildren<Skill>(SheetType.Skill);
     }
 }

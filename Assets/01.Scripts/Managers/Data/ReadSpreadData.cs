@@ -39,7 +39,7 @@ public class ReadSpreadData
     }
 
     // sheet 타입에 맞춰 시트 데이터를 T형의 리스트로 만들어주는 함수
-    public List<T> GetDatas<T>(SheetType sheet) where T : new()
+    public List<T> GetDatas<T>(SheetType sheet)
     {
         List<T> list = new List<T>();
 
@@ -56,7 +56,7 @@ public class ReadSpreadData
         return list;
     }
 
-    public List<T> GetDatasAsChildren<T>(SheetType sheet) where T : new()
+    public List<T> GetDatasAsChildren<T>(SheetType sheet)
     {
         List<T> list = new List<T>();
 
@@ -89,7 +89,7 @@ public class ReadSpreadData
 
     // 탭으로 나눠진 데이터를 형식에 따라 T형의 struct, class에 저장함
     // 시트 순서와 선언된 데이터 순서가 맞아야 함
-    T GetData<T>(string[] column, Type dataType = null) where T : new()
+    T GetData<T>(string[] column, Type dataType = null)
     {
         object data = null;
 
