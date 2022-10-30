@@ -22,7 +22,7 @@ public class Overclock : Skill
 
     protected override void UpdatePerSecond()
     {
-        hp.Hit(7);
+        hp.Hit(Mathf.RoundToInt(costValue));
     }
 
     protected override void OnEnd()

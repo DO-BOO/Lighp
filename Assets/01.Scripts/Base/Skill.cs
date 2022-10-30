@@ -36,7 +36,7 @@ public abstract class Skill
 
     private float skillTimer = 0f;
     // 1초마다 한번씩 돌아가는 타이머
-    private float secondTimer = 0f;
+    private float secondTimer = 1f;
 
     public void Init(Character character)
     {
@@ -74,7 +74,6 @@ public abstract class Skill
             if (skillTimer > duration)
             {
                 End();
-               
                 return;
             }
             else if (secondTimer > 1f)
@@ -112,10 +111,8 @@ public abstract class Skill
     {
         IsUsing = false;
         coolTimer = coolTime;
-        secondTimer = 0f;
+        secondTimer = 1f;
         skillTimer = 0f;
         OnEnd();
     }
-
-
 }

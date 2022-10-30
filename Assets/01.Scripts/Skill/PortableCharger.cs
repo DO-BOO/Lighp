@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class PortableCharger : Skill
 {
+    private CharacterHp hp;
+
+    protected override void OnAwake()
+    {
+        hp = character.GetComponent<CharacterHp>();
+    }
+
     protected override void Execute()
     {
-        Debug.Log(this.GetType().Name);
+    }
+
+    protected override void UpdatePerSecond()
+    {
+        hp.Heal(Mathf.RoundToInt(rewardValue));
     }
 }

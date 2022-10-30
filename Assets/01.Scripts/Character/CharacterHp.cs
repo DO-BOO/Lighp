@@ -8,6 +8,11 @@ public class CharacterHp : Character
     public int hp;
     public bool IsDead { get; private set; }
 
+    private void Start()
+    {
+        maxHp = hp;
+    }
+
     public void Hit(int damage)
     {
         hp -= damage;
