@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 842575161}
   - component: {fileID: 842575160}
   m_Layer: 5
-  m_Name: Skill Panel (2)
+  m_Name: Skill Panel 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 1468824507}
   - component: {fileID: 1468824506}
   m_Layer: 5
-  m_Name: Skill Panel (1)
+  m_Name: Skill Panel 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -423,7 +423,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -717,7 +717,7 @@ GameObject:
   - component: {fileID: 2217650328229903568}
   - component: {fileID: 913006273}
   m_Layer: 5
-  m_Name: Skill Panel
+  m_Name: Skill Panel 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

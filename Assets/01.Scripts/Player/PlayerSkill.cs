@@ -7,8 +7,9 @@ public class PlayerSkill : CharacterSkill
     // TEST
     public bool isOne = false;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         EventManager.StartListening(Define.ON_END_READ_DATA, AddFirstSkill);
     }
 

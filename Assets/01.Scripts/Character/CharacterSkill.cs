@@ -13,7 +13,7 @@ public class CharacterSkill : Character
     {
         foreach (Skill skill in curSkill)
         {
-            skill?.OnUpdate();
+            skill?.Update();
         }
     }
 
@@ -21,12 +21,13 @@ public class CharacterSkill : Character
     {
         if(curSkill[index].CanUseSkill)
         {
-            curSkill[index].OnStart();
+            curSkill[index].Start();
         }
     }
 
     public void AddSkill(Skill skill)
     {
         curSkill.Add(skill);
+        skill.Init(this);
     }
 }

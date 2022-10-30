@@ -9,8 +9,7 @@ using DG.Tweening;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class CharacterMove : Character
 {
-    [SerializeField]
-    protected MoveStat moveStat;
+    public MoveStat moveStat;
     public bool IsCurrentMoving
     {
         get
@@ -28,12 +27,10 @@ public abstract class CharacterMove : Character
     protected LayerMask blockLayer;
 
     #region CONTROL
-
     private bool canMove = true;
     private bool canJump = true;
     private float doubleDashTimer = Define.DASH_DOUBLE_TIME;
     private float dashCoolTimer = -1f;
-
     protected int jumpCount { get; private set; }
     #endregion
 

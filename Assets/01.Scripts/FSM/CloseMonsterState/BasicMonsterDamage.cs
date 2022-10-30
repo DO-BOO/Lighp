@@ -25,7 +25,7 @@ public class BasicMonsterDamage : BaseState
         base.Enter();
         nowDelay = 0;
         HP -= damage;
-        if(HP<=0)
+        if (HP <= 0)
         {
             stateMachine.ChangeState(((BasicCloseMonster)stateMachine).dieState);
         }
@@ -40,7 +40,6 @@ public class BasicMonsterDamage : BaseState
         {
             stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
         }
-
     }
 
     public override void Exit()
