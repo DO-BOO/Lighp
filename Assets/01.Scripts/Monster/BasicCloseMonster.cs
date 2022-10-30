@@ -105,4 +105,15 @@ public class BasicCloseMonster : StateMachine
     {
         ChangeState(damageState);
     }
+
+    // 충돌처리로 데미지 할거면 이런식으로 하면 됨
+    // 태그로 몬스터 종류 판단해서 그 스크립트에 데미지 호출하는 형식임
+    // 불편하면 수정하고 말해주세용
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag=="CloseMonster")
+        {
+            other.GetComponent<BasicCloseMonster>()?.Damaged();
+        }
+    }
 }
