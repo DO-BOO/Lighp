@@ -100,4 +100,9 @@ public class BasicCloseMonster : StateMachine
         Quaternion rot = Quaternion.LookRotation(dir.normalized);
         transform.rotation = rot;
     }
+
+    public void Damaged()
+    {
+        ChangeState(damageState);
+    }
 }

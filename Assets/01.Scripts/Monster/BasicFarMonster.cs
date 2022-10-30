@@ -70,4 +70,9 @@ public class BasicFarMonster : StateMachine
         }
         else return null;
     }
+
+    public void Damaged()
+    {
+        ChangeState(damageState);
+    }
 }
