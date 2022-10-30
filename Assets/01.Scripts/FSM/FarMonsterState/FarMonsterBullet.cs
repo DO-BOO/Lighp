@@ -41,12 +41,20 @@ public class FarMonsterBullet : Poolable
     // 플레이어 공격 성공 시
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag=="Player") GameManager.Instance.Pool.Push(this);
+        if(other.tag=="Player") DeleteBullet();
     }
 
     // 해당 시간 이후 자동 삭제
     private void DeleteBullet()
     {
+        EffectDelete();
         GameManager.Instance.Pool.Push(this);
+    }
+
+    // 사라질 때 이펙트
+    private void EffectDelete()
+    {
+        // 사운드
+        // 파티클 등등
     }
 }
