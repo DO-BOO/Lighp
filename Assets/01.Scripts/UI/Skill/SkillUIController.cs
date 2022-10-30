@@ -19,7 +19,14 @@ public class SkillUIController : MonoBehaviour
 
     private void Start()
     {
-        ShowPanels(1);
+        EventManager.StartListening(Define.ON_END_READ_DATA, ShowSkillPanels);
+    }
+
+    private void ShowSkillPanels()
+    {
+        int count = FindObjectOfType<CharacterSkill>().SkillCount;
+        Debug.Log(count);
+        ShowPanels(count);
     }
 
     public void RegisterSkill(Skill skill, int index = 0)
@@ -35,5 +42,10 @@ public class SkillUIController : MonoBehaviour
         {
             skillPanels[i].gameObject.SetActive(i < count);
         }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(Define.ON_END_READ_DATA, ShowSkillPanels);
     }
 }

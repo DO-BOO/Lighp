@@ -15,6 +15,11 @@ public class GameManager : MonoSingleton<GameManager>
 
     #region TEST
     public List<Skill> skills;
+
+    public Skill GetSkill<T>() where T : Skill
+    {
+        return skills.Find(x => x.GetType() == typeof(T));
+    }
     #endregion
 
     private void Awake()

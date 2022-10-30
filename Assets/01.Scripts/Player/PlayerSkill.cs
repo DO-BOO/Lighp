@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerSkill : CharacterSkill
 {
-    private void Start()
+    // TEST
+    public bool isOne = false;
+
+    private void Awake()
     {
         EventManager.StartListening(Define.ON_END_READ_DATA, AddFirstSkill);
     }
@@ -13,20 +16,44 @@ public class PlayerSkill : CharacterSkill
     {
         if (InputManager.GetKeyDown(InputAction.ActiveSkill))
         {
-            ExecuteCurrentSkill();
+            ExecuteCurrentSkill(0);
         }
 
+        // TEST
+        if(!isOne)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                ExecuteCurrentSkill(1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ExecuteCurrentSkill(2);
+            }
+        }
+        
         base.Update();
     }
 
     // TEST
     private void AddFirstSkill()
     {
-        Skill skill = GameManager.Instance.skills.
-            Find(x => x.GetType() == typeof(Overclock));
+        Skill overclock = GameManager.Instance.GetSkill<Overclock>();
+        AddSkill(overclock);
+        GameManager.Instance.UI.Skill.RegisterSkill(overclock);
 
-        AddSkill(skill);
-        GameManager.Instance.UI.Skill.RegisterSkill(skill);
+        if(!isOne)
+        {
+            Skill flashburst = GameManager.Instance.GetSkill<FlashBurst>();
+            Skill portableCharger = GameManager.Instance.GetSkill<PortableCharger>();
+
+            AddSkill(flashburst);
+            AddSkill(portableCharger);
+
+            GameManager.Instance.UI.Skill.RegisterSkill(flashburst, 1);
+            GameManager.Instance.UI.Skill.RegisterSkill(portableCharger, 2);
+        }
     }
 
     private void OnDestroy()
