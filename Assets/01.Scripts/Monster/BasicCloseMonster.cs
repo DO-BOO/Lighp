@@ -4,21 +4,25 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
-/// Monster의 기본 FSM
+/// 근거리 Monster의 기본 FSM
 /// </summary>
 public class BasicCloseMonster : StateMachine
 {
-    private Transform target = null;
-    public float distance => GetDistance();
+    private Transform target = null; // 타겟
+    public float distance => GetDistance(); // 타겟과의 거리
 
+    // 상태 스크립트
     public BasicMonsterIdle idleState;
     public BasicMonsterMove moveState;
     public BasicMonsterAttack attackState;
     public BasicMonsterDamage damageState;
     public BasicMonsterDie dieState;
 
+    // Layer
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
+
+    // Component
     [HideInInspector]
     public NavMeshAgent agent;
     [HideInInspector]
@@ -26,11 +30,13 @@ public class BasicCloseMonster : StateMachine
     [HideInInspector]
     public Animator anim;
 
+    // 필요 변수
     public float moveRange = 20.0f;
     public float attackRange = 2.5f;
-    private float colRadius = 60.0f;
+    private float colRadius = 100.0f;
     private float walkingSpeed = 10.0f;
 
+    // 애니메이션 Hash
     [HideInInspector]
     public int hashWalk = Animator.StringToHash("Walk");
     [HideInInspector]
@@ -46,6 +52,7 @@ public class BasicCloseMonster : StateMachine
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
 
+        // 상태 할당
         idleState = new BasicMonsterIdle(this);
         moveState = new BasicMonsterMove(this);
         attackState = new BasicMonsterAttack(this);
@@ -64,6 +71,7 @@ public class BasicCloseMonster : StateMachine
         return Vector3.Distance(target.transform.position, transform.position);
     }
     
+    // 타겟 구하기
     public  Transform SerachTarget()
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, colRadius, targetLayerMask);
@@ -75,24 +83,31 @@ public class BasicCloseMonster : StateMachine
         else return null;
     }
 
+    // 이동 애니메이션
     public void MoveAnimation(bool isOn)
     {
         anim.SetBool(hashWalk, isOn);
     }
 
+    // 공격 애니메이션
     public void AttackAnimation(bool isOn)
     {
         anim.SetBool(hashAttack, isOn);
     }
 
+    // 죽음 애니메이션
     public void DieAnimation(bool isOn)
     {
         anim.SetBool(hashDie, isOn);
     }
+
+    // 데미지 입는 애니메이션
     public void DamageAnimation()
     {
         anim.SetTrigger(hashDamage);
     }
+
+    // 타겟 쳐다보기
     public void LookTarget(Transform target)
     {
         Vector3 dir = target.position - transform.position;
@@ -101,6 +116,7 @@ public class BasicCloseMonster : StateMachine
         transform.rotation = rot;
     }
 
+    // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
     public void Damaged()
     {
         ChangeState(damageState);

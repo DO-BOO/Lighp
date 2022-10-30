@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
-/// (기본) 몬스터 IDLE 상태 
+/// (기본) 근거리 몬스터 IDLE 상태 
 /// </summary>
 public class BasicMonsterIdle : BaseState
 {
@@ -17,12 +17,16 @@ public class BasicMonsterIdle : BaseState
         monster = (BasicCloseMonster)stateMachine;
     }
 
+    // 상태 시작 시
+    // 타겟 찾기 시작
     public override void Enter()
     {
         base.Enter();
         target = monster.SerachTarget();
     }
 
+    // 타겟이 있다면
+    // 거리에 따라 상태 전환
     public override void UpdateLogic()
     {
         base.UpdateLogic();
@@ -43,10 +47,7 @@ public class BasicMonsterIdle : BaseState
         }
     }
 
-    public override void UpdateLate()
-    {
-        base.UpdateLogic();
-    }
+    // 상태 끝났을 시
     public override void Exit()
     {
         base.Exit();

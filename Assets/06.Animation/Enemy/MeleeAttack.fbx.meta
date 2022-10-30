@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: fa4ccd79b7e7052458a46b7a13351b8f
+guid: 943b2e0c020fb9c4583aa21f15b2a779
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Attack
+    second: mixamo.com
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack
+      name: mixamo.com
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -59,7 +59,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.31421754
+        functionName: Shooting
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 519cc74bc86667d49b766934c90967e8, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

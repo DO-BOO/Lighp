@@ -18,9 +18,9 @@ public class BaseState
     }
 
     // 상태들
-    public virtual void Enter() {  }
-    public virtual void UpdateLogic() { }
-    public virtual void UpdateLate() { }
-    public virtual void Exit() { }
+    public virtual void Enter() {  } // 상태 시작 시
+    public virtual void UpdateLogic() { } // Update
+    public virtual void UpdateLate() { } // LateUpdate
+    public virtual void Exit() { } // 상태 끝났을 시
 
 }
