@@ -5,7 +5,11 @@ using UnityEngine;
 public class CharacterHp : Character
 {
     private int maxHp;
-    public int hp;
+    public int MaxHp => maxHp;
+
+    [SerializeField]
+    private int hp;
+    public int Hp => hp;
     public bool IsDead { get; private set; }
 
     private void Start()

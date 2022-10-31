@@ -25,7 +25,6 @@ public class SkillUIController : MonoBehaviour
     private void ShowSkillPanels()
     {
         int count = FindObjectOfType<CharacterSkill>().SkillCount;
-        Debug.Log(count);
         ShowPanels(count);
     }
 

@@ -37,10 +37,12 @@ public abstract class Skill
     private float skillTimer = 0f;
     // 1초마다 한번씩 돌아가는 타이머
     private float secondTimer = 1f;
+    protected Particle skillEffect;
 
     public void Init(Character character)
     {
         this.character = character;
+        SetParticle();
         OnAwake();
     }
 
@@ -114,5 +116,31 @@ public abstract class Skill
         secondTimer = 1f;
         skillTimer = 0f;
         OnEnd();
+    }
+
+    protected void SetParticle()
+    {
+        skillEffect = Resources.Load<Particle>($"SkillEffect/{GetType()}");
+    }
+
+    protected void StartEffect(Transform parent, Vector3 position, Quaternion? rotation = null, float duration = -1)
+    {
+        if (!skillEffect) return;
+
+        if (!rotation.HasValue)
+        {
+            rotation = skillEffect.transform.rotation;
+        }
+
+        Particle effect = GameManager.Instance.Pool.Pop(skillEffect.gameObject, parent, position, rotation.Value) as Particle;
+
+        if (!effect) return;
+
+        if (duration > 0)
+        {
+            effect.SetDuration(duration);
+        }
+
+        effect.Play();
     }
 }

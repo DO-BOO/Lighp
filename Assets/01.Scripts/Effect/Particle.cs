@@ -70,6 +70,12 @@ public class Particle : Poolable
         particleSystem.Stop();
     }
 
+    public void SetDuration(float duration)
+    {
+        main.loop = false;
+        main.duration = duration;
+    }
+
     public override void ResetData()
     {
         timer = 0f;

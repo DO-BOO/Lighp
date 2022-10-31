@@ -16,8 +16,12 @@ public class Overclock : Skill
 
     protected override void Execute()
     {
+        Vector3 effectPos = character.transform.position;
+        effectPos += Vector3.up * 0.5f;
+
+        StartEffect(character.transform, effectPos, null, duration);
         prevMoveStat = move.moveStat;
-        move.moveStat.speed *= 2f;
+        move.moveStat.speed *= 1.5f;
     }
 
     protected override void UpdatePerSecond()
