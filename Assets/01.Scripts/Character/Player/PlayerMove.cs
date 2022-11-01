@@ -18,10 +18,10 @@ public sealed class PlayerMove : CharacterMove
 
     protected override void ChildAwake()
     {
-        EventManager.StartListening((int)InputAction.A_Up, () => InputMove(forward));
-        EventManager.StartListening((int)InputAction.A_Down, () => InputMove(-forward));
-        EventManager.StartListening((int)InputAction.A_Left, () => InputMove(-right));
-        EventManager.StartListening((int)InputAction.A_Right, () => InputMove(right));
+        EventManager<InputType>.StartListening((int)InputAction.Up, (type) => InputMove(type, forward));
+        EventManager<InputType>.StartListening((int)InputAction.Down, (type) => InputMove(type, -forward));
+        EventManager<InputType>.StartListening((int)InputAction.Left, (type) => InputMove(type, -right));
+        EventManager<InputType>.StartListening((int)InputAction.Right, (type) => InputMove(type, right));
     }
 
     private void Start()
@@ -43,12 +43,15 @@ public sealed class PlayerMove : CharacterMove
         InputRotate();
     }
 
-    private void InputMove(Vector3 velocity)
+    private void InputMove(InputType type, Vector3 velocity)
     {
         if (dash.IsDash) return;
 
-        moveInput += velocity;
-        Move(moveInput.normalized, moveStat.speed);
+        if (type == InputType.GetKeyDown || type == InputType.Getkey)
+        {
+            moveInput += velocity;
+            Move(moveInput.normalized, moveStat.speed);
+        }
     }
 
 
@@ -70,9 +73,9 @@ public sealed class PlayerMove : CharacterMove
 
     private void OnDestroy()
     {
-        EventManager.StopListening((int)InputAction.A_Up, () => InputMove(forward));
-        EventManager.StopListening((int)InputAction.A_Down, () => InputMove(-forward));
-        EventManager.StopListening((int)InputAction.A_Left, () => InputMove(-right));
-        EventManager.StopListening((int)InputAction.A_Right, () => InputMove(right));
+        EventManager<InputType>.StopListening((int)InputAction.Up, (type) => InputMove(type, forward));
+        EventManager<InputType>.StopListening((int)InputAction.Down, (type) => InputMove(type, -forward));
+        EventManager<InputType>.StopListening((int)InputAction.Left, (type) => InputMove(type, -right));
+        EventManager<InputType>.StopListening((int)InputAction.Right, (type) => InputMove(type, right));
     }
 }

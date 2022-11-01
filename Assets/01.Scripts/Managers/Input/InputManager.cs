@@ -36,12 +36,15 @@ public class InputManager
 
             if (GetKeyDown(action))
             {
-                EventManager.TriggerEvent(i);
+                EventManager<InputType>.TriggerEvent(i, InputType.GetKeyDown);
             }
-
-            else if (action.ToString().StartsWith("A_") && GetKey(action))
+            else if (GetKey(action))
             {
-                EventManager.TriggerEvent(i);
+                EventManager<InputType>.TriggerEvent(i, InputType.Getkey);
+            }
+            else if (GetKeyUp(action))
+            {
+                EventManager<InputType>.TriggerEvent(i, InputType.GetKeyUp);
             }
         }
     }
@@ -65,7 +68,7 @@ public class InputManager
     }
 
     // ≈∞∏¶ ¥≠∑∂¥Ÿ ∂√¿ª ∂ß
-    public static bool GetkeyUp(InputAction inputAction)
+    public static bool GetKeyUp(InputAction inputAction)
     {
         if (!keyDict.ContainsKey(inputAction))
             return false;

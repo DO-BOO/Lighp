@@ -9,16 +9,19 @@ public class PlayerDash : CharacterDash
 
     protected override void ChildAwake()
     {
-        EventManager.StartListening((int)InputAction.Dash, InputDash);
+        EventManager<InputType>.StartListening((int)InputAction.Dash, InputDash);
     }
 
     // ´ë½¬
-    private void InputDash()
+    private void InputDash(InputType type)
     {
-        if (rigid.velocity.sqrMagnitude < 0.01f)
-            Dash(transform.forward);
-        else
-            Dash(rigid.velocity);
+        if (type == InputType.GetKeyDown)
+        {
+            if (rigid.velocity.sqrMagnitude < 0.01f)
+                Dash(transform.forward);
+            else
+                Dash(rigid.velocity);
+        }
     }
 
     protected override void OnStartDash(bool isUpDown, Vector3 destination)
@@ -48,6 +51,6 @@ public class PlayerDash : CharacterDash
 
     private void OnDestroy()
     {
-        EventManager.StopListening((int)InputAction.Dash, InputDash);
+        EventManager<InputType>.StopListening((int)InputAction.Dash, InputDash);
     }
 }

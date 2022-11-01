@@ -1,9 +1,9 @@
 public enum InputAction
 {
-    A_Up,
-    A_Down,
-    A_Left,
-    A_Right,
+    Up,
+    Down,
+    Left,
+    Right,
     Jump,
     Dash,
     ActiveSkill,
