@@ -16,9 +16,16 @@ public sealed class PlayerMove : CharacterMove
     private readonly int isMoveHash = Animator.StringToHash("IsMove");
     private PlayerDash dash;
 
-    protected override void Start()
+    protected override void ChildAwake()
     {
-        animator = GetComponent<Animator>();
+        EventManager.StartListening((int)InputAction.A_Up, () => InputMove(forward));
+        EventManager.StartListening((int)InputAction.A_Down, () => InputMove(-forward));
+        EventManager.StartListening((int)InputAction.A_Left, () => InputMove(-right));
+        EventManager.StartListening((int)InputAction.A_Right, () => InputMove(right));
+    }
+
+    private void Start()
+    {
         dash = GetComponent<PlayerDash>();
 
         forward = GameManager.Instance.MainCam.transform.forward;
@@ -26,35 +33,21 @@ public sealed class PlayerMove : CharacterMove
 
         forward.y = 0f;
         right.y = 0f;
-
-        base.Start();
     }
 
     private void Update()
     {
-        InputMove();
+        animator.SetBool(isMoveHash, moveInput.sqrMagnitude > 0.1f);
+        moveInput = Vector3.zero;
+
         InputRotate();
     }
 
-    // Input값을 바탕으로 움직이는 함수
-    private void InputMove()
+    private void InputMove(Vector3 velocity)
     {
-        moveInput = Vector3.zero;
-
         if (dash.IsDash) return;
 
-        if (InputManager.GetKey(InputAction.Up))
-            moveInput += forward;
-
-        if (InputManager.GetKey(InputAction.Down))
-            moveInput -= forward;
-
-        if (InputManager.GetKey(InputAction.Right))
-            moveInput += right;
-
-        if (InputManager.GetKey(InputAction.Left))
-            moveInput -= right;
-
+        moveInput += velocity;
         Move(moveInput.normalized, moveStat.speed);
     }
 
@@ -75,8 +68,11 @@ public sealed class PlayerMove : CharacterMove
         }
     }
 
-    protected override void OnMove(Vector3 velocity)
+    private void OnDestroy()
     {
-        animator.SetBool(isMoveHash, velocity.sqrMagnitude > 0.1f);
+        EventManager.StopListening((int)InputAction.A_Up, () => InputMove(forward));
+        EventManager.StopListening((int)InputAction.A_Down, () => InputMove(-forward));
+        EventManager.StopListening((int)InputAction.A_Left, () => InputMove(-right));
+        EventManager.StopListening((int)InputAction.A_Right, () => InputMove(right));
     }
 }

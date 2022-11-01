@@ -1,12 +1,13 @@
 public enum InputAction
 {
-    Up,
-    Down,
-    Left,
-    Right,
+    A_Up,
+    A_Down,
+    A_Left,
+    A_Right,
     Jump,
     Dash,
     ActiveSkill,
     WeaponSkill,
-    Attack
+    Attack,
+    End
 }

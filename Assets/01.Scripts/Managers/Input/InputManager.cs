@@ -22,9 +22,27 @@ public class InputManager
         // ·Îµå & µñ¼Å³Ê¸®¿¡ Ãß°¡
         List<InputKey> inputs = GameManager.Instance.SpreadData.GetDatas<InputKey>(SheetType.Key);
 
-        foreach(var pair in inputs)
+        foreach (var pair in inputs)
         {
             keyDict.Add(pair.inputAction, pair.keycode);
+        }
+    }
+
+    public void Update()
+    {
+        for (int i = 0; i < (int)InputAction.End; i++)
+        {
+            InputAction action = (InputAction)i;
+
+            if (GetKeyDown(action))
+            {
+                EventManager.TriggerEvent(i);
+            }
+
+            else if (action.ToString().StartsWith("A_") && GetKey(action))
+            {
+                EventManager.TriggerEvent(i);
+            }
         }
     }
 

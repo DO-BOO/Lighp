@@ -7,22 +7,18 @@ public class PlayerDash : CharacterDash
     private readonly int dashHash = Animator.StringToHash("Dash");
     private Particle dashParticle;
 
-    protected override void Update()
+    protected override void ChildAwake()
     {
-        base.Update();
-        InputDash();
+        EventManager.StartListening((int)InputAction.Dash, InputDash);
     }
 
     // ´ë½¬
     private void InputDash()
     {
-        if (InputManager.GetKeyDown(InputAction.Dash))
-        {
-            if (rigid.velocity.sqrMagnitude < 0.01f)
-                Dash(transform.forward);
-            else
-                Dash(rigid.velocity);
-        }
+        if (rigid.velocity.sqrMagnitude < 0.01f)
+            Dash(transform.forward);
+        else
+            Dash(rigid.velocity);
     }
 
     protected override void OnStartDash(bool isUpDown, Vector3 destination)
@@ -48,5 +44,10 @@ public class PlayerDash : CharacterDash
     protected override void OnEndDash()
     {
         base.OnEndDash();
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening((int)InputAction.Dash, InputDash);
     }
 }
