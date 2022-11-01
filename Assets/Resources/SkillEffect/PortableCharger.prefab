@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1764487621125814374}
   - component: {fileID: 1764487621125814372}
   - component: {fileID: 1764487621125814375}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4893,7 +4893,7 @@ GameObject:
   - component: {fileID: 1764487622792206056}
   - component: {fileID: 1764487622792206062}
   - component: {fileID: 1764487622792206057}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9727,7 +9727,7 @@ GameObject:
   - component: {fileID: 2206579788642471517}
   - component: {fileID: 2206579788642471516}
   - component: {fileID: 2206579788642471519}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PortableCharger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14558,7 +14558,7 @@ GameObject:
   - component: {fileID: 7194347101329876707}
   - component: {fileID: 7194347101329876706}
   - component: {fileID: 7194347101329876709}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MainParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

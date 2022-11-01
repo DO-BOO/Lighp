@@ -10,7 +10,6 @@ public class Define
     public const string HORIZONTAL  = "Horizontal";
     public const string VERTICAL    = "Vertical";
     public const string JUMP        = "Jump";
-    public const int PLAYER_LAYER = 1 << 7;
 
     #region SHEET_URL
     public const string KEY_URL         = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
@@ -19,6 +18,9 @@ public class Define
 
     #region LAYER_MASK
     public const int BOTTOM_LAYER       = 1 << 6;
+    public const int PLAYER_LAYER       = 1 << 7;
+    public const int MONSTER_LAYER      = 1 << 9;
+
     #endregion
 
     #region DASH

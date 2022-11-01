@@ -40,14 +40,7 @@ public class SkillPanel : MonoBehaviour
                 }
                 else // 사용중X and 사용불가능일 때
                 {
-                    // 방금 스킬이 끝났다면
-                    // fill amount 초기화
-                    if (skill.coolTime - skill.CoolTimer < 0.01f && collTimeImage.fillAmount > 0.01f)
-                    {
-                        collTimeImage.fillAmount = 0f;
-                    }
-
-                    collTimeImage.fillAmount += Time.deltaTime * (1 / skill.coolTime);
+                    collTimeImage.fillAmount -= (Time.deltaTime * (1 / skill.coolTime));
                 }
             }
         }
