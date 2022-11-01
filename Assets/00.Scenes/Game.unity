@@ -1013,6 +1013,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 805182373}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &824100383 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5926249814434975643, guid: be02706d20869814f85913b624a6dfd1, type: 3}
+  m_PrefabInstance: {fileID: 6845239570079602685}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &858769212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,8 +1109,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858769212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80.1, y: 0.1, z: -46.5}
-  m_LocalScale: {x: 20, y: 1, z: 20}
+  m_LocalPosition: {x: 80.1, y: 0, z: -46.5}
+  m_LocalScale: {x: 40, y: 1, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1899,8 +1904,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -50
-  far clip plane: 1000
+  near clip plane: 0
+  far clip plane: 200
   field of view: 70
   orthographic: 1
   orthographic size: 25
@@ -1927,7 +1932,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016590430}
   m_LocalRotation: {x: 0.2213864, y: -0.36992574, z: 0.09126263, w: 0.8976716}
-  m_LocalPosition: {x: 86.5, y: 17.745531, z: -71.1}
+  m_LocalPosition: {x: 112.1, y: 36.8, z: -96.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2553,6 +2558,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6446221590902297889, guid: be02706d20869814f85913b624a6dfd1, type: 3}
   m_PrefabInstance: {fileID: 6845239570079602685}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &543450652448490209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824100383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a165c61ce3e6d544aef127d187255e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!4 &543450652586741400
 Transform:
   m_ObjectHideFlags: 0
@@ -9912,6 +9932,10 @@ PrefabInstance:
     - target: {fileID: 6446221590902297889, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6845239571329987265, guid: be02706d20869814f85913b624a6dfd1, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6845239571329987271, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_Size.y
