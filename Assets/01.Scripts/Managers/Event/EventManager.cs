@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EventManager
 {
-    private static Dictionary<short, Action> eventDictionary = new Dictionary<short, Action>();
+    private static Dictionary<int, Action> eventDictionary = new Dictionary<int, Action>();
 
-    public static void StartListening(short eventName, Action listener)
+    public static void StartListening(int eventName, Action listener)
     {
         Action thisEvent;
 
@@ -22,7 +22,7 @@ public class EventManager
         }
     }
 
-    public static void StopListening(short eventName, Action listener)
+    public static void StopListening(int eventName, Action listener)
     {
         Action thisEvent;
 
@@ -38,7 +38,7 @@ public class EventManager
         }
     }
 
-    public static void TriggerEvent(short eventName)
+    public static void TriggerEvent(int eventName)
     {
         Action thisEvent;
 
@@ -51,9 +51,9 @@ public class EventManager
 
 public class EventManager<T>
 {
-    private static Dictionary<short, Action<T>> eventDictionary = new Dictionary<short, Action<T>>();
+    private static Dictionary<int, Action<T>> eventDictionary = new Dictionary<int, Action<T>>();
 
-    public static void StartListening(short eventName, Action<T> listener)
+    public static void StartListening(int eventName, Action<T> listener)
     {
         Action<T> thisEvent;
          
@@ -69,7 +69,7 @@ public class EventManager<T>
         }
     }
 
-    public static void StopListening(short eventName, Action<T> listener)
+    public static void StopListening(int eventName, Action<T> listener)
     {
         Action<T> thisEvent;
 
@@ -85,7 +85,7 @@ public class EventManager<T>
         }
     }
 
-    public static void TriggerEvent(short eventName, T param)
+    public static void TriggerEvent(int eventName, T param)
     {
         Action<T> thisEvent;
 
