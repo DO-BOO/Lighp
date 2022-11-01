@@ -13,6 +13,10 @@ public class PortableCharger : Skill
 
     protected override void Execute()
     {
+        Vector3 effectPos = character.transform.position;
+        effectPos += Vector3.up * 0.75f;
+
+        StartEffect(character.transform, effectPos, Quaternion.identity, duration);
     }
 
     protected override void UpdatePerSecond()
