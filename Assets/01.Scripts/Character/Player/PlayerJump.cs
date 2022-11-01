@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class PlayerJump : CharacterJump
 {
-    private void Update()
+    protected override void ChildAwake()
     {
-        InputJump();
+        EventManager<InputType>.StartListening((int)InputAction.Jump, InputJump);
     }
 
     // Input값을 바탕으로 점프하는 함수
-    private void InputJump()
+    private void InputJump(InputType type)
     {
-        if (InputManager.GetKeyDown(InputAction.Jump))
+        if (type == InputType.GetKeyDown)
         {
             Jump(move.moveStat.jumpForce);
         }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager<InputType>.StopListening((int)InputAction.Jump, InputJump);
     }
 }

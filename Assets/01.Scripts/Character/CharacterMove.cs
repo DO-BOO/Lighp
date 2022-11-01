@@ -6,7 +6,6 @@ using DG.Tweening;
 /// <summary>
 /// 캐릭터의 이동을 담당하는 클래스
 /// </summary>
-[RequireComponent(typeof(Rigidbody))]
 public abstract class CharacterMove : Character
 {
     public MoveStat moveStat;
@@ -25,11 +24,6 @@ public abstract class CharacterMove : Character
 
     private bool canMove = true;
     #endregion
-
-    protected virtual void Start()
-    {
-        rigid = GetComponent<Rigidbody>();
-    }
 
     // 캐릭터를 velocity 방향으로 움직이는 함수
     protected void Move(Vector3 velocity, float speed = 1f, bool isRot = false, float rotTime = 0.5f)

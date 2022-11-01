@@ -31,6 +31,6 @@ public class Define
     #endregion
 
     #region EVENT
-    public const short ON_END_READ_DATA = 10;
+    public const short ON_END_READ_DATA = 1000;
     #endregion
 }
