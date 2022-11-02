@@ -7,21 +7,24 @@ public class PlayerSkill : CharacterSkill
     // TEST
     public bool isOne = false;
 
-    protected override void Awake()
+    protected override void ChildAwake()
     {
-        base.Awake();
         EventManager.StartListening(Define.ON_END_READ_DATA, AddFirstSkill);
+        EventManager<InputType>.StartListening((int)InputAction.ActiveSkill, (type) => InputSkill(type, 0));
+    }
+
+    private void InputSkill(InputType type, int index)
+    {
+        if (type == InputType.GetKeyDown)
+        {
+            ExecuteCurrentSkill(index);
+        }
     }
 
     protected override void Update()
     {
-        if (InputManager.GetKeyDown(InputAction.ActiveSkill))
-        {
-            ExecuteCurrentSkill(0);
-        }
-
         // TEST
-        if(!isOne)
+        if (!isOne)
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -33,7 +36,7 @@ public class PlayerSkill : CharacterSkill
                 ExecuteCurrentSkill(2);
             }
         }
-        
+
         base.Update();
     }
 
@@ -44,7 +47,7 @@ public class PlayerSkill : CharacterSkill
         AddSkill(overclock);
         GameManager.Instance.UI.Skill.RegisterSkill(overclock);
 
-        if(!isOne)
+        if (!isOne)
         {
             Skill flashburst = GameManager.Instance.GetSkill<FlashBurst>();
             Skill portableCharger = GameManager.Instance.GetSkill<PortableCharger>();
@@ -60,5 +63,6 @@ public class PlayerSkill : CharacterSkill
     private void OnDestroy()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, AddFirstSkill);
+        EventManager<InputType>.StopListening((int)InputAction.ActiveSkill, (type) => InputSkill(type, 0));
     }
 }
