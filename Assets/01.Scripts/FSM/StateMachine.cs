@@ -12,6 +12,7 @@ public class StateMachine : MonoBehaviour
 
     protected virtual BaseState GetInitState() { return null; }
     protected virtual float GetDistance() { return 0.0f; }
+    protected virtual Vector3 GetDirection() { return Vector3.zero; }
 
 
     private void Start()

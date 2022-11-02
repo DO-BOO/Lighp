@@ -10,6 +10,7 @@ public class BasicCloseMonster : StateMachine
 {
     private Transform target = null; // 타겟
     public float distance => GetDistance(); // 타겟과의 거리
+    public Vector3 dir => GetDirection(); // 타겟과의 거리
 
     // 상태 스크립트
     public BasicMonsterIdle idleState;
@@ -26,9 +27,9 @@ public class BasicCloseMonster : StateMachine
     [HideInInspector]
     public NavMeshAgent agent;
     [HideInInspector]
-    public Rigidbody rigid;
-    [HideInInspector]
     public Animator anim;
+    [HideInInspector]
+    public Rigidbody rigid;
 
     // 필요 변수
     public float moveRange = 20.0f;
@@ -71,6 +72,14 @@ public class BasicCloseMonster : StateMachine
         return Vector3.Distance(target.transform.position, transform.position);
     }
     
+    // 타겟과의 방향 구하기
+    protected override Vector3 GetDirection()
+    {
+        Vector3 dir = target.position - transform.position;
+        dir.y = 0;
+        return dir;
+    }
+    
     // 타겟 구하기
     public  Transform SerachTarget()
     {
@@ -110,8 +119,7 @@ public class BasicCloseMonster : StateMachine
     // 타겟 쳐다보기
     public void LookTarget(Transform target)
     {
-        Vector3 dir = target.position - transform.position;
-        dir.y = 0;
+        Vector3 dir = GetDirection();
         Quaternion rot = Quaternion.LookRotation(dir.normalized);
         transform.rotation = rot;
     }

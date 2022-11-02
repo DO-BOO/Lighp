@@ -1139,7 +1139,7 @@ Animator:
   m_GameObject: {fileID: 7441560104420682010}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e3c580ef0de6aa24589b3d9db28b3726, type: 3}
-  m_Controller: {fileID: 9100000, guid: a174fd8cec8aac84d909383487068250, type: 2}
+  m_Controller: {fileID: 22100000, guid: 9cda0dfe355055b4caae9b0baba55f58, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1177,7 +1177,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 12
+  m_StoppingDistance: 30
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1221,13 +1221,13 @@ MonoBehaviour:
     m_Bits: 256
   agent: {fileID: 0}
   anim: {fileID: 0}
-  moveRange: 21
-  attackRange: 20
-  bullet: {fileID: 6667732855625101390, guid: 8c371fec2c0d5e343a092bc3a222b231, type: 3}
+  moveRange: 40
+  attackRange: 35
   hashWalk: 765711723
   hashAttack: 1080829965
   hashDamage: 375673178
   hashDie: 20298039
+  bullet: {fileID: 6667732855625101390, guid: 8c371fec2c0d5e343a092bc3a222b231, type: 3}
 --- !u!1 &7570704241665535485
 GameObject:
   m_ObjectHideFlags: 0

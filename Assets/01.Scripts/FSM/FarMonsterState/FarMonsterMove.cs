@@ -57,4 +57,6 @@ public class FarMonsterMove : BaseState
         monster.anim.SetBool(monster.hashWalk, false);
         monster.agent.isStopped = true;
     }
+
+
 }
