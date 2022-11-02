@@ -17,6 +17,7 @@ public class ReadSpreadData
     public void OnAwake()
     {
         sheetDatas.Add(SheetType.Key, Define.KEY_URL);
+        sheetDatas.Add(SheetType.Weapon, Define.WEAPON_URL);
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
