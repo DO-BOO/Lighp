@@ -7,7 +7,6 @@ public class WeaponParent : MonoBehaviour
 {
     #region 공격관련 변수
     [SerializeField] private bool isEnemy = false;
-    public bool IsEnemy => isEnemy;
     private bool isCanAttack = true;
     #endregion
 
@@ -23,7 +22,7 @@ public class WeaponParent : MonoBehaviour
     private int hashAttackSpeed = Animator.StringToHash("AttackSpeed");
     private int hashPostSpeed = Animator.StringToHash("PostSpeed");
     private int hashAttack = Animator.StringToHash("Attack");
-    private int hashIsCharging = Animator.StringToHash("IsCharging");
+    //xprivate int hashIsCharging = Animator.StringToHash("IsCharging");
     #endregion
 
     private void Awake()
@@ -64,9 +63,7 @@ public class WeaponParent : MonoBehaviour
     {
         if (curWeapon == null)
         {
-            weapon.transform.SetParent(handPosition);
-            weapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
-            weapon.transform.localPosition = Vector3.zero;
+            weapon.Reset(handPosition, isEnemy);
             curWeapon = weapon;
             SetAnimParam();
         }
@@ -82,40 +79,40 @@ public class WeaponParent : MonoBehaviour
     //선 딜레이 시작 시
     public void PreDelay()
     {
-        if(curWeapon.Data.chargingTime > 0)
-        {
-            StartCoroutine(ChargingCoroutine());
-        }
+    //    if(curWeapon.Data.chargingTime > 0)
+    //    {
+    //        StartCoroutine(ChargingCoroutine());
+    //    }
         curWeapon.PreDelay();
     }
 
-    private IEnumerator ChargingCoroutine()
-    {
-        animator.SetBool(hashIsCharging, true);
-        float t = curWeapon.Data.preDelay / 2;
-        while (t > 0)
-        {
-            if (InputManager.GetkeyUp(InputAction.Attack))
-            {
-                animator.SetBool(hashIsCharging, false);
-                yield break;
-            }
-            t -= Time.deltaTime;
-            yield return null;
-        }
-        t = 0;
-        while (true)
-        {
-            if (InputManager.GetkeyUp(InputAction.Attack))
-            {
-                animator.SetBool(hashIsCharging, false);
-                curWeapon.Data.chargingAmount = t;
-                yield break;
-            }
-            t += Time.deltaTime;
-            yield return null;
-        }
-    }
+    //private IEnumerator ChargingCoroutine()
+    //{
+    //    animator.SetBool(hashIsCharging, true);
+    //    float t = curWeapon.Data.preDelay / 2;
+    //    while (t > 0)
+    //    {
+    //        if (InputManager.GetkeyUp(InputAction.Attack))
+    //        {
+    //            animator.SetBool(hashIsCharging, false);
+    //            yield break;
+    //        }
+    //        t -= Time.deltaTime;
+    //        yield return null;
+    //    }
+    //    t = 0;
+    //    while (true)
+    //    {
+    //        if (InputManager.GetkeyUp(InputAction.Attack))
+    //        {
+    //            animator.SetBool(hashIsCharging, false);
+    //            curWeapon.Data.chargingAmount = t;
+    //            yield break;
+    //        }
+    //        t += Time.deltaTime;
+    //        yield return null;
+    //    }
+    //}
 
     //선 딜레이 종료 시
     public void HitTime()

@@ -6,7 +6,6 @@ public class OneHandWeapon : WeaponScript
 {
     [SerializeField] private Collider atkArea = null;
     [SerializeField] private TrailRenderer trail = null;
-    private WeaponParent parent = null;
 
     #region 기본공격 관련 함수
     public override void PreDelay()
@@ -33,7 +32,7 @@ public class OneHandWeapon : WeaponScript
     private void OnTriggerEnter(Collider other)
     {
         IHittable target = other.GetComponent<IHittable>();
-        if(target != null && parent.IsEnemy != target.isEnemy) //타켓의 아군/적군 확인
+        if(target != null && data.isEnemy != target.isEnemy) //타켓의 아군/적군 확인
         {
             target.GetDamge(data.damage, data.hitStunTime);
         }

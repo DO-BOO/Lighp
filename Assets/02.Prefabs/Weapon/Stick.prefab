@@ -48,20 +48,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    name: "\uC7A5\uAC80"
     number: 1
+    name: "\uC7A5\uAC80"
     rarity: 0
+    grip: 0
     type: 0
+    usingPrefab: 0
     weight: 9
     damage: 10
-    atkSpeed: 0.3
-    hitStunTime: 0.3
+    criticalChance: 0
+    ciritcalFactor: 0
     preDelay: 0.1
     postDelay: 0.125
+    atkCool: 0.3
+    chargingTime: 0
+    chargingDamage: 0
+    hitStunTime: 0.3
   skill: {fileID: 0}
   atkArea: {fileID: 8443288132878792493}
   trail: {fileID: 8443288132930385662}
-  parent: {fileID: 0}
 --- !u!65 &8443288132878792493
 BoxCollider:
   m_ObjectHideFlags: 0

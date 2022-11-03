@@ -5,6 +5,7 @@ using UnityEngine;
 public class HandGun : WeaponScript
 {
     [SerializeField] private Transform muzzle;
+    [SerializeField] private BulletScript bulletPrefab;
     
     public override void PreDelay()
     {

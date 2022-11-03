@@ -5,20 +5,27 @@ using UnityEngine;
 [System.Serializable]
 public class WeaponData
 {
+    #region 시트용 변수
+    public int number;
     public string name;
-    public float number;
     public Rarity rarity;
+    public WeaponGrip grip;
     public WeaponType type;
+    public int usingPrefab = 0;
     public int weight;
     public int damage;
-    public float atkSpeed;
-    public float hitStunTime;
+    public float criticalChance;
+    public float ciritcalFactor;
     public float preDelay;
     public float postDelay;
+    public float atkCool;
     public float chargingTime;
     public float chargingDamage; //최대 차징 추가 데미지
+    public float hitStunTime;
+    #endregion
 
-    public float HitTime { get { return atkSpeed - preDelay - postDelay; } }
+    public float HitTime { get { return atkCool - preDelay - postDelay; } }
+    public bool isEnemy;
     public float chargingAmount  //차징된 데미지
     { 
         set 
@@ -41,12 +48,15 @@ public enum Rarity
     Legend
 }
 
+public enum WeaponGrip
+{
+    OneHand_Melee,
+    OneHand_Range
+}
+
 public enum WeaponType
 {
-    OneHand = 0,
-    TwoHand,
-    HandGun,
-    Bow,
-    ETC,
+    Sword,
+    Pistol,
     Length
 }
