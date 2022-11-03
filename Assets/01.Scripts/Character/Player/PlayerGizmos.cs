@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerGizmos : MonoBehaviour
 {
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         float radius = GetComponent<BoxCollider>().size.x * 3f;
 
