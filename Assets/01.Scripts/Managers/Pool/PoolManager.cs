@@ -34,8 +34,6 @@ public class PoolManager
         pool.Init(original, count);
         pool.Root.parent = root;
 
-        Debug.Log(original.name);
-
         poolDict.Add(original.name, pool);
     }
 
