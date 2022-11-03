@@ -34,8 +34,6 @@ public class PoolManager
         pool.Init(original, count);
         pool.Root.parent = root;
 
-        Debug.Log(original.name);
-
         poolDict.Add(original.name, pool);
     }
 
@@ -46,11 +44,8 @@ public class PoolManager
     {
         string name = poolable.gameObject.name;
 
-        Debug.Log(name == "Dash");
-
         if (!poolDict.ContainsKey(name))
         {
-            Debug.Log("Destroy");
             Object.Destroy(poolable.gameObject);
             return;
         }
