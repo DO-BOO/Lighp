@@ -11,7 +11,7 @@ public class InputManager
     private static Dictionary<InputAction, KeyCode> keyDict = new Dictionary<InputAction, KeyCode>();
 
     // 로드용 클래스
-    class InputKey
+    public class InputKey
     {
         public InputAction inputAction;
         public KeyCode keycode;
@@ -20,7 +20,7 @@ public class InputManager
     public void OnStart()
     {
         // 로드 & 딕셔너리에 추가
-        List<InputKey> inputs = GameManager.Instance.SpreadData.GetDatas<InputKey>(SheetType.Key);
+        List<InputKey> inputs = GameManager.Instance.SpreadData.GetDatas<InputKey>();
 
         foreach (var pair in inputs)
         {
