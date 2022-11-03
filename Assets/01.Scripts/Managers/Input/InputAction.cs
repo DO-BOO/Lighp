@@ -8,5 +8,6 @@ public enum InputAction
     Dash,
     ActiveSkill,
     WeaponSkill,
-    Attack
+    Attack,
+    End
 }

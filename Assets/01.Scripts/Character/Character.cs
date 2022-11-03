@@ -12,10 +12,14 @@ public abstract class Character : MonoBehaviour
     protected Rigidbody rigid;
     new protected Collider collider;
 
-    protected virtual void Awake()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
+
+        ChildAwake();
     }
+
+    protected virtual void ChildAwake() { }
 }

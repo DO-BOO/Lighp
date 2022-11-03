@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 상수 매니저
+/// 상수 클래스
 /// </summary>
 public class Define
 {
@@ -12,12 +12,22 @@ public class Define
     public const string JUMP        = "Jump";
 
     #region SHEET_URL
-    public const string KEY_URL = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
-    public const string TEST_URL = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:D&gid=127633824";
-    public const string WEAPON_URL = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:P&gid=0";
+    public const string KEY_URL         = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
     #endregion
 
     #region LAYER_MASK
-    public const int BOTTOM_LAYER = 1 << 6;
+    public const int BOTTOM_LAYER   = 1 << 6;
+    public const int PLAYER_LAYER   = 1 << 7;
+    #endregion
+
+    #region DASH
+    public const float DASH_DISTANCE    = 12f;
+    public const float DASH_DURATION    = 0.2f;
+    public const float DASH_COOLTIME    = 2f;
+    public const float DASH_DOUBLE_TIME = 0.35f;
+    #endregion
+
+    #region EVENT
+    public const short ON_END_READ_DATA = 1000;
     #endregion
 }

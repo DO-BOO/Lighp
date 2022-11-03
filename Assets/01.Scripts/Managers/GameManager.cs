@@ -9,6 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
     #region CORE
     public ReadSpreadData SpreadData { get; private set; } = new ReadSpreadData();
     public InputManager Input { get; private set; } = new InputManager();
+    public PoolManager Pool { get; private set; } = new PoolManager();
     #endregion
 
     private void Awake()
@@ -21,6 +22,12 @@ public class GameManager : MonoSingleton<GameManager>
     private void Start()
     {
         StartCoroutine(WaitLoadSpreadData());
+        Pool.Start();
+    }
+
+    private void Update()
+    {
+        Input.Update();
     }
 
     // 스프레드 시트 데이터가 있어야 실행되는 Start, Awake들은
@@ -32,6 +39,7 @@ public class GameManager : MonoSingleton<GameManager>
             yield return null;
         }
 
+        EventManager.TriggerEvent(Define.ON_END_READ_DATA);
         Input.OnStart();
     }
 }

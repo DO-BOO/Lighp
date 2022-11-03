@@ -22,9 +22,30 @@ public class InputManager
         // ·Îµå & µñ¼Å³Ê¸®¿¡ Ãß°¡
         List<InputKey> inputs = GameManager.Instance.SpreadData.GetDatas<InputKey>(SheetType.Key);
 
-        foreach(var pair in inputs)
+        foreach (var pair in inputs)
         {
             keyDict.Add(pair.inputAction, pair.keycode);
+        }
+    }
+
+    public void Update()
+    {
+        for (int i = 0; i < (int)InputAction.End; i++)
+        {
+            InputAction action = (InputAction)i;
+
+            if (GetKeyDown(action))
+            {
+                EventManager<InputType>.TriggerEvent(i, InputType.GetKeyDown);
+            }
+            else if (GetKey(action))
+            {
+                EventManager<InputType>.TriggerEvent(i, InputType.Getkey);
+            }
+            else if (GetKeyUp(action))
+            {
+                EventManager<InputType>.TriggerEvent(i, InputType.GetKeyUp);
+            }
         }
     }
 
@@ -47,7 +68,7 @@ public class InputManager
     }
 
     // Å°¸¦ ´­·¶´Ù ¶ÃÀ» ¶§
-    public static bool GetkeyUp(InputAction inputAction)
+    public static bool GetKeyUp(InputAction inputAction)
     {
         if (!keyDict.ContainsKey(inputAction))
             return false;
