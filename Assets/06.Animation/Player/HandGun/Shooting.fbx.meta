@@ -1,23 +1,17 @@
 fileFormatVersion: 2
-guid: 42865a14105fcb8468c045d05ae446fd
+guid: ce44e4e8ac8d6684994a3e6139dd09ee
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: OneHand
-  - first:
-      74: -1951641078428227760
-    second: PreDelay
+    second: Shooting
   - first:
       74: -4366369249651720158
     second: HitTime
   - first:
       74: -5965247832859140232
     second: PostDelay
-  - first:
-      74: 8602138214474203452
-    second: Stay
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -48,11 +42,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: OneHand
+      name: Shooting
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 122
+      lastFrame: 70
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -77,7 +71,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: PreDelay
+      name: HitTime
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -100,20 +94,13 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: PreDelay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: HitTime
+      name: PostDelay
       takeName: mixamo.com
       internalID: 0
       firstFrame: 30
@@ -136,86 +123,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: HitTime
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: PostDelay
-      takeName: mixamo.com
-      internalID: 0
-      firstFrame: 60
-      lastFrame: 70
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 0
-        functionName: PostDelay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Stay
-      takeName: mixamo.com
-      internalID: 0
-      firstFrame: 72
-      lastFrame: 74
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 0
-        functionName: Stay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

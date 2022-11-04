@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 42865a14105fcb8468c045d05ae446fd
+guid: a5a9f4e2087e24649a336e7d02d38432
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
@@ -7,14 +7,14 @@ ModelImporter:
       74: -203655887218126122
     second: OneHand
   - first:
-      74: -1951641078428227760
-    second: PreDelay
-  - first:
       74: -4366369249651720158
     second: HitTime
   - first:
       74: -5965247832859140232
     second: PostDelay
+  - first:
+      74: -1951641078428227760
+    second: PreDelay
   - first:
       74: 8602138214474203452
     second: Stay
@@ -77,42 +77,6 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: PreDelay
-      takeName: mixamo.com
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 30
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 0
-        functionName: PreDelay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
       name: HitTime
       takeName: mixamo.com
       internalID: 0
@@ -136,14 +100,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: HitTime
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -172,14 +129,36 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: PostDelay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: PreDelay
+      takeName: mixamo.com
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -208,14 +187,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: Stay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -268,7 +240,137 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Stable Sword Outward Slash (1)(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Hips
+      parentName: Stable Sword Outward Slash (1)(Clone)
+      position: {x: 0.0038927123, y: 0.8101862, z: 0.054012433}
+      rotation: {x: -0.81142896, y: -0.060191125, z: -0.06532207, w: 0.57766175}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Spine
+      parentName: mixamorig:Hips
+      position: {x: -0, y: -0.010749999, z: 0.13965999}
+      rotation: {x: -0.0328379, y: 0.6156234, z: 0.7863693, w: -0.039405912}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Spine1
+      parentName: mixamorig:Spine
+      position: {x: -0, y: 0.16341999, z: 0}
+      rotation: {x: -0.07968967, y: 0.050446253, z: -0.014942081, w: 0.9954303}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Spine2
+      parentName: mixamorig:Spine1
+      position: {x: -0, y: 0.18675998, z: 0}
+      rotation: {x: -0.079036504, y: 0.05144894, z: -0.014793443, w: 0.9954333}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Neck
+      parentName: mixamorig:Spine2
+      position: {x: -0, y: 0.21010998, z: 0}
+      rotation: {x: -0.053717136, y: 0.7061239, z: 0.7016991, w: 0.07824284}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Head
+      parentName: mixamorig:Neck
+      position: {x: -0, y: 0.023569997, z: 0.59071994}
+      rotation: {x: -0.19672038, y: -0.0930024, z: -0.46255058, w: 0.8594758}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:HeadTop_End
+      parentName: mixamorig:Head
+      position: {x: -0, y: 0.10004999, z: 2.50785}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftShoulder
+      parentName: mixamorig:Spine2
+      position: {x: 0.31530997, y: 0.18831, z: -0.0047999998}
+      rotation: {x: -0.46089163, y: -0.51528823, z: 0.547544, w: -0.47143668}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftArm
+      parentName: mixamorig:LeftShoulder
+      position: {x: -0, y: 0.60023993, z: 0}
+      rotation: {x: 0.009055658, y: 0.026342, z: 0.1265507, w: 0.9915689}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftForeArm
+      parentName: mixamorig:LeftArm
+      position: {x: -0, y: 0.87235, z: 0}
+      rotation: {x: -0.03522733, y: 0.10301211, z: -0.020419994, w: 0.99384636}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftHand
+      parentName: mixamorig:LeftForeArm
+      position: {x: -0, y: 0.67357993, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightShoulder
+      parentName: mixamorig:Spine2
+      position: {x: -0.31530997, y: 0.18782999, z: 0.0014099999}
+      rotation: {x: 0.48442963, y: -0.5099396, z: 0.45006245, w: 0.550212}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightArm
+      parentName: mixamorig:RightShoulder
+      position: {x: -0, y: 0.60023993, z: 0}
+      rotation: {x: 0.07781601, y: 0.17244275, z: 0.09599948, w: 0.9772371}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightForeArm
+      parentName: mixamorig:RightArm
+      position: {x: -0, y: 0.87240994, z: 0}
+      rotation: {x: -0.015850594, y: -0.18827075, z: 0.026441503, w: 0.9816332}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightHand
+      parentName: mixamorig:RightForeArm
+      position: {x: -0, y: 0.67205995, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftUpLeg
+      parentName: mixamorig:Hips
+      position: {x: -0.39751, y: -0.00586, z: -0.077589996}
+      rotation: {x: -0.109416276, y: -0.71604437, z: 0.5940977, w: 0.3497951}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftLeg
+      parentName: mixamorig:LeftUpLeg
+      position: {x: -0, y: 0.43388999, z: 0}
+      rotation: {x: -0.124871224, y: -0.8117883, z: 0.22215688, w: 0.5254077}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftFoot
+      parentName: mixamorig:LeftLeg
+      position: {x: -0, y: 0.36110997, z: 0}
+      rotation: {x: 0.79558676, y: 0.3404306, z: -0.42033964, w: 0.27287972}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftToeBase
+      parentName: mixamorig:LeftFoot
+      position: {x: -0, y: 0.113039985, z: 0}
+      rotation: {x: 0.1893583, y: 0.5122205, z: -0.11692692, w: 0.82951903}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftToe_End
+      parentName: mixamorig:LeftToeBase
+      position: {x: -0, y: 0.10176999, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightUpLeg
+      parentName: mixamorig:Hips
+      position: {x: 0.39751, y: -0.0064199995, z: -0.077589996}
+      rotation: {x: 0.01847256, y: -0.7544693, z: 0.64720947, w: -0.10749379}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightLeg
+      parentName: mixamorig:RightUpLeg
+      position: {x: -0, y: 0.43388999, z: 0}
+      rotation: {x: 0.14779866, y: -0.7662983, z: 0.26715595, w: -0.5653053}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightFoot
+      parentName: mixamorig:RightLeg
+      position: {x: -0, y: 0.36073, z: 0}
+      rotation: {x: 0.74779695, y: -0.3019656, z: 0.5325452, w: 0.25692824}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightToeBase
+      parentName: mixamorig:RightFoot
+      position: {x: -0, y: 0.12317999, z: 0}
+      rotation: {x: 0.09092172, y: 0.01693657, z: 0.18234298, w: 0.9788756}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightToe_End
+      parentName: mixamorig:RightToeBase
+      position: {x: -0, y: 0.10341999, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -279,7 +381,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1

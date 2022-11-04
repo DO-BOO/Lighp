@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 42865a14105fcb8468c045d05ae446fd
+guid: db36371ce6d2ffe469af169bd055ece8
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: OneHand
+    second: mixamo.com
   - first:
       74: -1951641078428227760
     second: PreDelay
@@ -48,11 +48,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: OneHand
+      name: mixamo.com
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 122
+      lastFrame: 132
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -80,8 +80,8 @@ ModelImporter:
       name: PreDelay
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 0
-      lastFrame: 30
+      firstFrame: 50
+      lastFrame: 62
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -100,14 +100,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: PreDelay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -116,8 +109,8 @@ ModelImporter:
       name: HitTime
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 30
-      lastFrame: 60
+      firstFrame: 62
+      lastFrame: 84
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -136,14 +129,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: HitTime
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -152,8 +138,8 @@ ModelImporter:
       name: PostDelay
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 60
-      lastFrame: 70
+      firstFrame: 84
+      lastFrame: 96
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -172,14 +158,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: PostDelay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -188,8 +167,8 @@ ModelImporter:
       name: Stay
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 72
-      lastFrame: 74
+      firstFrame: 96
+      lastFrame: 108
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -208,14 +187,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: Stay
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e08e7f460b914ee4ca1e25a572a152bb, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
