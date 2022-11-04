@@ -12,6 +12,7 @@ public class StateMachine : MonoBehaviour
 
     protected virtual BaseState GetInitState() { return null; }
     protected virtual float GetDistance() { return 0.0f; }
+    protected virtual Vector3 GetDirection() { return Vector3.zero; }
 
 
     private void Start()
@@ -32,6 +33,12 @@ public class StateMachine : MonoBehaviour
         if(curState !=null)
         {
             curState.UpdateLogic();
+            
+            curState.CheckDistance();
+        }
+        else
+        {
+            Debug.Log("Error");
         }
     }
 
@@ -55,5 +62,6 @@ public class StateMachine : MonoBehaviour
         curState = newState;
         curState.Enter();
     }
+
 
 }
