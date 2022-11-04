@@ -26,11 +26,11 @@ public class BasicMonsterIdle : BaseState
 
         if (monster.distance <= monster.attackRange)
         {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).attackState);
+            stateMachine.ChangeState(monster.attackState);
         }
         else if (monster.distance <= monster.moveRange)
         {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).moveState);
+            stateMachine.ChangeState(monster.moveState);
         }
     }
 

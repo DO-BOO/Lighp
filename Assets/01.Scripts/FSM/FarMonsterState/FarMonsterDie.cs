@@ -13,18 +13,33 @@ public class FarMonsterDie : BaseState
         monster = (BasicFarMonster)stateMachine;
     }
 
+    #region DIE
+
+    private void ResetMonster()
+    {
+        // 몬스터 초기화 함수
+    }
+
+    #endregion
+
+    #region ANIMATION
+
+    public override void SetAnim(bool isPlay)
+    {
+        base.SetAnim(isPlay);
+        monster.DieAnimation(isPlay);
+    }
+
+    #endregion
+
+    #region STATE
     // 상태 시작 시
     // 죽은 애니메이션 실행
     public override void Enter()
     {
         base.Enter();
-        monster.anim.SetBool(monster.hashDie, true);
+        SetAnim(true);
         ResetMonster();
-    }
-
-    private void ResetMonster()
-    {
-        // 몬스터 초기화 함수
     }
 
     // 상태 끝났을 시
@@ -32,4 +47,6 @@ public class FarMonsterDie : BaseState
     {
         base.Exit();
     }
+
+    #endregion
 }

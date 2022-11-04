@@ -12,13 +12,96 @@ public class FarMonsterAttack : BaseState
     BasicFarMonster monster;
     Transform target;
 
-    //float attackDelay = 3.0f;
-    //float nowAttackcool = 0.0f;
-
     // 생성자
     public FarMonsterAttack(BasicFarMonster stateMachine) : base("ATTACK", stateMachine)
     {
         monster = (BasicFarMonster)stateMachine;
+    }
+
+    #region AVOID
+
+    private const float avoidCoolTime = Define.AVOID_COOLTIME;
+    private const float avoidDuration = Define.AVOID_DURATION;
+    private const float avoidDistance = 25f;
+
+    private bool CanAvoid => avoidTime <= 0f;
+    private bool isAvoid = false;
+
+    private float avoidTime = 0;
+    private float avoidSpeed = 100f;
+
+    private void CheckAvoid()
+    {
+        if (isAvoid) return;
+        if (monster.distance <= avoidDistance && CanAvoid)
+        {
+            Avoid(monster.dir * -1);
+        }
+    }
+
+    private void CheckAvoidCoolTime()
+    {
+        if (isAvoid)
+        {
+            SetUseCoolTime();
+        }
+        else
+        {
+            if (CanAvoid) return;
+            SetReadyCoolTime();
+        }
+    }
+
+    private void SetUseCoolTime()
+    {
+        avoidTime += Time.deltaTime;
+        if (avoidTime >= avoidDuration)
+        {
+            StopAvoid();
+        }
+    }
+    private void SetReadyCoolTime()
+    {
+        avoidTime -= Time.deltaTime;
+    }
+
+    private void Avoid(Vector3 velocity)
+    {
+        isAvoid = true;
+
+        monster.rigid.AddForce(velocity.normalized * avoidSpeed, ForceMode.Impulse);
+
+    }
+
+    private void StopAvoid()
+    {
+        avoidTime = avoidCoolTime;
+        monster.rigid.velocity = Vector3.zero;
+        isAvoid = false;
+    }
+
+
+    #endregion
+
+    #region ANIMATION
+
+    public override void SetAnim(bool isPlay)
+    {
+        base.SetAnim(isPlay);
+        monster.AttackAnimation(isPlay);
+    }
+
+    #endregion
+
+    #region STATE
+
+    public override void CheckDistance()
+    {
+        base.CheckDistance();
+        if (monster.distance > monster.attackRange)
+        {
+            stateMachine.ChangeState(monster.idleState);
+        }
     }
 
     // 상태 시작 시
@@ -26,7 +109,7 @@ public class FarMonsterAttack : BaseState
     public override void Enter()
     {
         base.Enter();
-        monster.anim.SetBool(monster.hashAttack, true);
+        SetAnim(true);
     }
 
     // Attack Animation에 이벤트로 추가해서 애니메이션 박자에 맞게 쏘도록 함
@@ -35,12 +118,10 @@ public class FarMonsterAttack : BaseState
     {
         base.UpdateLogic();
         target = monster.SerachTarget();
+        monster.LookTarget(target);
 
-        if (monster.distance > monster.agent.stoppingDistance)
-        {
-            stateMachine.ChangeState(((BasicFarMonster)stateMachine).idleState);
-        }
-        if(target) monster.LookTarget(target);
+        CheckAvoid();
+        CheckAvoidCoolTime();
     }
 
     // 상태 끝났을 시
@@ -48,6 +129,9 @@ public class FarMonsterAttack : BaseState
     public override void Exit()
     {
         base.Exit();
-        monster.anim.SetBool(monster.hashAttack, false);
+        SetAnim(false);
     }
+
+    #endregion
+
 }

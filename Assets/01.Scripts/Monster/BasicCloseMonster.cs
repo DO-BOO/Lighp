@@ -9,8 +9,6 @@ using UnityEngine.AI;
 public class BasicCloseMonster : StateMachine
 {
     private Transform target = null; // 타겟
-    public float distance => GetDistance(); // 타겟과의 거리
-    public Vector3 dir => GetDirection(); // 타겟과의 거리
 
     // 상태 스크립트
     public BasicMonsterIdle idleState;
@@ -31,21 +29,12 @@ public class BasicCloseMonster : StateMachine
     [HideInInspector]
     public Rigidbody rigid;
 
-    // 필요 변수
-    public float moveRange = 20.0f;
-    public float attackRange = 2.5f;
+    // 필요 변수 => 나중에 SO로 뽑을 예정
+    public float moveRange = 12.0f;
+    public float attackRange = 12f;
     private float colRadius = 100.0f;
     private float walkingSpeed = 10.0f;
 
-    // 애니메이션 Hash
-    [HideInInspector]
-    public int hashWalk = Animator.StringToHash("Walk");
-    [HideInInspector]
-    public int hashAttack = Animator.StringToHash("Attack");
-    [HideInInspector]
-    public int hashDamage = Animator.StringToHash("Damage");
-    [HideInInspector]
-    public int hashDie = Animator.StringToHash("Die");
 
     private void Awake()
     {
@@ -60,12 +49,24 @@ public class BasicCloseMonster : StateMachine
         damageState = new BasicMonsterDamage(this);
         dieState = new BasicMonsterDie(this);
 
-        agent.speed = walkingSpeed;
+        SetMonsterInform();
     }
 
-    // 기본 State 가져오기
-    protected override BaseState GetInitState() { return idleState; }
-    
+    #region SET
+
+    public void SetMonsterInform()
+    {
+        agent.speed = walkingSpeed;
+        agent.stoppingDistance = attackRange;
+    }
+
+    #endregion
+
+    #region GET
+    public float distance => GetDistance(); // 타겟과의 거리
+    public Vector3 dir => GetDirection(); // 타겟과의 거리
+    protected override BaseState GetInitState() { return idleState; } // 기본 State 가져오기
+
     // 타겟과의 거리 구하기
     protected override float GetDistance()
     {
@@ -79,9 +80,13 @@ public class BasicCloseMonster : StateMachine
         dir.y = 0;
         return dir;
     }
-    
+
+    #endregion
+
+    #region TARGET
+
     // 타겟 구하기
-    public  Transform SerachTarget()
+    public Transform SerachTarget()
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, colRadius, targetLayerMask);
         if (cols.Length > 0)
@@ -91,6 +96,37 @@ public class BasicCloseMonster : StateMachine
         }
         else return null;
     }
+    // 타겟 쳐다보기
+    public void LookTarget(Transform target)
+    {
+        Vector3 dir = GetDirection();
+        Quaternion rot = Quaternion.LookRotation(dir.normalized);
+        transform.rotation = rot;
+    }
+    #endregion
+
+    #region DAMAGE
+
+    // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
+    public void Damaged()
+    {
+        ChangeState(damageState);
+    }
+    
+
+    #endregion
+
+    #region ANIMATION
+
+    // 애니메이션 Hash
+    [HideInInspector]
+    public int hashWalk = Animator.StringToHash("Walk");
+    [HideInInspector]
+    public int hashAttack = Animator.StringToHash("Attack");
+    [HideInInspector]
+    public int hashDamage = Animator.StringToHash("Damage");
+    [HideInInspector]
+    public int hashDie = Animator.StringToHash("Die");
 
     // 이동 애니메이션
     public void MoveAnimation(bool isOn)
@@ -116,28 +152,6 @@ public class BasicCloseMonster : StateMachine
         anim.SetTrigger(hashDamage);
     }
 
-    // 타겟 쳐다보기
-    public void LookTarget(Transform target)
-    {
-        Vector3 dir = GetDirection();
-        Quaternion rot = Quaternion.LookRotation(dir.normalized);
-        transform.rotation = rot;
-    }
+    #endregion
 
-    // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged()
-    {
-        ChangeState(damageState);
-    }
-
-    // 충돌처리로 데미지 할거면 이런식으로 하면 됨
-    // 태그로 몬스터 종류 판단해서 그 스크립트에 데미지 호출하는 형식임
-    // 불편하면 수정하고 말해주세용
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag=="CloseMonster")
-        {
-            other.GetComponent<BasicCloseMonster>()?.Damaged();
-        }
-    }
 }

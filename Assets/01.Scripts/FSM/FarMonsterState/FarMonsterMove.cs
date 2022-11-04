@@ -16,6 +16,44 @@ public class FarMonsterMove : BaseState
         monster = (BasicFarMonster)stateMachine;
     }
 
+
+    #region MOVE
+
+    private void Move()
+    {
+        if (target == null) return;
+        monster.LookTarget(target);
+        monster.agent.SetDestination(target.position);
+    }
+    private void SetMove(bool isMove)
+    {
+        monster.agent.isStopped = !isMove;
+    }
+
+    #endregion
+
+    #region ANIMATION
+
+    public override void SetAnim(bool isPlay)
+    {
+        base.SetAnim();
+        monster.MoveAnimation(isPlay);
+    }
+
+    #endregion
+
+    #region STATE
+
+    // 다른 STATE로 넘어가는 조건
+    public override void CheckDistance()
+    {
+        base.CheckDistance();
+        if (monster.distance <= monster.attackRange)
+        {
+            stateMachine.ChangeState(monster.idleState);
+        }
+    }
+
     // NavMesh를 이용하여 이동
     // 멈춰있다면 isStopped=false
     // 애니메이션 실행
@@ -23,15 +61,9 @@ public class FarMonsterMove : BaseState
     public override void Enter()
     {
         base.Enter();
-        
-        monster.agent.isStopped = false;
-        monster.anim.SetBool(monster.hashWalk, true);
 
-        target = monster.SerachTarget();
-        if (target)
-        {
-            monster.agent.SetDestination(target.position);
-        }
+        SetMove(true);
+        SetAnim(true);
     }
 
     // 타겟 계속 찾으며 쫓아가기 + 쳐다보기
@@ -41,12 +73,7 @@ public class FarMonsterMove : BaseState
         base.UpdateLogic();
         target = monster.SerachTarget();
 
-        monster.agent.SetDestination(target.position);
-        if (monster.agent.remainingDistance <= monster.agent.stoppingDistance)
-        {
-            stateMachine.ChangeState(((BasicFarMonster)stateMachine).idleState);
-        }
-
+        Move();
     }
 
     // 상태 끝났을 시
@@ -54,9 +81,8 @@ public class FarMonsterMove : BaseState
     public override void Exit()
     {
         base.Exit();
-        monster.anim.SetBool(monster.hashWalk, false);
-        monster.agent.isStopped = true;
+        SetAnim(false);
+        SetMove(false);
     }
-
-
+    #endregion
 }

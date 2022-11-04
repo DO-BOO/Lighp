@@ -27,6 +27,13 @@ public class Define
     public const float DASH_DOUBLE_TIME = 0.35f;
     #endregion
 
+    #region AVOID
+
+    public const float AVOID_COOLTIME = 2f;
+    public const float AVOID_DURATION = 0.2f;
+
+    #endregion
+
     #region EVENT
     public const short ON_END_READ_DATA = 1000;
     #endregion
