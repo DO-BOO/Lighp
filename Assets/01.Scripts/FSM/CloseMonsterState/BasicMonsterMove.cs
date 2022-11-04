@@ -13,36 +13,109 @@ public class BasicMonsterMove : BaseState
     BasicCloseMonster monster;
     Transform target;
 
-    #region DASH 
-    private bool isDash = false;
-    private float dashCoolTime = -1;
-    private float dashTime = 0.01f;
-    private float dashDistance = 20f;
-
-    private void Dash()
-    {
-        isDash = true;
-        // monster.agent.isStopped = true;
-
-        Debug.Log("Dash__Monster");
-        monster.rigid.AddRelativeForce(monster.dir, ForceMode.VelocityChange);
-
-        //StopDash();
-    }
-
-    //private void StopDash()
-    //{
-    //    isDash = false;
-    //    monster.agent.isStopped = false;
-    //}
-
-    #endregion
-
-    #region MOVE
     // Move 생성자
     public BasicMonsterMove(BasicCloseMonster stateMachine) : base("MOVE", stateMachine)
     {
         monster = (BasicCloseMonster)stateMachine;
+    }
+
+    #region DASH 
+    private bool isDash = false;
+    private bool CanDash => dashTime <= 0f;
+    private float dashCoolTime = 2.0f;
+    private float dashTime = 0;
+    private float dashDistance = 25f;
+    private float dashSpeed = 100f;
+
+    private void CheckDash()
+    {
+        if (isDash) return;
+        if (monster.distance >= dashDistance && CanDash)
+        {
+            Dash(monster.dir);
+        }
+    }
+
+    private void CheckDashCoolTime()
+    {
+        if(isDash)
+        {
+            SetUseCoolTime();
+        }
+        else
+        {
+            if (CanDash) return;
+            SetReadyCoolTime();
+        }
+    }
+
+    private void SetUseCoolTime()
+    {
+        dashTime += Time.deltaTime;
+        if (dashTime >= Define.DASH_DURATION)
+        {
+            StopDash();
+        }
+    }
+    private void SetReadyCoolTime()
+    {
+        dashTime -= Time.deltaTime;
+    }
+
+    private void Dash(Vector3 velocity)
+    {
+        isDash = true;
+        SetMove(false);
+
+        monster.rigid.AddForce(velocity.normalized * dashSpeed, ForceMode.Impulse);
+
+    }
+    
+    private void StopDash()
+    {
+        dashTime = dashCoolTime;
+        monster.rigid.velocity = Vector3.zero;
+        isDash = false;
+        SetMove(true);
+    }
+
+    #endregion
+
+    #region MOVE
+
+    private void Move()
+    {
+        monster.LookTarget(target);
+        monster.agent.SetDestination(target.position);
+    }
+
+    private void SetMove(bool isMove)
+    {
+        monster.agent.isStopped = !isMove;
+    }
+
+    #endregion
+
+    #region ANIMATION
+
+    public override void SetAnim(bool isPlay)
+    {
+        base.SetAnim();
+        monster.MoveAnimation(isPlay);
+    }
+
+    #endregion
+
+    #region STATE
+
+    // 다른 STATE로 넘어가는 조건
+    public override void CheckDistance()
+    {
+        base.CheckDistance();
+        if (monster.agent.remainingDistance <= monster.agent.stoppingDistance)
+        {
+            stateMachine.ChangeState(monster.idleState);
+        }
     }
 
     // NavMesh를 이용하여 이동
@@ -53,14 +126,8 @@ public class BasicMonsterMove : BaseState
     {
         base.Enter();
 
-        monster.agent.isStopped = false;
-        monster.anim.SetBool(monster.hashWalk, true);
-
-        target = monster.SerachTarget();
-        if (target)
-        {
-            monster.agent.SetDestination(target.position);
-        }
+        SetMove(true);
+        SetAnim(true);
     }
 
     // 타겟 계속 찾으며 쫓아가기 + 쳐다보기
@@ -68,24 +135,11 @@ public class BasicMonsterMove : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-
         target = monster.SerachTarget();
-        monster.LookTarget(target);
 
-        if (isDash) return;
-
-        monster.agent.SetDestination(target.position);
-        if (monster.agent.remainingDistance <= monster.agent.stoppingDistance)
-        {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
-        }
-
-        if(monster.distance >= dashDistance && !isDash)
-        {
-            Dash();
-        }
-
-
+        Move();
+        CheckDashCoolTime();
+        CheckDash();
     }
 
     // 상태 끝났을 시
@@ -93,8 +147,8 @@ public class BasicMonsterMove : BaseState
     public override void Exit()
     {
         base.Exit();
-        monster.MoveAnimation(false);
-        monster.agent.isStopped = true;
+        SetAnim(false);
+        SetMove(false);
     }
     #endregion
 }

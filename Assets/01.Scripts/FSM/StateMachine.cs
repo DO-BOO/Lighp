@@ -33,6 +33,8 @@ public class StateMachine : MonoBehaviour
         if(curState !=null)
         {
             curState.UpdateLogic();
+            
+            curState.CheckDistance();
         }
         else
         {

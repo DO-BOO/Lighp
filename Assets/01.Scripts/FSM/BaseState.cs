@@ -23,4 +23,10 @@ public class BaseState
     public virtual void UpdateLate() { } // LateUpdate
     public virtual void Exit() { } // 상태 끝났을 시
 
+    // 상태 조건 체크하는 함수
+    public virtual void CheckDistance() { }
+
+    // 애니메이션 구조 함수들
+    public virtual void SetAnim() { }
+    public virtual void SetAnim(bool isPlay) { }
 }

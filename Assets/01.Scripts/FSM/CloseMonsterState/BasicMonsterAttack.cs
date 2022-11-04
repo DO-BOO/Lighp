@@ -20,12 +20,33 @@ public class BasicMonsterAttack : BaseState
         monster = (BasicCloseMonster)stateMachine;
     }
 
+    #region ANIMATION
+
+    public override void SetAnim(bool isPlay)
+    {
+        base.SetAnim(isPlay);
+        monster.AttackAnimation(isPlay);
+    }
+
+    #endregion
+
+    #region STATE
+
+    public override void CheckDistance()
+    {
+        base.CheckDistance();
+        if (monster.distance > monster.agent.stoppingDistance)
+        {
+            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
+        }
+    }
+
     // 상태 시작 시
     // 공격 애니메이션 시작
     public override void Enter()
     {
         base.Enter();
-        monster.AttackAnimation(true);
+        SetAnim(true);
     }
 
     // 몬스터를 바라보며 만약 거리가 다시 멀어지면 상태 다시 선택
@@ -33,12 +54,7 @@ public class BasicMonsterAttack : BaseState
     {
         base.UpdateLogic();
         target = monster.SerachTarget();
-
         monster.LookTarget(target);
-        if (monster.distance > monster.agent.stoppingDistance)
-        {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
-        }
     }
 
     // 상태가 끝났을 시
@@ -46,8 +62,8 @@ public class BasicMonsterAttack : BaseState
     public override void Exit()
     {
         base.Exit();
-        monster.AttackAnimation(false);
+        SetAnim(false);
     }
-
+    #endregion
 
 }

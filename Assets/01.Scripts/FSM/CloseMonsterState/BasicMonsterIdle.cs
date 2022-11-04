@@ -17,12 +17,28 @@ public class BasicMonsterIdle : BaseState
         monster = (BasicCloseMonster)stateMachine;
     }
 
+    #region STATE
+
+    public override void CheckDistance()
+    {
+        base.CheckDistance();
+        if (target == null) return;
+
+        if (monster.distance <= monster.attackRange)
+        {
+            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).attackState);
+        }
+        else if (monster.distance <= monster.moveRange)
+        {
+            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).moveState);
+        }
+    }
+
     // 상태 시작 시
     // 타겟 찾기 시작
     public override void Enter()
     {
         base.Enter();
-        target = monster.SerachTarget();
     }
 
     // 타겟이 있다면
@@ -30,21 +46,7 @@ public class BasicMonsterIdle : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-
-        //if (Input.GetKeyDown(KeyCode.Escape))
         target = monster.SerachTarget();
-
-        if (target)
-        {
-            if (monster.distance <= monster.attackRange)
-            {
-                stateMachine.ChangeState(((BasicCloseMonster)stateMachine).attackState);
-            }
-            else if (monster.distance <= monster.moveRange)
-            {
-                stateMachine.ChangeState(((BasicCloseMonster)stateMachine).moveState);
-            }
-        }
     }
 
     // 상태 끝났을 시
@@ -52,4 +54,6 @@ public class BasicMonsterIdle : BaseState
     {
         base.Exit();
     }
+
+    #endregion
 }

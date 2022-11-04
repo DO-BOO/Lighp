@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 /// <summary>
 /// 근거리 몬스터 죽은 상태 스크립트
 /// </summary>
@@ -13,18 +14,34 @@ public class BasicMonsterDie : BaseState
         monster = (BasicCloseMonster)stateMachine;
     }
 
+    #region DIE
+
+    private void ResetMonster()
+    {
+        // 몬스터 초기화 함수
+    }
+
+    #endregion
+
+    #region ANIMATION
+
+    public override void SetAnim(bool isPlay)
+    {
+        base.SetAnim(isPlay);
+
+        monster.DieAnimation(isPlay);
+    }
+
+    #endregion
+
+    #region STATE
     // 상태 시작 시
     // 죽은 애니메이션 실행
     public override void Enter()
     {
         base.Enter();
-        monster.DieAnimation(true);
+        SetAnim(true);
         ResetMonster();
-    }
-
-    private void ResetMonster()
-    {
-        // 몬스터 초기화 함수
     }
 
     // 상태 끝났을 시
@@ -32,4 +49,6 @@ public class BasicMonsterDie : BaseState
     {
         base.Exit();
     }
+
+    #endregion
 }

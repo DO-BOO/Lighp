@@ -3886,6 +3886,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FarMonster
       objectReference: {fileID: 0}
+    - target: {fileID: 7441560104420682010, guid: 76fc565d93806e94fb0273c5201c5d9b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76fc565d93806e94fb0273c5201c5d9b, type: 3}
 --- !u!33 &1430446704008014352
