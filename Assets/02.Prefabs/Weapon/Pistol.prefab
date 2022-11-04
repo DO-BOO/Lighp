@@ -47,7 +47,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8751230882186563723
 Transform:
   m_ObjectHideFlags: 0
@@ -78,19 +78,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    name: Pistol
     number: 2
+    name: Pistol
     rarity: 0
+    grip: 0
     type: 2
+    usingPrefab: 0
     weight: 8
     damage: 15
-    atkSpeed: 0.6
-    hitStunTime: 0.1
+    criticalChance: 0
+    ciritcalFactor: 0
     preDelay: 0
     postDelay: 0
+    atkCool: 0
     chargingTime: 0
+    chargingDamage: 0
+    hitStunTime: 0.1
+    isEnemy: 0
   skill: {fileID: 0}
   muzzle: {fileID: 0}
+  bulletPrefab: {fileID: 0}
 --- !u!1 &8751230882236208012
 GameObject:
   m_ObjectHideFlags: 0

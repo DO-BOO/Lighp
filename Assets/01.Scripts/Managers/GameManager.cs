@@ -28,6 +28,7 @@ public class GameManager : MonoSingleton<GameManager>
     private void Update()
     {
         Input.Update();
+        Debug.Log(GetMousePos());
     }
 
     // 스프레드 시트 데이터가 있어야 실행되는 Start, Awake들은
@@ -41,5 +42,18 @@ public class GameManager : MonoSingleton<GameManager>
 
         EventManager.TriggerEvent(Define.ON_END_READ_DATA);
         Input.OnStart();
+    }
+
+    public Vector3 GetMousePos()
+    {
+        Ray ray = MainCam.ScreenPointToRay(UnityEngine.Input.mousePosition);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, Define.BOTTOM_LAYER))
+        {
+            Vector3 mouse = hit.point;
+            mouse.y = 0;
+            return mouse;
+        }
+        return Vector3.zero;
     }
 }

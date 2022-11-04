@@ -74,8 +74,8 @@ ModelImporter:
       name: HitTime
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 10
-      lastFrame: 40
+      firstFrame: 0
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -110,8 +110,8 @@ ModelImporter:
       name: PostDelay
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 40
-      lastFrame: 70
+      firstFrame: 30
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

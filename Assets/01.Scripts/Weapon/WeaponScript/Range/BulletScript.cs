@@ -19,7 +19,7 @@ public class BulletScript : MonoBehaviour
     public void FireBullet(Vector3 pos, Vector3 dir, int damage, float hitStunTime, bool isEnemy)
     {
         transform.position = pos;
-        transform.rotation = Quaternion.Euler(dir);
+        transform.forward = dir;
         moveDir = dir;
         data.damage = damage;
         data.isEnemy = isEnemy;
@@ -40,6 +40,7 @@ public class BulletScript : MonoBehaviour
         }
     }
 
+    //풀링으로 고칠것
     IEnumerator MoveBullet()
     {
         lifeTime = 3f;
@@ -60,6 +61,7 @@ public class BulletScript : MonoBehaviour
 
             yield return null;
         }
+        Destroy(gameObject);
         yield break;
     }
 }

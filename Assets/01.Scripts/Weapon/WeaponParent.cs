@@ -17,11 +17,11 @@ public class WeaponParent : MonoBehaviour
 
     #region 애니메이션관련 변수
     private Animator animator = null;
-    private int hashWeaponType = Animator.StringToHash("WeaponType");
-    private int hashPreSpeed = Animator.StringToHash("PreSpeed");
-    private int hashAttackSpeed = Animator.StringToHash("AttackSpeed");
-    private int hashPostSpeed = Animator.StringToHash("PostSpeed");
-    private int hashAttack = Animator.StringToHash("Attack");
+    private readonly int hashWeaponType = Animator.StringToHash("WeaponType");
+    private readonly int hashPreSpeed = Animator.StringToHash("PreSpeed");
+    private readonly int hashAttackSpeed = Animator.StringToHash("AttackSpeed");
+    private readonly int hashPostSpeed = Animator.StringToHash("PostSpeed");
+    private readonly int hashAttack = Animator.StringToHash("Attack");
     //xprivate int hashIsCharging = Animator.StringToHash("IsCharging");
     #endregion
 
@@ -31,7 +31,7 @@ public class WeaponParent : MonoBehaviour
         SetAnimParam();
     }
 
-    #region 변수 설정 함수
+    #region 애니메이터 변수 설정 함수
     //목표재생속도 = 현재재생속도 * 현재재생시간(1초) / 목표재생시간
     private void SetAnimParam()
     {
