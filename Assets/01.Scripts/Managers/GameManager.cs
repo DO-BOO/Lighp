@@ -28,7 +28,6 @@ public class GameManager : MonoSingleton<GameManager>
     private void Update()
     {
         Input.Update();
-        Debug.Log(GetMousePos());
     }
 
     // 스프레드 시트 데이터가 있어야 실행되는 Start, Awake들은

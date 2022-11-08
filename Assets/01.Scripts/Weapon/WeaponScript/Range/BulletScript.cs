@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //풀링 추가
-public class BulletScript : MonoBehaviour
+public class BulletScript : Poolable
 {
     [SerializeField] private BulletData data;
 
@@ -26,6 +26,11 @@ public class BulletScript : MonoBehaviour
         data.hitStun = hitStunTime;
         SetEnemyLayer(data.isEnemy);
         StartCoroutine(MoveBullet());
+    }
+
+    public override void ResetData()
+    {
+        //do nothing
     }
 
     public void SetEnemyLayer(bool isEnemy)
@@ -61,7 +66,7 @@ public class BulletScript : MonoBehaviour
 
             yield return null;
         }
-        Destroy(gameObject);
+        GameManager.Instance.Pool.Push(this);
         yield break;
     }
 }

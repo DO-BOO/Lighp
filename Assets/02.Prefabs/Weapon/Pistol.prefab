@@ -78,26 +78,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    number: 2
-    name: Pistol
+    number: 1
+    name: p1911
     rarity: 0
-    grip: 0
-    type: 2
+    grip: 1
+    type: 1
     usingPrefab: 0
     weight: 8
     damage: 15
-    criticalChance: 0
+    criticalChance: 20
     ciritcalFactor: 0
-    preDelay: 0
-    postDelay: 0
-    atkCool: 0
+    preDelay: 0.15
+    postDelay: 0.4
+    atkCool: 0.6
     chargingTime: 0
     chargingDamage: 0
-    hitStunTime: 0.1
+    hitStunTime: 0.3
     isEnemy: 0
   skill: {fileID: 0}
-  muzzle: {fileID: 0}
-  bulletPrefab: {fileID: 0}
+  muzzle: {fileID: 876851178}
+  bulletPrefab: {fileID: 1646495376110108561, guid: d82817af07027de4c9502c29cd5b117c, type: 3}
 --- !u!1 &8751230882236208012
 GameObject:
   m_ObjectHideFlags: 0

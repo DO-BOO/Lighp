@@ -1,4 +1,4 @@
-enum InputType
+public enum InputType
 {
     GetKeyDown,
     GetKeyUp,

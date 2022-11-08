@@ -22,13 +22,21 @@ public class WeaponParent : MonoBehaviour
     private readonly int hashAttackSpeed = Animator.StringToHash("AttackSpeed");
     private readonly int hashPostSpeed = Animator.StringToHash("PostSpeed");
     private readonly int hashAttack = Animator.StringToHash("Attack");
-    //xprivate int hashIsCharging = Animator.StringToHash("IsCharging");
+    //private int hashIsCharging = Animator.StringToHash("IsCharging");
     #endregion
 
     private void Awake()
     {
         animator = GetComponentInParent<Animator>();
         SetAnimParam();
+        SetEvent();
+    }
+
+    private void SetEvent()
+    {
+        EventManager<InputType>.StartListening((int)InputAction.Attack, Attack);
+        if (curWeapon != null)
+            EventManager<InputType>.StartListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
     }
 
     #region 애니메이터 변수 설정 함수
@@ -45,19 +53,6 @@ public class WeaponParent : MonoBehaviour
     }
     #endregion
 
-    //나중에 바꿔야할듯
-    private void Update()
-    {
-        if (InputManager.GetKeyDown(InputAction.Attack) && curWeapon != null && isCanAttack)
-        {
-            Attack();
-        }
-        if (InputManager.GetKeyDown(InputAction.WeaponSkill) && curWeapon != null)
-        {
-            curWeapon.UseSkill();
-        }
-    }
-
     //매개변수의 무기를 장착
     private void EquipWeapon(WeaponScript weapon)
     {
@@ -69,50 +64,19 @@ public class WeaponParent : MonoBehaviour
         }
     }
 
-    private void Attack()
+    private void Attack(InputType input)
     {
+        if (input != InputType.GetKeyDown || curWeapon == null || !isCanAttack) return;
         isCanAttack = false;
         animator.SetTrigger(hashAttack);
     }
-
+        
     #region 공격 애니메이션 관련 함수
     //선 딜레이 시작 시
     public void PreDelay()
     {
-    //    if(curWeapon.Data.chargingTime > 0)
-    //    {
-    //        StartCoroutine(ChargingCoroutine());
-    //    }
         curWeapon.PreDelay();
     }
-
-    //private IEnumerator ChargingCoroutine()
-    //{
-    //    animator.SetBool(hashIsCharging, true);
-    //    float t = curWeapon.Data.preDelay / 2;
-    //    while (t > 0)
-    //    {
-    //        if (InputManager.GetkeyUp(InputAction.Attack))
-    //        {
-    //            animator.SetBool(hashIsCharging, false);
-    //            yield break;
-    //        }
-    //        t -= Time.deltaTime;
-    //        yield return null;
-    //    }
-    //    t = 0;
-    //    while (true)
-    //    {
-    //        if (InputManager.GetkeyUp(InputAction.Attack))
-    //        {
-    //            animator.SetBool(hashIsCharging, false);
-    //            curWeapon.Data.chargingAmount = t;
-    //            yield break;
-    //        }
-    //        t += Time.deltaTime;
-    //        yield return null;
-    //    }
-    //}
 
     //선 딜레이 종료 시
     public void HitTime()
@@ -124,12 +88,11 @@ public class WeaponParent : MonoBehaviour
     public void PostDelay()
     {
         curWeapon.PostDelay();
-
+        isCanAttack = true;
     }
     //후 딜레이 종료 시
     public void Stay()
     {
-        isCanAttack = true;
         curWeapon.Stay();
     }
     #endregion

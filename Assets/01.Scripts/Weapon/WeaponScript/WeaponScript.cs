@@ -23,9 +23,9 @@ public abstract class WeaponScript : MonoBehaviour
     //후 딜레이 종료
     public abstract void Stay();
 
-    public void UseSkill()
+    public void UseSkill(InputType type)
     {
-        skill.UseSkill();
+
     }
 
     public void Reset(Transform handle, bool isEnemy)

@@ -7,14 +7,19 @@ public class HandGun : WeaponScript
     [SerializeField] private Transform muzzle;
     [SerializeField] private BulletScript bulletPrefab;
 
+    private void Start()
+    {
+        GameManager.Instance.Pool.CreatePool(bulletPrefab.gameObject, 10);
+    }
+
     public override void PreDelay()
     {
 
     }
-    //나중에 풀링으로 고쳐야함
+
     public override void HitTime()
     {
-        BulletScript obj = Instantiate(bulletPrefab, transform);
+        BulletScript obj = GameManager.Instance.Pool.Pop(bulletPrefab.gameObject).GetComponent<BulletScript>();
         obj.transform.SetParent(null);
         Vector3 dir = (GameManager.Instance.GetMousePos() - muzzle.position).normalized;
         dir.y = 0;
