@@ -42,4 +42,17 @@ public class GameManager : MonoSingleton<GameManager>
         EventManager.TriggerEvent(Define.ON_END_READ_DATA);
         Input.OnStart();
     }
+
+    public Vector3 GetMousePos()
+    {
+        Ray ray = MainCam.ScreenPointToRay(UnityEngine.Input.mousePosition);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, Define.BOTTOM_LAYER))
+        {
+            Vector3 mouse = hit.point;
+            mouse.y = 0;
+            return mouse;
+        }
+        return Vector3.zero;
+    }
 }
