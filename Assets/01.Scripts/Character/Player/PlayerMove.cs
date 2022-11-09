@@ -16,6 +16,8 @@ public sealed class PlayerMove : CharacterMove
     private readonly int isMoveHash = Animator.StringToHash("IsMove");
     private PlayerDash dash;
 
+    private float distance;
+
     protected override void ChildAwake()
     {
         EventManager<InputType>.StartListening((int)InputAction.Up, (type) => InputMove(type, forward));
@@ -33,11 +35,14 @@ public sealed class PlayerMove : CharacterMove
 
         forward.y = 0f;
         right.y = 0f;
+
+        distance = Vector3.Distance(GameManager.Instance.MainCam.transform.position, transform.position);
     }
 
     private void Update()
     {
         animator.SetBool(isMoveHash, moveInput.sqrMagnitude > 0.1f);
+        Move(moveInput.normalized, moveStat.speed, true, moveStat.rotationSpeed);
         moveInput = Vector3.zero;
 
         InputRotate();
@@ -50,7 +55,6 @@ public sealed class PlayerMove : CharacterMove
         if (type == InputType.GetKeyDown || type == InputType.Getkey)
         {
             moveInput += velocity;
-            Move(moveInput.normalized, moveStat.speed);
         }
     }
 
@@ -58,16 +62,20 @@ public sealed class PlayerMove : CharacterMove
     // 마우스쪽으로 바라보는 함수
     private void InputRotate()
     {
-        Camera cam = GameManager.Instance.MainCam;
-        float dist = Vector3.Distance(cam.transform.position, transform.position);
-        Ray cameraRay = cam.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(cameraRay, cam.farClipPlane, Define.BOTTOM_LAYER))
+        if (Input.GetMouseButton(0))
         {
-            Vector3 point = cameraRay.GetPoint(dist);
-            point.y = transform.position.y;
+            Camera cam = GameManager.Instance.MainCam;
+            Ray cameraRay = cam.ScreenPointToRay(Input.mousePosition);
 
-            transform.LookAt(point);
+            if (Physics.Raycast(cameraRay, cam.farClipPlane, Define.BOTTOM_LAYER))
+            {
+                Vector3 point = cameraRay.GetPoint(distance);
+                point.y = transform.position.y;
+
+                Vector3 direction = (point - transform.position).normalized;
+                Quaternion targetRot = Quaternion.LookRotation(direction);
+                transform.rotation = targetRot;
+            }
         }
     }
 
