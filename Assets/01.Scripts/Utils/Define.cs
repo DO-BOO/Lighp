@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 상수 매니저
+/// ?�수 매니?�
 /// </summary>
 public class Define
 {
@@ -25,7 +25,7 @@ public class Define
 
     #region DASH
     public const float DASH_DISTANCE    = 12f;
-    public const float DASH_DURATION    = 0.2f;
+    public const float DASH_DURATION    = 0.4f;
     public const float DASH_COOLTIME    = 2f;
     public const float DASH_DOUBLE_TIME = 0.35f;
     #endregion

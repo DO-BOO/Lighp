@@ -19,6 +19,7 @@ public class ReadSpreadData
     public void OnAwake()
     {
         sheetDatas.Add(typeof(InputManager.InputKey), Define.KEY_URL);
+        sheetDatas.Add(typeof(Skill), Define.SKILL_URL);
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
