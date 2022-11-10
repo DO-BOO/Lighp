@@ -17,7 +17,7 @@ public class CharacterJump : Character
     protected void Jump(float jumpForce)
     {
         if (!canJump) return;
-        if (jumpCount >= move.MoveStat.maxJumpCount) return;
+        if (jumpCount >= move.moveStat.maxJumpCount) return;
 
         jumpCount++;
 

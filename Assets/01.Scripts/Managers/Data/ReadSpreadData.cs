@@ -19,6 +19,7 @@ public class ReadSpreadData
     public void OnAwake()
     {
         sheetDatas.Add(typeof(InputManager.InputKey), Define.KEY_URL);
+        sheetDatas.Add(typeof(Skill), Define.SKILL_URL);
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
@@ -76,8 +77,6 @@ public class ReadSpreadData
         for (int i = 0; i < rowSize; i++)
         {
             string[] column = row[i].Split('\t');
-
-            Debug.Log(column[0]);
 
             // 맨 첫자리 빼기
             List<string> dataList = column.ToList();
