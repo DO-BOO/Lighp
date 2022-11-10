@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MeleeEnemyController
+  m_Controller: {fileID: 9100000, guid: b60dc9aa529b314489f628aa3b57c470, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -203655887218126122, guid: e247159f9e877b144858054761948e93, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: e247159f9e877b144858054761948e93, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 5e34863c191d03040b097aec7158ba0b, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 5e34863c191d03040b097aec7158ba0b, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 2ae105562c38ad64a8644a4e08c37adc, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 2ae105562c38ad64a8644a4e08c37adc, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 20aaa0866715fc748b0c2caccd8bd978, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 20aaa0866715fc748b0c2caccd8bd978, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: d189103f76011b24abd9f1fa2ee971d2, type: 2}
+    m_OverrideClip: {fileID: -203655887218126122, guid: fa4ccd79b7e7052458a46b7a13351b8f, type: 3}

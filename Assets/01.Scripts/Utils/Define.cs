@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// »ó¼ö Å¬·¡½º
+/// ìƒìˆ˜ ë§¤ë‹ˆì €
 /// </summary>
 public class Define
 {
