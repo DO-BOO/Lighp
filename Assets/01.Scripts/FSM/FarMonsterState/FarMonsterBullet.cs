@@ -12,13 +12,6 @@ public class FarMonsterBullet : Poolable
 
     float moveSpeed = 20f;
     float deleteTime = 2.0f;
-
-    public override void ResetData()
-    {
-        // 초기화
-        // 아직 없음
-    }
-
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -36,6 +29,12 @@ public class FarMonsterBullet : Poolable
         {
             rigid.position += transform.forward * (moveSpeed * Time.deltaTime);
         }
+    }
+
+    public override void ResetData()
+    {
+        // 초기화
+        // 아직 없음
     }
 
     // 플레이어 공격 성공 시
