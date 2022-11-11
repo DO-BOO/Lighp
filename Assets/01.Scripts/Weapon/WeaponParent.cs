@@ -7,7 +7,8 @@ public class WeaponParent : MonoBehaviour
 {
     #region 공격관련 변수
     [SerializeField] private bool isEnemy = false;
-    private bool isCanAttack = true;
+    private bool isAttack = false;
+    public bool IsAttack => isAttack;
     #endregion
 
     #region 무기관련 변수
@@ -34,9 +35,10 @@ public class WeaponParent : MonoBehaviour
 
     private void SetEvent()
     {
-        EventManager<InputType>.StartListening((int)InputAction.Attack, Attack);
+        EventManager<InputType>.StartListening((int)InputAction.Attack, OnAttack);
         if (curWeapon != null)
             EventManager<InputType>.StartListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
+        EventManager<InputType>.StartListening((int)InputAction.Dash, OnDash);
     }
 
     #region 애니메이터 변수 설정 함수
@@ -64,11 +66,17 @@ public class WeaponParent : MonoBehaviour
         }
     }
 
-    private void Attack(InputType input)
+    private void OnAttack(InputType input)
     {
-        if (input != InputType.GetKeyDown || curWeapon == null || !isCanAttack) return;
-        isCanAttack = false;
+        if (input != InputType.GetKeyDown || curWeapon == null || isAttack) return;
+        isAttack = true;
         animator.SetTrigger(hashAttack);
+    }
+
+    public void OnDash(InputType type)
+    {
+        isAttack = false;
+        curWeapon.StopAttack();
     }
         
     #region 공격 애니메이션 관련 함수
@@ -88,7 +96,7 @@ public class WeaponParent : MonoBehaviour
     public void PostDelay()
     {
         curWeapon.PostDelay();
-        isCanAttack = true;
+        isAttack = false;
     }
     //후 딜레이 종료 시
     public void Stay()
