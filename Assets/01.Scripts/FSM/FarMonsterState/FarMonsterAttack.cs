@@ -22,7 +22,7 @@ public class FarMonsterAttack : BaseState
 
     private const float avoidCoolTime = Define.AVOID_COOLTIME;
     private const float avoidDuration = Define.AVOID_DURATION;
-    private const float avoidDistance = 25f;
+    private const float avoidDistance = 15f;
 
     private bool CanAvoid => avoidTime <= 0f;
     private bool isAvoid = false;
@@ -71,11 +71,18 @@ public class FarMonsterAttack : BaseState
         int randDir = Random.Range(0, 100);
         Vector3 addTurnDir = Vector3.zero;
 
-        // 뒤로는 가지는데 각도를 좀 더 더해줘야할 듯
-        // 보는 각도를 계속 바꿔주고 Vector3.back을 해주고
-        // 각도를 조금 더 틀어주면 ㅇㅋ
+        if(randDir >=50)
+        {
+            addTurnDir = new Vector3(0f, 45f, 0f);
+        }
+        else
+        {
+            addTurnDir = new Vector3(0f, -45f, 0f);
+        }  
 
-        monster.rigid.AddForce((velocity.normalized) * avoidSpeed, ForceMode.Impulse);
+        monster.transform.Rotate(addTurnDir, Space.Self);
+
+        monster.rigid.AddForce((-1 * monster.transform.forward) * avoidSpeed, ForceMode.Impulse);
     }
 
     private void StopAvoid()
