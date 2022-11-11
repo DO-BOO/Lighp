@@ -1221,6 +1221,7 @@ MonoBehaviour:
     m_Bits: 256
   agent: {fileID: 0}
   anim: {fileID: 0}
+  rigid: {fileID: 0}
   moveRange: 40
   attackRange: 35
   hashWalk: 765711723

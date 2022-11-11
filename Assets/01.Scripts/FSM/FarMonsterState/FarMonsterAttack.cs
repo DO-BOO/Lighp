@@ -68,9 +68,14 @@ public class FarMonsterAttack : BaseState
     private void Avoid(Vector3 velocity)
     {
         isAvoid = true;
+        int randDir = Random.Range(0, 100);
+        Vector3 addTurnDir = Vector3.zero;
 
-        monster.rigid.AddForce(velocity.normalized * avoidSpeed, ForceMode.Impulse);
+        // 뒤로는 가지는데 각도를 좀 더 더해줘야할 듯
+        // 보는 각도를 계속 바꿔주고 Vector3.back을 해주고
+        // 각도를 조금 더 틀어주면 ㅇㅋ
 
+        monster.rigid.AddForce((velocity.normalized) * avoidSpeed, ForceMode.Impulse);
     }
 
     private void StopAvoid()
@@ -79,7 +84,6 @@ public class FarMonsterAttack : BaseState
         monster.rigid.velocity = Vector3.zero;
         isAvoid = false;
     }
-
 
     #endregion
 
