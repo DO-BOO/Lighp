@@ -13,14 +13,24 @@ public class CharacterSkill : Character
     {
         foreach (Skill skill in curSkill)
         {
-            skill?.Update();
+            if (skill.IsUsing)
+                skill?.Update();
+        }
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        foreach (Skill skill in curSkill)
+        {
+            if (skill.IsUsing)
+                skill?.OnFixedUpdate();
         }
     }
 
     // 가진 스킬들의 index번째 스킬을 실행하는 함수
     protected void ExecuteCurrentSkill(int index = 0)
     {
-        if(curSkill[index].CanUseSkill)
+        if (curSkill[index].CanUseSkill)
         {
             curSkill[index].Start();
         }

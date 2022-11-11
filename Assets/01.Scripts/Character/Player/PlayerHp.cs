@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class PlayerHp : CharacterHp
 {
-    private const int DROP_HP = 2;
-    private const float DROP_TIME = 1f;
-    private float timer = 0f;
+    [SerializeField] private int dropHp = 15;
+    [SerializeField] private float deltaTime = 0f;
+    float accDrop;
 
-    private void Update()
+    private void FixedUpdate()
     {
-        timer += Time.deltaTime;
+        if (IsDead) return;
 
-        if (timer > DROP_TIME)
+        accDrop += dropHp / Define.FIXED_FPS;
+
+        if (accDrop >= 1f)
         {
-            Hit(DROP_HP);
-            timer = 0f;
+            Hit(1);
+            accDrop -= 1f;
         }
     }
 }

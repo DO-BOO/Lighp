@@ -101,6 +101,7 @@ public abstract class Skill
 
 
     protected virtual void OnUpdate() { }
+    public virtual void OnFixedUpdate() { }
 
     /// <summary>
     /// 스킬 사용 중 1초마다 한번씩 실행되는 함수

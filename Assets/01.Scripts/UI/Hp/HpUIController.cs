@@ -17,6 +17,6 @@ public class HpUIController : MonoBehaviour
 
     private void Update()
     {
-        fillImage.fillAmount = (float)playerHp.Hp / playerHp.MaxHp;
+        fillImage.fillAmount = playerHp.Hp / (float)playerHp.MaxHp;
     }
 }

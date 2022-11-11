@@ -40,4 +40,6 @@ public class Define
     #region EVENT
     public const short ON_END_READ_DATA = 1000;
     #endregion
+
+    public const float FIXED_FPS = 50f;
 }
