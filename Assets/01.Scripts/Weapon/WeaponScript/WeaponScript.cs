@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +12,20 @@ public abstract class WeaponScript : MonoBehaviour
     [SerializeField] private WeaponSkill skill = null;
     protected WeaponParent parent = null;
 
+    #region Element Marble
+    [SerializeField]
+    protected MarbleController marbleController;
+    public MarbleController MarbleController => marbleController;
+
+    protected float Damage => marbleController.PowerWeight * data.damage;
+    //protected float Range => marbleController.PowerWeight * data.range;
+    protected float CoolTime => marbleController.SpeedWeight * data.atkCool;
+    #endregion
+
+    protected virtual void Start()
+    {
+        marbleController = new MarbleController(gameObject);
+    }
 
     //선 딜레이 시작
     public abstract void PreDelay();
