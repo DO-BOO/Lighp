@@ -13,6 +13,7 @@ public class BasicCloseMonster : StateMachine
     // 상태 스크립트
     public BasicMonsterIdle idleState;
     public BasicMonsterMove moveState;
+    public BasicMonsterStun stunState;
     public BasicMonsterAttack attackState;
     public BasicMonsterDamage damageState;
     public BasicMonsterDie dieState;
@@ -48,6 +49,7 @@ public class BasicCloseMonster : StateMachine
         attackState = new BasicMonsterAttack(this);
         damageState = new BasicMonsterDamage(this);
         dieState = new BasicMonsterDie(this);
+        stunState = new BasicMonsterStun(this);
 
         SetMonsterInform();
     }
@@ -127,6 +129,8 @@ public class BasicCloseMonster : StateMachine
     public int hashDamage = Animator.StringToHash("Damage");
     [HideInInspector]
     public int hashDie = Animator.StringToHash("Die");
+    [HideInInspector]
+    public int hashStun = Animator.StringToHash("Stun");
 
     // 이동 애니메이션
     public void MoveAnimation(bool isOn)
@@ -152,6 +156,11 @@ public class BasicCloseMonster : StateMachine
         anim.SetTrigger(hashDamage);
     }
 
+    // 스턴 애니메이션
+    public void StunAnimation(bool isOn)
+    {
+        anim.SetBool(hashStun, isOn);
+    }
     #endregion
 
 }

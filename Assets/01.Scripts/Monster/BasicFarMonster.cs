@@ -12,6 +12,7 @@ public class BasicFarMonster : StateMachine
     // 상태 스크립트
     public FarMonsterIdle idleState;
     public FarMonsterMove moveState;
+    public FarMonsterStun stunState;
     public FarMonsterAttack attackState;
     public FarMonsterDamage damageState;
     public FarMonsterDie dieState;
@@ -34,15 +35,6 @@ public class BasicFarMonster : StateMachine
     private float colRadius = 100.0f; // 인식 콜라이더 반지름
     private float walkingSpeed = 10.0f; // 쫓아가는 스피드
 
-    // 애니메이션 Hash
-    [HideInInspector]
-    public int hashWalk = Animator.StringToHash("Walk");
-    [HideInInspector]
-    public int hashAttack = Animator.StringToHash("Attack");
-    [HideInInspector]
-    public int hashDamage = Animator.StringToHash("Damage");
-    [HideInInspector]
-    public int hashDie = Animator.StringToHash("Die");
 
     // 발사체
     public GameObject bullet;
@@ -54,11 +46,12 @@ public class BasicFarMonster : StateMachine
         rigid = GetComponent<Rigidbody>();
 
         // 상태 할당
+        dieState = new FarMonsterDie(this);
         idleState = new FarMonsterIdle(this);
+        stunState = new FarMonsterStun(this);
         moveState = new FarMonsterMove(this);
         attackState = new FarMonsterAttack(this);
         damageState = new FarMonsterDamage(this);
-        dieState = new FarMonsterDie(this);
 
         SetMonsterInform();
     }
@@ -150,6 +143,18 @@ public class BasicFarMonster : StateMachine
 
     #region ANIMATION
 
+    // 애니메이션 Hash
+    [HideInInspector]
+    public int hashWalk = Animator.StringToHash("Walk");
+    [HideInInspector]
+    public int hashAttack = Animator.StringToHash("Attack");
+    [HideInInspector]
+    public int hashDamage = Animator.StringToHash("Damage");
+    [HideInInspector]
+    public int hashDie = Animator.StringToHash("Die");
+    [HideInInspector]
+    public int hashStun = Animator.StringToHash("Stun");
+
     // 이동 애니메이션
     public void MoveAnimation(bool isOn)
     {
@@ -172,6 +177,12 @@ public class BasicFarMonster : StateMachine
     public void DamageAnimation()
     {
         anim.SetTrigger(hashDamage);
+    }
+    
+    // 스턴 애니메이션
+    public void StunAnimation(bool isOn)
+    {
+        anim.SetBool(hashStun, isOn);
     }
 
     #endregion
