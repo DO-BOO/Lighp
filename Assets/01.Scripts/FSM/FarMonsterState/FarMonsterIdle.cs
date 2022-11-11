@@ -15,12 +15,28 @@ public class FarMonsterIdle : BaseState
         monster = (BasicFarMonster)stateMachine;
     }
 
+    #region STATE
+
+    public override void CheckDistance()
+    {
+        base.CheckDistance();
+        if (target == null) return;
+
+        if (monster.distance <= monster.attackRange)
+        {
+            stateMachine.ChangeState(monster.attackState);
+        }
+        else if (monster.distance <= monster.moveRange)
+        {
+            stateMachine.ChangeState(monster.moveState);
+        }
+    }
+
     // 상태 시작 시
     // 타겟 찾기 시작
     public override void Enter()
     {
         base.Enter();
-        target = monster.SerachTarget();
     }
 
     // 타겟이 있다면
@@ -29,24 +45,6 @@ public class FarMonsterIdle : BaseState
     {
         base.UpdateLogic();
         target = monster.SerachTarget();
-
-        if (target)
-        {
-            if (monster.distance <= monster.attackRange)
-            {
-                stateMachine.ChangeState(((BasicFarMonster)stateMachine).attackState);
-            }
-            else if (monster.distance >= monster.moveRange)
-            {
-                stateMachine.ChangeState(((BasicFarMonster)stateMachine).moveState);
-            }
-        }
-    }
-
-    // 물리 연산을 위한 LateUpdate
-    public override void UpdateLate()
-    {
-        base.UpdateLogic();
     }
 
     // 상태 끝났을 시
@@ -54,4 +52,6 @@ public class FarMonsterIdle : BaseState
     {
         base.Exit();
     }
+
+    #endregion
 }
