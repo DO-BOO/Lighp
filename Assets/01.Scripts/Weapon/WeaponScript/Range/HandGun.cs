@@ -35,4 +35,8 @@ public class HandGun : WeaponScript
     {
 
     }
+    public override void StopAttack()
+    {
+        
+    }
 }

@@ -39,6 +39,9 @@ public abstract class WeaponScript : MonoBehaviour
     //후 딜레이 종료
     public abstract void Stay();
 
+    //공격 강제 종료
+    public abstract void StopAttack();
+
     public void UseSkill(InputType type)
     {
 
