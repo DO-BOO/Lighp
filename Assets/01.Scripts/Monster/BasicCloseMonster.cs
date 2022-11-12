@@ -123,11 +123,18 @@ public class BasicCloseMonster : StateMachine
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
     public void Damaged(bool isStun)
     {
-        if (!stunning && isStun)
+        SetHP(false, 20f);
+        if (stunning)
+        {
+            return;
+        }
+        if (isStun && !isStunCool)
         {
             ChangeState(stunState);
+            StartCoroutine(StunCoolTimer());
         }
-        else ChangeState(damageState);
+        else 
+            ChangeState(damageState);
     }
 
     public void SetHP(bool isHeal, float plusHP)
@@ -140,6 +147,10 @@ public class BasicCloseMonster : StateMachine
         {
             HP -= plusHP;
         }
+        if (HP <= 0)
+        {
+            ChangeState(dieState);
+        }
     }
     
     public void ReviveHP()
@@ -147,6 +158,25 @@ public class BasicCloseMonster : StateMachine
        HP = MAX_HP;
     }
 
+
+    #endregion
+
+    #region STUN
+
+    private float coolTime = 10f;
+    private bool isStunCool = false;
+
+    private IEnumerator StunCoolTimer()
+    {
+        isStunCool = true;
+        yield return new WaitForSeconds(coolTime);
+        StopStunCoolTime();
+    }
+    private void StopStunCoolTime()
+    {
+        StopCoroutine(StunCoolTimer());
+        isStunCool = false;
+    }
 
     #endregion
 

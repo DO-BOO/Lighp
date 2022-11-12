@@ -19,6 +19,7 @@ public class BasicMonsterDie : BaseState
     private void ResetMonster()
     {
         // 몬스터 초기화 함수
+        monster.enabled = false;
     }
 
     #endregion
@@ -42,6 +43,7 @@ public class BasicMonsterDie : BaseState
         base.Enter();
         SetAnim(true);
         ResetMonster();
+        monster.gameObject.SetActive(false);
     }
 
     // 상태 끝났을 시

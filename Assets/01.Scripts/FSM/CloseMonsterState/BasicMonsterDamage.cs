@@ -45,10 +45,6 @@ public class BasicMonsterDamage : BaseState
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (monster.GetHP <= 0)
-        {
-            stateMachine.ChangeState(monster.dieState);
-        }
         if (nowDelay >= delayTime)
         {
             stateMachine.ChangeState(monster.idleState);
@@ -63,7 +59,6 @@ public class BasicMonsterDamage : BaseState
     {
         base.Enter();
         SetDelay(0);
-        monster.SetHP(false, damage);
         SetAnim();
     }
 

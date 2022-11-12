@@ -13,7 +13,7 @@ public class PlayerCtrlTest : MonoBehaviour
         }
         if (collision.collider.tag == "CLOSE")
         {
-            collision.collider.GetComponent<BasicCloseMonster>()?.Damaged(true);
+            collision.collider.GetComponent<BasicCloseMonster>()?.Damaged(false);
         }
     }
 }

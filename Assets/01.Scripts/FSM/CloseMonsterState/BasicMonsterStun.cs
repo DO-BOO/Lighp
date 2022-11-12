@@ -13,8 +13,13 @@ public class BasicMonsterStun : BaseState
     }
 
     #region VARIABLE
-    private float stunTime = 10f;
+    private float stunTime = 3f;
     private float curTime = 0;
+
+    private void InitState()
+    {
+        curTime = 0;
+    }
     #endregion
 
     #region ANIMATION
@@ -31,7 +36,7 @@ public class BasicMonsterStun : BaseState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Stun");
+        InitState();
         monster.SetStun(true);
         SetAnim(true);
     }
