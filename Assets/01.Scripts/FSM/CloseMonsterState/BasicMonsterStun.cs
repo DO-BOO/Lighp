@@ -13,7 +13,7 @@ public class BasicMonsterStun : BaseState
     }
 
     #region VARIABLE
-    private float stunTime = 3f;
+    private float stunTime = 10f;
     private float curTime = 0;
     #endregion
 
@@ -31,6 +31,8 @@ public class BasicMonsterStun : BaseState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("Stun");
+        monster.SetStun(true);
         SetAnim(true);
     }
 
@@ -40,13 +42,14 @@ public class BasicMonsterStun : BaseState
         curTime += Time.deltaTime;
         if (curTime >= stunTime)
         {
-            monster.ChangeState(monster.idleState);
+            monster.ChangeState(monster.moveState);
         }
     }
 
     public override void Exit()
     {
         base.Exit();
+        monster.SetStun(false);
         SetAnim(false);
     }
 

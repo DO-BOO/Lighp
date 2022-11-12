@@ -36,6 +36,17 @@ public class BasicCloseMonster : StateMachine
     private float colRadius = 100.0f;
     private float walkingSpeed = 10.0f;
 
+    private const float MAX_HP = 100f; // 체력
+    float HP = MAX_HP; // 체력
+    public float GetHP => HP;
+
+    private bool stunning = false;
+    public bool IsStun => stunning;
+    public void SetStun(bool stop)
+    {
+        stunning = stop;
+    }
+
 
     private void Awake()
     {
@@ -110,11 +121,32 @@ public class BasicCloseMonster : StateMachine
     #region DAMAGE
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged()
+    public void Damaged(bool isStun)
     {
-        ChangeState(damageState);
+        if (!stunning && isStun)
+        {
+            ChangeState(stunState);
+        }
+        else ChangeState(damageState);
+    }
+
+    public void SetHP(bool isHeal, float plusHP)
+    {
+        if (isHeal)
+        {
+            HP += plusHP;
+        }
+        else
+        {
+            HP -= plusHP;
+        }
     }
     
+    public void ReviveHP()
+    {
+       HP = MAX_HP;
+    }
+
 
     #endregion
 

@@ -42,7 +42,7 @@ public class FarMonsterStun : BaseState
         curTime += Time.deltaTime;
         if(curTime >= stunTime)
         {
-            monster.ChangeState(monster.idleState);
+            monster.ChangeState(monster.moveState);
         }
     }
 

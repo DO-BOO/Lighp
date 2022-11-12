@@ -36,6 +36,10 @@ public class BasicFarMonster : StateMachine
     private float walkingSpeed = 10.0f; // 쫓아가는 스피드
 
 
+    public float GetHP => HP;
+    private const float MAX_HP = 100;
+    private float HP = 100f;
+
     // 발사체
     public GameObject bullet;
 
@@ -117,10 +121,29 @@ public class BasicFarMonster : StateMachine
 
     // 데미지 입었을 때 호출
     // 데미지 입은 상태로 전환
-    public void Damaged()
+    public void Damaged(bool isStun)
     {
-        ChangeState(damageState);
+        if(isStun)        ChangeState(stunState);
+        else         ChangeState(damageState);
     }
+
+    public void SetHP(bool isHeal, float plusHP)
+    {
+        if (isHeal)
+        {
+            HP += plusHP;
+        }
+        else
+        {
+            HP -= plusHP;
+        }
+    }
+
+    public void ReviveHP()
+    {
+        HP = MAX_HP;
+    }
+
 
     #endregion
 
