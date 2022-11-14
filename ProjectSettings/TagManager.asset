@@ -4,20 +4,19 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - FAR
-  - CLOSE
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - Bottom
-  - 
+  - Player
   - Block
-  - 
-  - 
+  - Monster
+  - Effect
   - 
   - 
   - 
@@ -42,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Particle
+    uniqueID: 2509602831
     locked: 0

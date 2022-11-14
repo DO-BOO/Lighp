@@ -8,9 +8,7 @@ using DG.Tweening;
 /// </summary>
 public abstract class CharacterMove : Character
 {
-    [SerializeField]
-    protected MoveStat moveStat;
-    public MoveStat MoveStat => moveStat;
+    public MoveStat moveStat;
 
     public bool IsCurrentMoving
     {
