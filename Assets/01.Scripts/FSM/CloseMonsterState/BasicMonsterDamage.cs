@@ -21,23 +21,7 @@ public class BasicMonsterDamage : BaseState
     #region DAMAGE
     float delayTime = 1.0f;
     float nowDelay = 0.0f;
-
-    float HP = 100f;
     float damage = 20f;
-
-    public float GetHP => HP;
-
-    private void SetHP(bool isHeal, float plusHP)
-    {
-        if(isHeal)
-        {
-            HP += plusHP;
-        }
-        else
-        {
-            HP -= plusHP;
-        }
-    }
 
     private void SetDelay(float delay)
     {
@@ -61,10 +45,6 @@ public class BasicMonsterDamage : BaseState
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (HP <= 0)
-        {
-            stateMachine.ChangeState(monster.dieState);
-        }
         if (nowDelay >= delayTime)
         {
             stateMachine.ChangeState(monster.idleState);
@@ -79,7 +59,6 @@ public class BasicMonsterDamage : BaseState
     {
         base.Enter();
         SetDelay(0);
-        SetHP(false, damage);
         SetAnim();
     }
 

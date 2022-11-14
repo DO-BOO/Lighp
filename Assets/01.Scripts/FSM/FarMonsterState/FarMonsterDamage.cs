@@ -17,23 +17,7 @@ public class FarMonsterDamage : BaseState
     #region DAMAGE
     float delayTime = 1.0f; // 무적 시간
     float nowDelay = 0.0f;
-
-    float HP = 100f; // 체력
-    float damage = 20f; // 데미지 입을 크기
-
-    public float GetHP => HP;
-
-    private void SetHP(bool isHeal, float plusHP)
-    {
-        if (isHeal)
-        {
-            HP += plusHP;
-        }
-        else
-        {
-            HP -= plusHP;
-        }
-    }
+    float damage = 20.0f;
 
     private void SetDelay(float delay)
     {
@@ -57,7 +41,7 @@ public class FarMonsterDamage : BaseState
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (HP <= 0)
+        if (monster.GetHP <= 0)
         {
             stateMachine.ChangeState(monster.dieState);
         }
@@ -75,7 +59,7 @@ public class FarMonsterDamage : BaseState
     {
         base.Enter();
         SetDelay(0);
-        SetHP(false, damage);
+        monster.SetHP(false, damage);
         SetAnim();
     }
 
