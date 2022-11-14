@@ -71,7 +71,7 @@ public class BasicMonsterMove : BaseState
         SetMove(false);
 
         monster.rigid.AddForce(velocity.normalized * dashSpeed, ForceMode.Impulse);
-
+        monster.rigid.velocity = Vector3.zero;
     }
     
     private void StopDash()
