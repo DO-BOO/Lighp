@@ -18,7 +18,7 @@ public abstract class WeaponScript : MonoBehaviour
     public MarbleController MarbleController => marbleController;
 
     protected float Damage => marbleController.PowerWeight * data.damage;
-    //protected float Range => marbleController.PowerWeight * data.range;
+    protected float Range => marbleController.PowerWeight * data.range;
     protected float CoolTime => marbleController.SpeedWeight * data.atkCool;
     #endregion
 
