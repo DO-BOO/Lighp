@@ -13,6 +13,7 @@ public class BasicCloseMonster : StateMachine
     // 상태 스크립트
     public BasicMonsterIdle idleState;
     public BasicMonsterMove moveState;
+    public BasicMonsterStun stunState;
     public BasicMonsterAttack attackState;
     public BasicMonsterDamage damageState;
     public BasicMonsterDie dieState;
@@ -35,6 +36,17 @@ public class BasicCloseMonster : StateMachine
     private float colRadius = 100.0f;
     private float walkingSpeed = 10.0f;
 
+    private const float MAX_HP = 100f; // 체력
+    float HP = MAX_HP; // 체력
+    public float GetHP => HP;
+
+    private bool stunning = false;
+    public bool IsStun => stunning;
+    public void SetStun(bool stop)
+    {
+        stunning = stop;
+    }
+
 
     private void Awake()
     {
@@ -48,6 +60,7 @@ public class BasicCloseMonster : StateMachine
         attackState = new BasicMonsterAttack(this);
         damageState = new BasicMonsterDamage(this);
         dieState = new BasicMonsterDie(this);
+        stunState = new BasicMonsterStun(this);
 
         SetMonsterInform();
     }
@@ -108,11 +121,62 @@ public class BasicCloseMonster : StateMachine
     #region DAMAGE
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged()
+    public void Damaged(bool isStun)
     {
-        ChangeState(damageState);
+        SetHP(false, 20f);
+        if (stunning)
+        {
+            return;
+        }
+        if (isStun && !isStunCool)
+        {
+            ChangeState(stunState);
+            StartCoroutine(StunCoolTimer());
+        }
+        else 
+            ChangeState(damageState);
+    }
+
+    public void SetHP(bool isHeal, float plusHP)
+    {
+        if (isHeal)
+        {
+            HP += plusHP;
+        }
+        else
+        {
+            HP -= plusHP;
+        }
+        if (HP <= 0)
+        {
+            ChangeState(dieState);
+        }
     }
     
+    public void ReviveHP()
+    {
+       HP = MAX_HP;
+    }
+
+
+    #endregion
+
+    #region STUN
+
+    private float coolTime = 10f;
+    private bool isStunCool = false;
+
+    private IEnumerator StunCoolTimer()
+    {
+        isStunCool = true;
+        yield return new WaitForSeconds(coolTime);
+        StopStunCoolTime();
+    }
+    private void StopStunCoolTime()
+    {
+        StopCoroutine(StunCoolTimer());
+        isStunCool = false;
+    }
 
     #endregion
 
@@ -127,6 +191,8 @@ public class BasicCloseMonster : StateMachine
     public int hashDamage = Animator.StringToHash("Damage");
     [HideInInspector]
     public int hashDie = Animator.StringToHash("Die");
+    [HideInInspector]
+    public int hashStun = Animator.StringToHash("Stun");
 
     // 이동 애니메이션
     public void MoveAnimation(bool isOn)
@@ -152,6 +218,11 @@ public class BasicCloseMonster : StateMachine
         anim.SetTrigger(hashDamage);
     }
 
+    // 스턴 애니메이션
+    public void StunAnimation(bool isOn)
+    {
+        anim.SetBool(hashStun, isOn);
+    }
     #endregion
 
 }

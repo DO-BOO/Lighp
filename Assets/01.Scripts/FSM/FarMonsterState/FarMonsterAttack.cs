@@ -22,7 +22,7 @@ public class FarMonsterAttack : BaseState
 
     private const float avoidCoolTime = Define.AVOID_COOLTIME;
     private const float avoidDuration = Define.AVOID_DURATION;
-    private const float avoidDistance = 25f;
+    private const float avoidDistance = 15f;
 
     private bool CanAvoid => avoidTime <= 0f;
     private bool isAvoid = false;
@@ -68,9 +68,21 @@ public class FarMonsterAttack : BaseState
     private void Avoid(Vector3 velocity)
     {
         isAvoid = true;
+        int randDir = Random.Range(0, 100);
+        Vector3 addTurnDir = Vector3.zero;
 
-        monster.rigid.AddForce(velocity.normalized * avoidSpeed, ForceMode.Impulse);
+        if(randDir >=50)
+        {
+            addTurnDir = new Vector3(0f, 45f, 0f);
+        }
+        else
+        {
+            addTurnDir = new Vector3(0f, -45f, 0f);
+        }  
 
+        monster.transform.Rotate(addTurnDir, Space.Self);
+
+        monster.rigid.AddForce((-1 * monster.transform.forward) * avoidSpeed, ForceMode.Impulse);
     }
 
     private void StopAvoid()
@@ -79,7 +91,6 @@ public class FarMonsterAttack : BaseState
         monster.rigid.velocity = Vector3.zero;
         isAvoid = false;
     }
-
 
     #endregion
 
