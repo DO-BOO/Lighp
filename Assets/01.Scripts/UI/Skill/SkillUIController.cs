@@ -32,6 +32,8 @@ public class SkillUIController : MonoBehaviour
     {
         if (skill == null) return;
 
+        if (skillPanels.Count <= index) return;
+
         skillPanels[index].InitSkill(skill, skillIcons[skill.number - 1]);
     }
 
