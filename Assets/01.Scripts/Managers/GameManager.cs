@@ -23,6 +23,9 @@ public class GameManager : MonoSingleton<GameManager>
     }
     #endregion
 
+    private int gold;
+    public int Gold => gold;
+
     private void Awake()
     {
         MainCam = Camera.main;

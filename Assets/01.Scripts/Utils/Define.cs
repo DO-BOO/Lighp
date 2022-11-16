@@ -12,8 +12,9 @@ public class Define
     public const string JUMP        = "Jump";
 
     #region SHEET_URL
-    public const string KEY_URL         = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
-    public const string SKILL_URL       = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:H&gid=1746391345";
+    public const string SKILL_URL           = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:H&gid=1746391345";
+    public const string KEY_URL             = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
+    public const string ELEMENT_MARBLE_URL  = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=C3:E&gid=846138262";
     #endregion
 
     #region LAYER_MASK
@@ -39,5 +40,10 @@ public class Define
 
     #region EVENT
     public const short ON_END_READ_DATA = 1000;
+    public const short ON_ADD_MARBLE = 3000;
+    #endregion
+
+    #region MARBLE
+    public const int ELEMENT_MARBLE_COUNT = 3;
     #endregion
 }
