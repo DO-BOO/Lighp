@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ public class MarbleController
 
     private Material attackMaterial;
     private readonly int emmisionHash = Shader.PropertyToID("_EmissionColor");
+
+    private Action<MarbleType, int> onAddMarble;
 
     public MarbleController(GameObject obj)
     {
@@ -52,13 +55,16 @@ public class MarbleController
                 break;
         }
 
-        EventManager<MarbleType, int>.TriggerEvent(Define.ON_ADD_MARBLE, marbleType, index);
+        onAddMarble?.Invoke(marbleType, index);
 
         marbleCount++;
         CalculateWeight();
         SetAttackEffectColor();
     }
 
+    /// <summary>
+    /// 구슬 버프 가중치 구하는 함수
+    /// </summary>
     private void CalculateWeight()
     {
         for (int i = 0; i < marbleCount; i++)
@@ -72,7 +78,7 @@ public class MarbleController
             }
         }
 
-        // 가중치 다시 구하기
+        // 가중치가 없다면 곱해야하므로 1이 디폴트 값
         for (int i = 0; i < marbleCount; i++)
         {
             if (marbleWeight[i] == 0f)
@@ -80,6 +86,8 @@ public class MarbleController
         }
     }
 
+    // 공격 이펙트를 원소 구슬의 색으로 바꾸는 함수
+    // 나중에는 다른 스크립트로 빼줄 예정
     private void SetAttackEffectColor()
     {
         float factor = Mathf.Pow(2, 1);
@@ -90,6 +98,9 @@ public class MarbleController
         attackMaterial.SetColor(emmisionHash, emmisionColor);
     }
 
+    /// <summary>
+    // 원소구슬을 합친 색을 반환
+    /// </summary>
     public Color MarblesColor()
     {
         Color color = Color.black;
@@ -111,5 +122,14 @@ public class MarbleController
         }
 
         return color;
+    }
+
+    /// <summary>
+    /// onAddMarble을 구독하는 action을 받는 함수
+    /// </summary>
+    public void ListenOnAddMarble(Action<MarbleType, int> action)
+    {
+        onAddMarble -= action;
+        onAddMarble += action;
     }
 }
