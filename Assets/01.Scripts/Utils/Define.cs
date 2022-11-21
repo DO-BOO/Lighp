@@ -40,6 +40,7 @@ public class Define
 
     #region EVENT
     public const short ON_END_READ_DATA = 1000;
+    public const short ON_ADD_MARBLE = 3000;
     #endregion
 
     #region MARBLE

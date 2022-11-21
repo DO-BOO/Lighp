@@ -10,7 +10,7 @@ public class PlayerSkill : CharacterSkill
     protected override void ChildAwake()
     {
         EventManager.StartListening(Define.ON_END_READ_DATA, AddFirstSkill);
-        EventManager<InputType>.StartListening((int)InputAction.ActiveSkill, (type) => InputSkill(type, 0));
+        EventManager<InputType>.StartListening((int)InputAction.ActiveSkill, (type) => InputSkill(type, 1));
     }
 
     private void InputSkill(InputType type, int index)
@@ -28,7 +28,7 @@ public class PlayerSkill : CharacterSkill
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                ExecuteCurrentSkill(1);
+                ExecuteCurrentSkill(0);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
