@@ -22,9 +22,26 @@ public abstract class WeaponScript : MonoBehaviour
     protected float CoolTime => marbleController.SpeedWeight * data.atkCool;
     #endregion
 
+
+    private void Awake()
+    {
+        if (!GameManager.Instance.SpreadData.IsLoading)
+        {
+            SetData();
+        }
+        else
+        {
+            EventManager.StartListening(Define.ON_END_READ_DATA, SetData);
+        }
+    }
+
     protected virtual void Start()
     {
         marbleController = new MarbleController(gameObject);
+    }
+
+    public void SetData()
+    {
         data = GameManager.Instance.SpreadData.GetData<WeaponData>(weaponNumber);
     }
 
@@ -60,5 +77,10 @@ public abstract class WeaponScript : MonoBehaviour
         data.isEnemy = isEnemy;
         gameObject.SetActive(true);
         return this;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(Define.ON_END_READ_DATA, SetData);
     }
 }

@@ -152,6 +152,7 @@ public class ReadSpreadData
 
             catch (Exception e)
             {
+                Debug.Log(fields[i].Name);
                 Debug.LogError($"SpreadSheet Error : {e.Message} + {column[i]}");
             }
         }
