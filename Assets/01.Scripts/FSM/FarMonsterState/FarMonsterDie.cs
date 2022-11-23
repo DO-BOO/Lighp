@@ -18,6 +18,8 @@ public class FarMonsterDie : BaseState
     private void ResetMonster()
     {
         // 몬스터 초기화 함수
+        Debug.Log("Far Die");
+        monster.gameObject.SetActive(false);
     }
 
     #endregion
