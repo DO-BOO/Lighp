@@ -12,8 +12,17 @@ public class WeaponParent : MonoBehaviour
     #endregion
 
     #region 무기관련 변수
-    [SerializeField] private WeaponScript curWeapon = null;
+    [SerializeField] private List<WeaponScript> startingWeapons = new List<WeaponScript>();
+    [SerializeField] private List<WeaponScript> weapons = new List<WeaponScript>();
     [SerializeField] private Transform handPosition = null;
+    private int weaponIndex;
+    private WeaponScript curWeapon
+    {
+        get
+        {
+            return weapons[weaponIndex];
+        }
+    }
     #endregion
 
     #region 애니메이션관련 변수
@@ -29,15 +38,25 @@ public class WeaponParent : MonoBehaviour
     private void Awake()
     {
         animator = GetComponentInParent<Animator>();
-        SetAnimParam();
         SetEvent();
+    }
+
+    private void Start()
+    {
+        if(startingWeapons.Count > 0)
+        {
+            foreach(WeaponScript weapon in startingWeapons)
+            {
+                WeaponScript newWeapon = Instantiate(weapon, transform);
+                GetWeapon(newWeapon);
+            }
+            SelectWeapon(0);
+        }
     }
 
     private void SetEvent()
     {
         EventManager<InputType>.StartListening((int)InputAction.Attack, OnAttack);
-        if (curWeapon != null)
-            EventManager<InputType>.StartListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
         EventManager<InputType>.StartListening((int)InputAction.Dash, OnDash);
     }
 
@@ -56,14 +75,19 @@ public class WeaponParent : MonoBehaviour
     #endregion
 
     //매개변수의 무기를 장착
-    private void EquipWeapon(WeaponScript weapon)
+    private void GetWeapon(WeaponScript weapon)
     {
-        if (curWeapon == null)
-        {
-            weapon.Reset(handPosition, isEnemy);
-            curWeapon = weapon;
-            SetAnimParam();
-        }
+        weapons.Add(weapon);
+        weapon.Equip(handPosition, isEnemy);
+        SelectWeapon(weapons.Count - 1);
+    }
+
+    private void SelectWeapon(int index)
+    {
+        curWeapon.gameObject.SetActive(false);
+        weaponIndex = index;
+        curWeapon.gameObject.SetActive(true);
+        SetAnimParam();
     }
 
     private void OnAttack(InputType input)

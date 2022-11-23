@@ -6,11 +6,11 @@ using UnityEngine;
 
 public abstract class WeaponScript : MonoBehaviour
 {
-    protected int weaponNumber = 0;
+    protected WeaponParent parent = null;
+    public int weaponNumber = 0;
     [SerializeField] protected WeaponData data = null;
     public WeaponData Data => data;
     [SerializeField] private WeaponSkill skill = null;
-    protected WeaponParent parent = null;
 
     #region Element Marble
     [SerializeField]
@@ -25,6 +25,7 @@ public abstract class WeaponScript : MonoBehaviour
     protected virtual void Start()
     {
         marbleController = new MarbleController(gameObject);
+        data = GameManager.Instance.SpreadData.GetData<WeaponData>(weaponNumber);
     }
 
     //선 딜레이 시작
@@ -47,11 +48,17 @@ public abstract class WeaponScript : MonoBehaviour
 
     }
 
-    public void Reset(Transform handle, bool isEnemy)
+    /// <summary>
+    /// 무기를 handle의 위치에 장착
+    /// </summary>
+    /// <returns>자기 자신을 리턴</returns>
+    public WeaponScript Equip(Transform handle, bool isEnemy)
     {
         transform.SetParent(handle);
         transform.localRotation = Quaternion.Euler(Vector3.zero);
         transform.localPosition = Vector3.zero;
         data.isEnemy = isEnemy;
+        gameObject.SetActive(true);
+        return this;
     }
 }

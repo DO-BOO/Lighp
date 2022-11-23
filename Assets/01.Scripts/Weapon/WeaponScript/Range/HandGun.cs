@@ -9,6 +9,7 @@ public class HandGun : WeaponScript
 
     protected override void Start()
     {
+        base.Start();
         GameManager.Instance.Pool.CreatePool(bulletPrefab.gameObject, 10);
     }
 

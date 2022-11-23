@@ -21,6 +21,7 @@ public class ReadSpreadData
         sheetDatas.Add(typeof(InputManager.InputKey), Define.KEY_URL);
         sheetDatas.Add(typeof(Skill), Define.SKILL_URL);
         sheetDatas.Add(typeof(ElementMarble), Define.ELEMENT_MARBLE_URL);
+        sheetDatas.Add(typeof(WeaponData), Define.WEAPON_URL);
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
