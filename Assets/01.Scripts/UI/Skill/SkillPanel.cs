@@ -11,6 +11,8 @@ public class SkillPanel : MonoBehaviour
     private Image collTimeImage;
     [SerializeField]
     private Image skillIconImage;
+    [SerializeField]
+    private Text cooltimeText;
 
     public void InitSkill(Skill skill, Sprite sprite)
     {
@@ -30,17 +32,21 @@ public class SkillPanel : MonoBehaviour
         {
             if (skill.IsUsing)
             {
+                cooltimeText.gameObject.SetActive(false);
                 collTimeImage.fillAmount = 1f;
             }
             else
             {
                 if (skill.CanUseSkill)
                 {
+                    cooltimeText.gameObject.SetActive(false);
                     collTimeImage.fillAmount = 0f;
                 }
                 else // 사용중X and 사용불가능일 때
                 {
-                    collTimeImage.fillAmount -= (Time.deltaTime * (1 / skill.coolTime));
+                    collTimeImage.fillAmount = skill.CoolTimer / skill.coolTime;
+                    cooltimeText.gameObject.SetActive(true);
+                    cooltimeText.text = string.Format("{0:0}", skill.CoolTimer);
                 }
             }
         }

@@ -7,7 +7,7 @@ public class HandGun : WeaponScript
     [SerializeField] private Transform muzzle;
     [SerializeField] private BulletScript bulletPrefab;
 
-    private void Start()
+    protected override void Start()
     {
         GameManager.Instance.Pool.CreatePool(bulletPrefab.gameObject, 10);
     }

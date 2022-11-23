@@ -42,5 +42,4 @@ public class OneHandWeapon : WeaponScript
             target.GetDamge(data.damage, data.hitStunTime);
         }
     }
-
 }
