@@ -7,6 +7,7 @@ public class Overclock : Skill
     private MoveStat prevMoveStat;
     private CharacterMove move;
     private CharacterHp hp;
+    protected float accDamage;
 
     protected override void OnAwake()
     {
@@ -24,9 +25,15 @@ public class Overclock : Skill
         prevMoveStat = move.moveStat;                                   
     }
 
-    protected override void UpdatePerSecond()
+    protected override void OnFixedUpdate()
     {
-        hp.Hit(Mathf.RoundToInt(costValue));    // 1초마다 스킬 비용값이 빠지도록 한다
+        accDamage += costValue / Define.FIXED_FPS;
+
+        if (accDamage >= 1f)
+        {
+            hp.Heal(1);
+            accDamage -= 1f;
+        }
     }
 
     protected override void OnEnd()

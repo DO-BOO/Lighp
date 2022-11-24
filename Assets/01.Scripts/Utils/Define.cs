@@ -26,7 +26,7 @@ public class Define
 
     #region DASH
     public const float DASH_DISTANCE    = 12f;
-    public const float DASH_DURATION    = 0.4f;
+    public const float DASH_DURATION    = 0.25f;
     public const float DASH_COOLTIME    = 2f;
     public const float DASH_DOUBLE_TIME = 0.35f;
     #endregion
@@ -46,4 +46,6 @@ public class Define
     #region MARBLE
     public const int ELEMENT_MARBLE_COUNT = 3;
     #endregion
+
+    public const float FIXED_FPS = 50f;
 }

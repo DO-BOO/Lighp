@@ -9,5 +9,9 @@ public enum InputAction
     ActiveSkill,
     WeaponSkill,
     Attack,
+    FirstWeapon,
+    SecondWeapon,
+    NextWeapon,
+    PreviousWeapon,
     End
 }

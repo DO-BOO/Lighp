@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,6 +30,8 @@ public class BasicCloseMonster : StateMachine
     public Animator anim;
     [HideInInspector]
     public Rigidbody rigid;
+    [HideInInspector]
+    public CapsuleCollider collider;
 
     // 필요 변수 => 나중에 SO로 뽑을 예정
     public float moveRange = 12.0f;
@@ -39,6 +42,8 @@ public class BasicCloseMonster : StateMachine
     private const float MAX_HP = 100f; // 체력
     float HP = MAX_HP; // 체력
     public float GetHP => HP;
+    public bool Live => live;
+    private bool live = true;
 
     private bool stunning = false;
     public bool IsStun => stunning;
@@ -53,6 +58,7 @@ public class BasicCloseMonster : StateMachine
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
+        collider = GetComponent<CapsuleCollider>();
 
         // 상태 할당
         idleState = new BasicMonsterIdle(this);
@@ -69,6 +75,7 @@ public class BasicCloseMonster : StateMachine
 
     public void SetMonsterInform()
     {
+        live = true;
         agent.speed = walkingSpeed;
         agent.stoppingDistance = attackRange;
     }
@@ -123,6 +130,7 @@ public class BasicCloseMonster : StateMachine
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
     public void Damaged(bool isStun)
     {
+        if (!live) return;
         SetHP(false, 20f);
         if (stunning)
         {
@@ -149,6 +157,7 @@ public class BasicCloseMonster : StateMachine
         }
         if (HP <= 0)
         {
+            live = false;
             ChangeState(dieState);
         }
     }

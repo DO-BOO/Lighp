@@ -9,12 +9,13 @@ public class RedMarble : ElementMarble
         MarbleType = MarbleType.Red;
     }
 
-    protected override void ExecuteDoubleSynergy()
+    protected override void ExecuteDoubleSynergy(CharacterHp characterHp)
     {
 
     }
 
-    protected override void ExecuteTripleSynergy()
+    protected override void ExecuteTripleSynergy(CharacterHp characterHp)
     {
+        characterHp.DOTDeal(5f, 3); // 5초간 3 도트 대미지
     }
 }

@@ -9,11 +9,11 @@ public class BlueMarble : ElementMarble
         MarbleType = MarbleType.Blue;
     }
 
-    protected override void ExecuteDoubleSynergy()
+    protected override void ExecuteDoubleSynergy(CharacterHp characterHp)
     {
     }
 
-    protected override void ExecuteTripleSynergy()
+    protected override void ExecuteTripleSynergy(CharacterHp characterHp)
     {
     }
 }

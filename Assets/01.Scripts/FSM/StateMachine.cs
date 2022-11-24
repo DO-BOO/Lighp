@@ -14,7 +14,6 @@ public class StateMachine : MonoBehaviour
     protected virtual float GetDistance() { return 0.0f; }
     protected virtual Vector3 GetDirection() { return Vector3.zero; }
 
-
     private void Start()
     {
         // 기본 상태 가져오기
@@ -62,6 +61,4 @@ public class StateMachine : MonoBehaviour
         curState = newState;
         curState.Enter();
     }
-
-
 }

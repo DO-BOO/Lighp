@@ -22,7 +22,7 @@ public class BasicMonsterIdle : BaseState
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (target == null) return;
+        if (target == null || !monster.Live) return;
 
         if (monster.distance <= monster.attackRange)
         {

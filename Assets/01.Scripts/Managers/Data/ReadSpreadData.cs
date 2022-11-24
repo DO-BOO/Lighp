@@ -84,6 +84,7 @@ public class ReadSpreadData
             dataList.RemoveAt(0);
             string[] datas = dataList.ToArray();
 
+            // 부모이면
             if (typeof(T).IsAssignableFrom(Type.GetType(column[0])))
             {
                 list.Add(GetData<T>(datas, Type.GetType(column[0])));
@@ -145,7 +146,10 @@ public class ReadSpreadData
                 // enum
                 else
                 {
-                    fields[i].SetValue(data, Enum.Parse(type, column[i]));
+                    if (Enum.TryParse(type, column[i], out object obj))
+                    {
+                        fields[i].SetValue(data, obj);
+                    }
                 }
             }
 

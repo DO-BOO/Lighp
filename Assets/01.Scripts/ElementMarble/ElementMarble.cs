@@ -28,16 +28,16 @@ public class ElementMarble
         tripleValue = elementMarble.tripleValue;
     }
 
-    protected virtual void ExecuteDoubleSynergy() { }
+    protected virtual void ExecuteDoubleSynergy(CharacterHp characterHp) { }
 
-    protected virtual void ExecuteTripleSynergy() { }
+    protected virtual void ExecuteTripleSynergy(CharacterHp characterHp) { }
 
     /// <summary>
-    /// 무기 스크립트에서 공격하기 전 실행해야하는 함수이다.
+    /// 무기 스크립트에서 **공격하기 전** 실행해야하는 함수이다.
     /// 원소 구슬의 개수별로 시너지를 실행한다.
     /// </summary>
     /// <param name="count">해당 원소구슬의 개수</param>
-    public void ExecuteMarble(int count)
+    public void ExecuteMarble(int count, CharacterHp characterHp)
     {
         switch (count)
         {
@@ -47,24 +47,13 @@ public class ElementMarble
 
             case 2:
                 BuffValue = doubleValue;
-                ExecuteDoubleSynergy();
+                ExecuteDoubleSynergy(characterHp);
                 break;
 
             case 3:
                 BuffValue = tripleValue;
-                ExecuteTripleSynergy();
+                ExecuteTripleSynergy(characterHp);
                 break;
-        }
-
-        if (BuffValue > 0)
-        {
-            // 80% => 1.8
-            BuffValue = 1f + BuffValue / 100f;
-        }
-        else
-        {
-            // 80% => 0.2
-            BuffValue /= 100f;
         }
     }
 }

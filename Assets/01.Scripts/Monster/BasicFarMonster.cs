@@ -28,6 +28,8 @@ public class BasicFarMonster : StateMachine
     public Animator anim;
     [HideInInspector]
     public Rigidbody rigid;
+    [HideInInspector]
+    public CapsuleCollider collider;
 
     // 필요 변수
     public float moveRange = 25.0f; // 일정 거리 이상이 되면 쫓아감
@@ -39,6 +41,8 @@ public class BasicFarMonster : StateMachine
     public float GetHP => HP;
     private const float MAX_HP = 100;
     private float HP = 100f;
+    private bool live = true;
+    public bool LIVE => live;
 
     // 발사체
     public GameObject bullet;
@@ -48,6 +52,7 @@ public class BasicFarMonster : StateMachine
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
+        collider = GetComponent<CapsuleCollider>();
 
         // 상태 할당
         dieState = new FarMonsterDie(this);
@@ -64,6 +69,7 @@ public class BasicFarMonster : StateMachine
 
     public void SetMonsterInform()
     {
+        live = true;
         agent.speed = walkingSpeed;
         agent.stoppingDistance = attackRange;
     }
@@ -123,7 +129,8 @@ public class BasicFarMonster : StateMachine
     // 데미지 입은 상태로 전환
     public void Damaged(bool isStun)
     {
-        if(isStun)        ChangeState(stunState);
+        if (!live) return;
+        if (isStun)        ChangeState(stunState);
         else         ChangeState(damageState);
     }
 
@@ -136,6 +143,11 @@ public class BasicFarMonster : StateMachine
         else
         {
             HP -= plusHP;
+        }
+        if (HP <= 0)
+        {
+            live = false;
+            ChangeState(dieState);
         }
     }
 
