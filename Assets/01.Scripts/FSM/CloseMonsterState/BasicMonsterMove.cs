@@ -20,81 +20,64 @@ public class BasicMonsterMove : BaseState
     }
 
     #region DASH 
-    private const float dashCoolTime = Define.DASH_COOLTIME;
-    private const float dashDuration = Define.DASH_DURATION;
-    private const float dashDistance = 25f;
+    private const float COOLTIME = Define.DASH_COOLTIME;
+    private const float DURATION = Define.DASH_DURATION;
+    private const float DISTANCE = Define.DASH_DISTANCE;
 
-    private bool CanDash => dashTime <= 0f;
+    private bool CanDash => dashCoolTimer <= 0f;
     private bool isDash = false;
-    
-    private float dashSpeed = 100f;
-    private float dashTime = 0;
+    private float dashCoolTimer = 0;
 
     private void CheckDash()
     {
         if (isDash) return;
-        if (monster.distance >= dashDistance && CanDash)
+        if (monster.distance >= DISTANCE && CanDash)
         {
+            isDash = true;
+            SetMove(false);
+
+            monster.WarningDash(monster.dir.normalized);
             Dash(monster.dir);
         }
     }
-
     private void CheckDashCoolTime()
     {
-        if(isDash)
+        if (dashCoolTimer > 0)
         {
-            SetUseCoolTime();
+            dashCoolTimer -= Time.deltaTime;
         }
-        else
-        {
-            if (CanDash) return;
-            SetReadyCoolTime();
-        }
-    }
-
-    private void SetUseCoolTime()
-    {
-        dashTime += Time.deltaTime;
-        if (dashTime >= dashDuration)
-        {
-            StopDash();
-        }
-    }
-    private void SetReadyCoolTime()
-    {
-        dashTime -= Time.deltaTime;
     }
 
     private void Dash(Vector3 velocity)
     {
-        isDash = true;
-        SetMove(false);
+        Vector3 destination = monster.transform.position + velocity.normalized * DISTANCE;
 
-        monster.rigid.AddForce(velocity.normalized * dashSpeed, ForceMode.Impulse);
-        monster.rigid.velocity = Vector3.zero;
+        monster.transform.DOKill();
+        monster.transform.DOMove(destination, DURATION).OnComplete(() => { OnEndDash(); });
     }
-    
-    private void StopDash()
+
+    private void OnEndDash()
     {
-        dashTime = dashCoolTime;
-        monster.rigid.velocity = Vector3.zero;
         isDash = false;
         SetMove(true);
+        dashCoolTimer = COOLTIME;
     }
 
     #endregion
 
     #region MOVE
 
+    bool stopMove = false;
     private void Move()
     {
-        if (target == null) return;
+        if (target == null || stopMove) return;
         monster.LookTarget(target);
         monster.agent.SetDestination(target.position);
     }
+
     private void SetMove(bool isMove)
     {
-        monster.agent.isStopped = !isMove;
+        stopMove = !isMove;
     }
 
     #endregion
@@ -110,7 +93,6 @@ public class BasicMonsterMove : BaseState
     #endregion
 
     #region STATE
-
 
     // 다른 STATE로 넘어가는 조건
     public override void CheckDistance()
@@ -154,5 +136,7 @@ public class BasicMonsterMove : BaseState
         SetAnim(false);
         SetMove(false);
     }
+
     #endregion
+
 }

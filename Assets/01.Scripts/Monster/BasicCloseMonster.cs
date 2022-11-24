@@ -10,6 +10,7 @@ using UnityEngine.AI;
 public class BasicCloseMonster : StateMachine
 {
     private Transform target = null; // 타겟
+    public GameObject dashLine;
 
     // 상태 스크립트
     public BasicMonsterIdle idleState;
@@ -185,6 +186,17 @@ public class BasicCloseMonster : StateMachine
     {
         StopCoroutine(StunCoolTimer());
         isStunCool = false;
+    }
+
+    #endregion
+
+    #region DASH
+
+    public void WarningDash(Vector3 _end)
+    {
+        Vector3 newPos = transform.position;
+        GameObject line = Instantiate(dashLine, newPos, transform.rotation);
+        line.GetComponent<WarningLine>().SetPos(_end);
     }
 
     #endregion
