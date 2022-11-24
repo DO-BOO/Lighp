@@ -46,4 +46,6 @@ public class Define
     #region MARBLE
     public const int ELEMENT_MARBLE_COUNT = 3;
     #endregion
+
+    public const float FIXED_FPS = 50f;
 }

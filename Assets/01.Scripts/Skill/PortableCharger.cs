@@ -5,6 +5,7 @@ using UnityEngine;
 public class PortableCharger : Skill
 {
     private CharacterHp hp;
+    protected float accHeal = 1f;
 
     protected override void OnAwake()
     {
@@ -19,8 +20,19 @@ public class PortableCharger : Skill
         StartEffect(character.transform, effectPos, Quaternion.identity, duration);
     }
 
-    protected override void UpdatePerSecond()
+    protected override void OnFixedUpdate()
     {
-        hp.Heal(Mathf.RoundToInt(rewardValue));
+        accHeal += rewardValue / Define.FIXED_FPS;
+
+        if (accHeal >= 1f)
+        {
+            hp.Heal(1);
+            accHeal -= 1f;
+        }
+    }
+
+    protected override void OnEnd()
+    {
+        accHeal = 0f;
     }
 }

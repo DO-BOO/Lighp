@@ -12,7 +12,7 @@ public class CharacterHp : Character
     public int Hp => hp;
     public bool IsDead { get; private set; }
 
-    private void Start()
+    protected virtual void Start()
     {
         maxHp = hp;
     }

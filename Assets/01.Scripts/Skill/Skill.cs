@@ -78,10 +78,10 @@ public abstract class Skill
                 End();
                 return;
             }
-            else if (secondTimer > 1f)
+            else if (secondTimer >= 1f)
             {
                 UpdatePerSecond();
-                secondTimer = 0f;
+                secondTimer -= 1f;
             }
 
             OnUpdate();
@@ -101,6 +101,9 @@ public abstract class Skill
 
 
     protected virtual void OnUpdate() { }
+
+    public void FixedUpdate() { OnFixedUpdate(); }
+    protected virtual void OnFixedUpdate() { }
 
     /// <summary>
     /// 스킬 사용 중 1초마다 한번씩 실행되는 함수
