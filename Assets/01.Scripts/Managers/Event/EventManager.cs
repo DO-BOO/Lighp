@@ -95,3 +95,50 @@ public class EventManager<T>
         }
     }
 }
+
+public class EventManager<T, Q>
+{
+    private static Dictionary<int, Action<T, Q>> eventDictionary = new Dictionary<int, Action<T, Q>>();
+
+    public static void StartListening(int eventName, Action<T, Q> listener)
+    {
+        Action<T, Q> thisEvent;
+
+        if (eventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent += listener;
+            eventDictionary[eventName] = thisEvent;
+        }
+
+        else
+        {
+            eventDictionary.Add(eventName, listener);
+        }
+    }
+
+    public static void StopListening(int eventName, Action<T, Q> listener)
+    {
+        Action<T, Q> thisEvent;
+
+        if (eventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent -= listener;
+            eventDictionary[eventName] = thisEvent;
+        }
+
+        else
+        {
+            eventDictionary.Remove(eventName);
+        }
+    }
+
+    public static void TriggerEvent(int eventName, T param, Q param2)
+    {
+        Action<T, Q> thisEvent;
+
+        if (eventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent?.Invoke(param, param2);
+        }
+    }
+}

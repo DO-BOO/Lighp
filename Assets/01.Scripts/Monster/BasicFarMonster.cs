@@ -12,6 +12,7 @@ public class BasicFarMonster : StateMachine
     // 상태 스크립트
     public FarMonsterIdle idleState;
     public FarMonsterMove moveState;
+    public FarMonsterStun stunState;
     public FarMonsterAttack attackState;
     public FarMonsterDamage damageState;
     public FarMonsterDie dieState;
@@ -27,6 +28,8 @@ public class BasicFarMonster : StateMachine
     public Animator anim;
     [HideInInspector]
     public Rigidbody rigid;
+    [HideInInspector]
+    public CapsuleCollider collider;
 
     // 필요 변수
     public float moveRange = 25.0f; // 일정 거리 이상이 되면 쫓아감
@@ -34,15 +37,12 @@ public class BasicFarMonster : StateMachine
     private float colRadius = 100.0f; // 인식 콜라이더 반지름
     private float walkingSpeed = 10.0f; // 쫓아가는 스피드
 
-    // 애니메이션 Hash
-    [HideInInspector]
-    public int hashWalk = Animator.StringToHash("Walk");
-    [HideInInspector]
-    public int hashAttack = Animator.StringToHash("Attack");
-    [HideInInspector]
-    public int hashDamage = Animator.StringToHash("Damage");
-    [HideInInspector]
-    public int hashDie = Animator.StringToHash("Die");
+
+    public float GetHP => HP;
+    private const float MAX_HP = 100;
+    private float HP = 100f;
+    private bool live = true;
+    public bool LIVE => live;
 
     // 발사체
     public GameObject bullet;
@@ -52,13 +52,15 @@ public class BasicFarMonster : StateMachine
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
+        collider = GetComponent<CapsuleCollider>();
 
         // 상태 할당
+        dieState = new FarMonsterDie(this);
         idleState = new FarMonsterIdle(this);
+        stunState = new FarMonsterStun(this);
         moveState = new FarMonsterMove(this);
         attackState = new FarMonsterAttack(this);
         damageState = new FarMonsterDamage(this);
-        dieState = new FarMonsterDie(this);
 
         SetMonsterInform();
     }
@@ -67,6 +69,7 @@ public class BasicFarMonster : StateMachine
 
     public void SetMonsterInform()
     {
+        live = true;
         agent.speed = walkingSpeed;
         agent.stoppingDistance = attackRange;
     }
@@ -124,10 +127,35 @@ public class BasicFarMonster : StateMachine
 
     // 데미지 입었을 때 호출
     // 데미지 입은 상태로 전환
-    public void Damaged()
+    public void Damaged(bool isStun)
     {
-        ChangeState(damageState);
+        if (!live) return;
+        if (isStun)        ChangeState(stunState);
+        else         ChangeState(damageState);
     }
+
+    public void SetHP(bool isHeal, float plusHP)
+    {
+        if (isHeal)
+        {
+            HP += plusHP;
+        }
+        else
+        {
+            HP -= plusHP;
+        }
+        if (HP <= 0)
+        {
+            live = false;
+            ChangeState(dieState);
+        }
+    }
+
+    public void ReviveHP()
+    {
+        HP = MAX_HP;
+    }
+
 
     #endregion
 
@@ -149,6 +177,18 @@ public class BasicFarMonster : StateMachine
     #endregion
 
     #region ANIMATION
+
+    // 애니메이션 Hash
+    [HideInInspector]
+    public int hashWalk = Animator.StringToHash("Walk");
+    [HideInInspector]
+    public int hashAttack = Animator.StringToHash("Attack");
+    [HideInInspector]
+    public int hashDamage = Animator.StringToHash("Damage");
+    [HideInInspector]
+    public int hashDie = Animator.StringToHash("Die");
+    [HideInInspector]
+    public int hashStun = Animator.StringToHash("Stun");
 
     // 이동 애니메이션
     public void MoveAnimation(bool isOn)
@@ -172,6 +212,12 @@ public class BasicFarMonster : StateMachine
     public void DamageAnimation()
     {
         anim.SetTrigger(hashDamage);
+    }
+    
+    // 스턴 애니메이션
+    public void StunAnimation(bool isOn)
+    {
+        anim.SetBool(hashStun, isOn);
     }
 
     #endregion

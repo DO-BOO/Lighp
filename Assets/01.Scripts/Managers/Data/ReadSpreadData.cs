@@ -20,6 +20,7 @@ public class ReadSpreadData
     {
         sheetDatas.Add(typeof(InputManager.InputKey), Define.KEY_URL);
         sheetDatas.Add(typeof(Skill), Define.SKILL_URL);
+        sheetDatas.Add(typeof(ElementMarble), Define.ELEMENT_MARBLE_URL);
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
@@ -83,6 +84,7 @@ public class ReadSpreadData
             dataList.RemoveAt(0);
             string[] datas = dataList.ToArray();
 
+            // 부모이면
             if (typeof(T).IsAssignableFrom(Type.GetType(column[0])))
             {
                 list.Add(GetData<T>(datas, Type.GetType(column[0])));
@@ -144,13 +146,16 @@ public class ReadSpreadData
                 // enum
                 else
                 {
-                    fields[i].SetValue(data, Enum.Parse(type, column[i]));
+                    if (Enum.TryParse(type, column[i], out object obj))
+                    {
+                        fields[i].SetValue(data, obj);
+                    }
                 }
             }
 
             catch (Exception e)
             {
-                Debug.LogError($"SpreadSheet Error : {e.Message}");
+                Debug.LogError($"SpreadSheet Error : {e.Message} + {column[i]}");
             }
         }
 

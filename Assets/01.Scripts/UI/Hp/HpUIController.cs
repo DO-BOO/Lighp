@@ -8,6 +8,8 @@ public class HpUIController : MonoBehaviour
     private CharacterHp playerHp;
     [SerializeField]
     private Image fillImage;
+    [SerializeField]
+    private Text hpText;
 
     private void Awake()
     {
@@ -17,6 +19,7 @@ public class HpUIController : MonoBehaviour
 
     private void Update()
     {
-        fillImage.fillAmount = playerHp.Hp / (float)playerHp.MaxHp;
+        fillImage.fillAmount = (float)playerHp.Hp / playerHp.MaxHp;
+        hpText.text = string.Format("{0:0.0}%", fillImage.fillAmount * 100f);
     }
 }

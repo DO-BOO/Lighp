@@ -16,9 +16,16 @@ public class BasicMonsterDie : BaseState
 
     #region DIE
 
+    private void DieEffect()
+    {
+
+    }
+
     private void ResetMonster()
     {
         // 몬스터 초기화 함수
+        Debug.Log("Close Die");
+        monster.gameObject.SetActive(false);
     }
 
     #endregion
