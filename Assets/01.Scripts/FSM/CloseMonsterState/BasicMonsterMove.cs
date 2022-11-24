@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
-using UnityEngine.UIElements;
-using System.Runtime.InteropServices.WindowsRuntime;
 /// <summary>
 /// 근거리 몬스터의 이동 스크립트
 /// </summary>
@@ -35,9 +33,10 @@ public class BasicMonsterMove : BaseState
         {
             isDash = true;
             SetMove(false);
-
-            monster.WarningDash(monster.dir.normalized);
-            Dash(monster.dir);
+            Vector3 direction = monster.dir;
+            monster.WarningDash(direction.normalized);
+            Sequence seq = DOTween.Sequence();
+            seq.InsertCallback(1.0f, () => { Dash(direction); });seq.Play();
         }
     }
     private void CheckDashCoolTime()
@@ -51,7 +50,6 @@ public class BasicMonsterMove : BaseState
     private void Dash(Vector3 velocity)
     {
         Vector3 destination = monster.transform.position + velocity.normalized * DISTANCE;
-
         monster.transform.DOKill();
         monster.transform.DOMove(destination, DURATION).OnComplete(() => { OnEndDash(); });
     }
@@ -67,17 +65,26 @@ public class BasicMonsterMove : BaseState
 
     #region MOVE
 
-    bool stopMove = false;
+    const float monsterSpeed = 10.0f;
+
     private void Move()
     {
-        if (target == null || stopMove) return;
+        if (target == null) return;
         monster.LookTarget(target);
         monster.agent.SetDestination(target.position);
     }
 
     private void SetMove(bool isMove)
     {
-        stopMove = !isMove;
+        if (!isMove)
+        {
+            monster.agent.speed = 0;
+            monster.agent.velocity = Vector3.zero;
+        }
+        else
+        {
+            monster.agent.speed = monsterSpeed;
+        }
     }
 
     #endregion
