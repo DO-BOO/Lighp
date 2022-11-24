@@ -23,7 +23,7 @@ public class CharacterSkill : Character
         foreach (Skill skill in curSkill)
         {
             if (skill.IsUsing)
-                skill?.OnFixedUpdate();
+                skill?.FixedUpdate();
         }
     }
 

@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerHp : CharacterHp
 {
     [SerializeField] private int dropHp = 15;
-    [SerializeField] private float deltaTime = 0f;
     float accDrop;
 
     private void FixedUpdate()

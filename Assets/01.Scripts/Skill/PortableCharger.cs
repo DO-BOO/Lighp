@@ -20,7 +20,7 @@ public class PortableCharger : Skill
         StartEffect(character.transform, effectPos, Quaternion.identity, duration);
     }
 
-    public override void OnFixedUpdate()
+    protected override void OnFixedUpdate()
     {
         accHeal += rewardValue / Define.FIXED_FPS;
 
