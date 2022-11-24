@@ -1252,9 +1252,9 @@ GameObject:
   - component: {fileID: 543450652448490209}
   - component: {fileID: 543450652448490214}
   - component: {fileID: 543450652448490215}
-  - component: {fileID: 5254733577253188714}
   - component: {fileID: 2985759824647180268}
   - component: {fileID: 543450652448490223}
+  - component: {fileID: 6234428345852029159}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -1400,19 +1400,6 @@ MonoBehaviour:
   isEnemy: 0
   curWeapon: {fileID: 3158070957750803538}
   handPosition: {fileID: 1450394281}
---- !u!114 &5254733577253188714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5926249814434975643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 709495a51bda6144bb8087f66e57a3b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 150
 --- !u!114 &2985759824647180268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1438,6 +1425,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOne: 0
+--- !u!114 &6234428345852029159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926249814434975643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b02ed3cede7ee3d429c142ed05c4af62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 150
+  dropHp: 15
 --- !u!1 &6109915802594132339
 GameObject:
   m_ObjectHideFlags: 0
