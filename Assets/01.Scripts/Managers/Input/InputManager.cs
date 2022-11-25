@@ -30,7 +30,7 @@ public class InputManager
 
     public void Update()
     {
-        for (int i = 0; i < (int)InputAction.End; i++)
+        for (int i = 0; i < (int)InputAction.Length; i++)
         {
             InputAction action = (InputAction)i;
 

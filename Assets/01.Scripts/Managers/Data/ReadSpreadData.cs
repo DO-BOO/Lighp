@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Reflection;
 using System;
+using Unity.EditorCoroutines.Editor;
 using System.Linq;
 
 /// <summary>
@@ -24,7 +25,7 @@ public class ReadSpreadData
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
-    public IEnumerator LoadDataCoroutine()
+    public IEnumerator LoadDataCoroutine(Action aftaerLoad = null)
     {
         List<Type> sheetTypes = new List<Type>(sheetDatas.Keys);
 
@@ -37,23 +38,8 @@ public class ReadSpreadData
         }
 
         IsLoading = false;
+        aftaerLoad?.Invoke();
     }
-
-    public void LoadData()
-    {
-        List<Type> sheetTypes = new List<Type>(sheetDatas.Keys);
-
-        foreach (Type type in sheetTypes)
-        {
-            UnityWebRequest www = UnityWebRequest.Get(sheetDatas[type]);
-            System.Threading.Thread.Sleep(3000);
-
-            sheetDatas[type] = www.downloadHandler.text;
-        }
-
-        IsLoading = false;
-    }
-
 
     // sheet 타입에 맞춰 시트 데이터를 T형의 리스트로 만들어주는 함수
     public List<T> GetDatas<T>(Type spreadType = null)
