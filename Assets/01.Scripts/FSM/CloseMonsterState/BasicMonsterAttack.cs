@@ -35,9 +35,9 @@ public class BasicMonsterAttack : BaseState
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (monster.distance > monster.agent.stoppingDistance)
+        if (monster.distance > monster.attackRange)
         {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
+            stateMachine.ChangeState(monster.idleState);
         }
     }
 

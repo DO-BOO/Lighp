@@ -18,12 +18,23 @@ public class Particle : Poolable
 
     private float timer = 0f;
 
+    ParticleSystem[] childParticles;
+    ParticleSystem.MainModule[] childParticleMains;
+
     public FollowTarget Follow { get; private set; }
 
     private void Awake()
     {
         particleSystem = GetComponent<ParticleSystem>();
         Follow = GetComponent<FollowTarget>();
+        childParticles = GetComponentsInChildren<ParticleSystem>();
+        childParticleMains = new ParticleSystem.MainModule[childParticles.Length];
+
+        for(int i = 0; i < childParticles.Length; i++)
+        {
+            childParticleMains[i] = childParticles[i].main;
+        }
+
         main = particleSystem.main;
     }
 
@@ -31,7 +42,7 @@ public class Particle : Poolable
     {
         timer += Time.deltaTime;
 
-        if (!main.loop && timer > main.duration)
+        if (!main.loop && timer > main.duration + 1f)
         {
             GameManager.Instance.Pool.Push(this);
         }
@@ -68,6 +79,20 @@ public class Particle : Poolable
     public void Stop()
     {
         particleSystem.Stop();
+    }
+
+    public void SetDuration(float duration)
+    {
+        for (int i = 0; i < childParticles.Length; i++)
+        {
+            childParticles[i].Stop();
+        }
+
+        for (int i = 0; i < childParticleMains.Length; i++)
+        {
+            childParticleMains[i].loop = false;
+            childParticleMains[i].duration = duration;
+        }
     }
 
     public override void ResetData()

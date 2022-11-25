@@ -20,12 +20,15 @@ public class BasicMonsterMove : BaseState
     }
 
     #region DASH 
-    private bool isDash = false;
+    private const float dashCoolTime = Define.DASH_COOLTIME;
+    private const float dashDuration = Define.DASH_DURATION;
+    private const float dashDistance = 25f;
+
     private bool CanDash => dashTime <= 0f;
-    private float dashCoolTime = 2.0f;
-    private float dashTime = 0;
-    private float dashDistance = 25f;
+    private bool isDash = false;
+    
     private float dashSpeed = 100f;
+    private float dashTime = 0;
 
     private void CheckDash()
     {
@@ -52,7 +55,7 @@ public class BasicMonsterMove : BaseState
     private void SetUseCoolTime()
     {
         dashTime += Time.deltaTime;
-        if (dashTime >= Define.DASH_DURATION)
+        if (dashTime >= dashDuration)
         {
             StopDash();
         }
@@ -68,7 +71,7 @@ public class BasicMonsterMove : BaseState
         SetMove(false);
 
         monster.rigid.AddForce(velocity.normalized * dashSpeed, ForceMode.Impulse);
-
+        monster.rigid.velocity = Vector3.zero;
     }
     
     private void StopDash()
@@ -85,10 +88,10 @@ public class BasicMonsterMove : BaseState
 
     private void Move()
     {
+        if (target == null) return;
         monster.LookTarget(target);
         monster.agent.SetDestination(target.position);
     }
-
     private void SetMove(bool isMove)
     {
         monster.agent.isStopped = !isMove;
@@ -108,11 +111,12 @@ public class BasicMonsterMove : BaseState
 
     #region STATE
 
+
     // 다른 STATE로 넘어가는 조건
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (monster.agent.remainingDistance <= monster.agent.stoppingDistance)
+        if (monster.distance <= monster.attackRange)
         {
             stateMachine.ChangeState(monster.idleState);
         }

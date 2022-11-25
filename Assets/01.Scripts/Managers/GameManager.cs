@@ -10,19 +10,34 @@ public class GameManager : MonoSingleton<GameManager>
     public ReadSpreadData SpreadData { get; private set; } = new ReadSpreadData();
     public InputManager Input { get; private set; } = new InputManager();
     public PoolManager Pool { get; private set; } = new PoolManager();
+    public UIManager UI { get; private set; } = new UIManager();
+
     #endregion
+
+    #region TEST
+    public List<Skill> skills;
+
+    public Skill GetSkill<T>() where T : Skill
+    {
+        return skills.Find(x => x.GetType() == typeof(T));
+    }
+    #endregion
+
+    private int gold;
+    public int Gold => gold;
 
     private void Awake()
     {
         MainCam = Camera.main;
         SpreadData.OnAwake();
-        StartCoroutine(SpreadData.LoadData());
+        UI.OnAwake();
+        StartCoroutine(SpreadData.LoadDataCoroutine());
     }
 
     private void Start()
     {
-        StartCoroutine(WaitLoadSpreadData());
         Pool.Start();
+        StartCoroutine(WaitLoadSpreadData());
     }
 
     private void Update()
@@ -39,8 +54,12 @@ public class GameManager : MonoSingleton<GameManager>
             yield return null;
         }
 
-        EventManager.TriggerEvent(Define.ON_END_READ_DATA);
         Input.OnStart();
+
+        // ------------------- PROTOTYPE CODE --------------------
+        skills = SpreadData.GetDatasAsChildren<Skill>();
+
+        EventManager.TriggerEvent(Define.ON_END_READ_DATA);
     }
 
     public Vector3 GetMousePos()

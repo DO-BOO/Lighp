@@ -14,7 +14,7 @@ public class PlayerJump : CharacterJump
     {
         if (type == InputType.GetKeyDown)
         {
-            Jump(move.MoveStat.jumpForce);
+            Jump(move.moveStat.jumpForce);
         }
     }
 

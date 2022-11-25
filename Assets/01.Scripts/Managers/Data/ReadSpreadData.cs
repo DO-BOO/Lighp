@@ -19,10 +19,12 @@ public class ReadSpreadData
     public void OnAwake()
     {
         sheetDatas.Add(typeof(InputManager.InputKey), Define.KEY_URL);
+        sheetDatas.Add(typeof(Skill), Define.SKILL_URL);
+        sheetDatas.Add(typeof(ElementMarble), Define.ELEMENT_MARBLE_URL);
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
-    public IEnumerator LoadData()
+    public IEnumerator LoadDataCoroutine()
     {
         List<Type> sheetTypes = new List<Type>(sheetDatas.Keys);
 
@@ -37,13 +39,33 @@ public class ReadSpreadData
         IsLoading = false;
     }
 
+    public void LoadData()
+    {
+        List<Type> sheetTypes = new List<Type>(sheetDatas.Keys);
+
+        foreach (Type type in sheetTypes)
+        {
+            UnityWebRequest www = UnityWebRequest.Get(sheetDatas[type]);
+            System.Threading.Thread.Sleep(3000);
+
+            sheetDatas[type] = www.downloadHandler.text;
+        }
+
+        IsLoading = false;
+    }
+
+
     // sheet 타입에 맞춰 시트 데이터를 T형의 리스트로 만들어주는 함수
-    public List<T> GetDatas<T>()
+    public List<T> GetDatas<T>(Type spreadType = null)
     {
         List<T> list = new List<T>();
 
         // 탭과 엔터로 값 나누어 데이터 변수에 저장
-        string[] row = sheetDatas[typeof(T)].Split('\n');
+
+        if (spreadType == null)
+            spreadType = typeof(T);
+
+        string[] row = sheetDatas[spreadType].Split('\n');
         int rowSize = row.Length;
 
         for (int i = 0; i < rowSize; i++)
@@ -77,13 +99,12 @@ public class ReadSpreadData
         {
             string[] column = row[i].Split('\t');
 
-            Debug.Log(column[0]);
-
             // 맨 첫자리 빼기
             List<string> dataList = column.ToList();
             dataList.RemoveAt(0);
             string[] datas = dataList.ToArray();
 
+            // 부모이면
             if (typeof(T).IsAssignableFrom(Type.GetType(column[0])))
             {
                 list.Add(GetData<T>(datas, Type.GetType(column[0])));
@@ -145,13 +166,16 @@ public class ReadSpreadData
                 // enum
                 else
                 {
-                    fields[i].SetValue(data, Enum.Parse(type, column[i]));
+                    if (Enum.TryParse(type, column[i], out object obj))
+                    {
+                        fields[i].SetValue(data, obj);
+                    }
                 }
             }
 
             catch (Exception e)
             {
-                Debug.LogError($"SpreadSheet Error : {e.Message}");
+                Debug.LogError($"SpreadSheet Error : {e.Message} + {column[i]}");
             }
         }
 

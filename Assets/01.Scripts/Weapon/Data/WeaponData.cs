@@ -14,6 +14,7 @@ public class WeaponData
     public int usingPrefab = 0;
     public int weight;
     public int damage;
+    public float range;
     public float criticalChance;
     public float ciritcalFactor;
     public float preDelay;
@@ -38,25 +39,4 @@ public class WeaponData
             chargingAmount = chargingTime / value * chargingDamage;
         } 
     }
-}
-
-public enum Rarity
-{
-    Common,
-    Rare,
-    Epic,
-    Legend
-}
-
-public enum WeaponGrip
-{
-    OneHand_Melee,
-    OneHand_Range
-}
-
-public enum WeaponType
-{
-    Sword,
-    Pistol,
-    Length
 }

@@ -8,16 +8,48 @@ public class FarMonsterDamage : BaseState
 {
     BasicFarMonster monster;
 
-    float delayTime = 1.0f; // 무적 시간
-    float nowDelay = 0.0f;
-
-    float HP = 100f; // 체력
-    float damage = 20f; // 데미지 입을 크기
-
     // 생성자
     public FarMonsterDamage(BasicFarMonster stateMachine) : base("DAMAGED", stateMachine)
     {
         monster = (BasicFarMonster)stateMachine;
+    }
+
+    #region DAMAGE
+    float delayTime = 1.0f; // 무적 시간
+    float nowDelay = 0.0f;
+    float damage = 20.0f;
+
+    private void SetDelay(float delay)
+    {
+        nowDelay = delay;
+    }
+
+    #endregion
+
+    #region ANIMATION
+
+    public override void SetAnim()
+    {
+        base.SetAnim();
+        monster.DamageAnimation();
+    }
+
+    #endregion
+
+    #region STATE
+
+    public override void CheckDistance()
+    {
+        base.CheckDistance();
+        if (monster.GetHP <= 0)
+        {
+            stateMachine.ChangeState(monster.dieState);
+        }
+        if (nowDelay >= delayTime)
+        {
+            stateMachine.ChangeState(monster.idleState);
+        }
+
     }
 
     // 상태 시작 시
@@ -26,13 +58,9 @@ public class FarMonsterDamage : BaseState
     public override void Enter()
     {
         base.Enter();
-        nowDelay = 0;
-        HP -= damage;
-        if (HP <= 0)
-        {
-            stateMachine.ChangeState(((BasicFarMonster)stateMachine).dieState);
-        }
-        monster.anim.SetTrigger(monster.hashDamage);
+        SetDelay(0);
+        monster.SetHP(false, damage);
+        SetAnim();
     }
 
     // 일정 시간이 지나면 상태 변환
@@ -40,11 +68,6 @@ public class FarMonsterDamage : BaseState
     {
         base.UpdateLogic();
         nowDelay += Time.deltaTime;
-        if (nowDelay >= delayTime)
-        {
-            stateMachine.ChangeState(((BasicFarMonster)stateMachine).idleState);
-        }
-
     }
 
     // 상태 끝났을 시
@@ -52,4 +75,6 @@ public class FarMonsterDamage : BaseState
     {
         base.Exit();
     }
+
+    #endregion
 }

@@ -12,12 +12,6 @@ public class BasicMonsterDamage : BaseState
 {
     BasicCloseMonster monster;
 
-    float delayTime = 1.0f;
-    float nowDelay = 0.0f;
-
-    float HP = 100f;
-    float damage = 20f;
-
     // 데미지 생성자
     public BasicMonsterDamage(BasicCloseMonster stateMachine) : base("DAMAGED", stateMachine)
     {
@@ -25,20 +19,9 @@ public class BasicMonsterDamage : BaseState
     }
 
     #region DAMAGE
-
-    public float GetHP => HP;
-
-    private void SetHP(bool isHeal, float plusHP)
-    {
-        if(isHeal)
-        {
-            HP += plusHP;
-        }
-        else
-        {
-            HP -= plusHP;
-        }
-    }
+    float delayTime = 1.0f;
+    float nowDelay = 0.0f;
+    float damage = 20f;
 
     private void SetDelay(float delay)
     {
@@ -62,13 +45,9 @@ public class BasicMonsterDamage : BaseState
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (HP <= 0)
-        {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).dieState);
-        }
         if (nowDelay >= delayTime)
         {
-            stateMachine.ChangeState(((BasicCloseMonster)stateMachine).idleState);
+            stateMachine.ChangeState(monster.idleState);
         }
 
     }
@@ -80,7 +59,6 @@ public class BasicMonsterDamage : BaseState
     {
         base.Enter();
         SetDelay(0);
-        SetHP(false, damage);
         SetAnim();
     }
 

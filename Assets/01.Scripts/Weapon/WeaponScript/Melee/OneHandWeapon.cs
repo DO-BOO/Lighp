@@ -27,6 +27,11 @@ public class OneHandWeapon : WeaponScript
     {
 
     }
+    public override void StopAttack()
+    {
+        atkArea.enabled = false;
+        trail.enabled = false;
+    }
     #endregion
 
     private void OnTriggerEnter(Collider other)
