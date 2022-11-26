@@ -34,6 +34,7 @@ public class InputManager
         {
             InputAction action = (InputAction)i;
 
+            // string => Enum Parse
             if (GetKeyDown(action))
             {
                 EventManager<InputType>.TriggerEvent(i, InputType.GetKeyDown);
@@ -46,6 +47,8 @@ public class InputManager
             {
                 EventManager<InputType>.TriggerEvent(i, InputType.GetKeyUp);
             }
+
+            // Else Axis => 
         }
     }
 

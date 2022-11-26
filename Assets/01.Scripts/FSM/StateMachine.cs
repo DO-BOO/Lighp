@@ -59,9 +59,7 @@ public class StateMachine : MonoBehaviour
         curState.Exit();
 
         // State 새로 할당
-        curState = newState;
+        curState = newState;    
         curState.Enter();
     }
-
-
 }

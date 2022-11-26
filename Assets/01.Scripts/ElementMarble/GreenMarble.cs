@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class GreenMarble : ElementMarble
 {
-    public GreenMarble(ElementMarble marble) : base(marble)
+    public GreenMarble(ElementMarble marble) : base(marble, MarbleType.Green)
+    {}
+
+    protected override void ExecuteDoubleSynergy(StateMachine machine)
     {
-        MarbleType = MarbleType.Green;
     }
 
-    protected override void ExecuteDoubleSynergy()
+    protected override void ExecuteTripleSynergy(StateMachine machine)
     {
+
     }
 
-    protected override void ExecuteTripleSynergy()
+    ~GreenMarble()
     {
+
     }
 }

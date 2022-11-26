@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class RedMarble : ElementMarble
 {
-    public RedMarble(ElementMarble marble) : base(marble)
-    {
-        MarbleType = MarbleType.Red;
-    }
+    public RedMarble(ElementMarble marble) : base(marble, MarbleType.Red){}
 
-    protected override void ExecuteDoubleSynergy()
+    protected override void ExecuteDoubleSynergy(StateMachine machine)
     {
 
     }
 
-    protected override void ExecuteTripleSynergy()
+    protected override void ExecuteTripleSynergy(StateMachine machine)
     {
     }
 }

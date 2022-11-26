@@ -54,4 +54,16 @@ public abstract class CharacterMove : Character
 
     // 움직일 때 자식 클래스에서 재정의할 함수
     protected virtual void OnMove(Vector3 velocity) { }
+
+    public IEnumerator ChangeSpeedTemporarily(float addSpeed, float time)
+    {
+        float original = moveStat.speed;
+        float speed = original + addSpeed;
+
+        moveStat.speed = speed;
+
+        yield return new WaitForSeconds(time);
+
+        moveStat.speed = original;
+    }
 }

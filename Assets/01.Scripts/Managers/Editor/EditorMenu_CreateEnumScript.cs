@@ -23,11 +23,10 @@ public class EditorMenu_CreateEnumScript
     [MenuItem("CustomEditor/DataLoad")]
     static void EditorMenu_LoadInGame()
     {
-        Debug.Log("Load Sheet Data...");
         dataLoader = new ReadSpreadData();
-        Action afterLoad = null;
         dataLoader.OnAwake();
 
+        Action afterLoad = null;
         afterLoad += () => CreateFile<InputManager.InputKey>("InputAction", 0);
         afterLoad += () => CreateFile<WeaponData>("Rarity", 2);
         afterLoad += () => CreateFile<WeaponData>("WeaponGrip", 3);

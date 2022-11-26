@@ -15,56 +15,67 @@ public class ElementMarble
     public float doubleValue;   // 더블 시너지일 때 곱할 가중치
     public float tripleValue;   // 트리플 시너지일 때 곱할 가중치
 
-    public float BuffValue { get; private set; }
+    public int Count { get; set; }
+
+    private float buffValue;
+    public float BuffValue
+    {
+        get
+        {
+            switch (Count)
+            {
+                case 0:
+                    buffValue = 0;
+                    break;
+                case 1:
+                    buffValue = defaultBuffValue;
+                    break;
+                case 2:
+                    buffValue = doubleValue;
+                    break;
+                case 3:
+                    buffValue = tripleValue;
+                    break;
+            }
+
+            return buffValue;
+        }
+        set => buffValue = value;
+    }
 
     [field: SerializeField]
     public MarbleType MarbleType { get; protected set; } = MarbleType.End;
 
     public ElementMarble() { }
-    public ElementMarble(ElementMarble elementMarble)
+    public ElementMarble(ElementMarble elementMarble, MarbleType marbleType)
     {
         defaultBuffValue = elementMarble.defaultBuffValue;
         doubleValue = elementMarble.doubleValue;
         tripleValue = elementMarble.tripleValue;
+
+        MarbleType = marbleType;
     }
 
-    protected virtual void ExecuteDoubleSynergy() { }
+    protected virtual void ExecuteDoubleSynergy(StateMachine machine) { }
 
-    protected virtual void ExecuteTripleSynergy() { }
+    protected virtual void ExecuteTripleSynergy(StateMachine machine) { }
 
     /// <summary>
     /// 무기 스크립트에서 공격하기 전 실행해야하는 함수이다.
     /// 원소 구슬의 개수별로 시너지를 실행한다.
     /// </summary>
     /// <param name="count">해당 원소구슬의 개수</param>
-    public void ExecuteMarble(int count)
+    public void ExecuteMarble(int count, StateMachine mosterStateMachine)
     {
         switch (count)
         {
-            case 1:
-                BuffValue = defaultBuffValue;
-                break;
-
             case 2:
-                BuffValue = doubleValue;
-                ExecuteDoubleSynergy();
+                ExecuteDoubleSynergy(mosterStateMachine);
                 break;
 
             case 3:
-                BuffValue = tripleValue;
-                ExecuteTripleSynergy();
+                ExecuteTripleSynergy(mosterStateMachine);
                 break;
-        }
-
-        if (BuffValue > 0)
-        {
-            // 80% => 1.8
-            BuffValue = 1f + BuffValue / 100f;
-        }
-        else
-        {
-            // 80% => 0.2
-            BuffValue /= 100f;
         }
     }
 }
