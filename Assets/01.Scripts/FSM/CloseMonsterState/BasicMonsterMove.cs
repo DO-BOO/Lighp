@@ -17,52 +17,6 @@ public class BasicMonsterMove : BaseState
         monster = (BasicCloseMonster)stateMachine;
     }
 
-    #region DASH 
-    private const float COOLTIME = Define.DASH_COOLTIME;
-    private const float DURATION = Define.DASH_DURATION;
-    private const float DISTANCE = Define.DASH_DISTANCE;
-
-    private bool CanDash => dashCoolTimer <= 0f;
-    private bool isDash = false;
-    private float dashCoolTimer = 0;
-
-    private void CheckDash()
-    {
-        if (isDash) return;
-        if (monster.distance >= DISTANCE && CanDash)
-        {
-            isDash = true;
-            SetMove(false);
-            Vector3 direction = monster.dir;
-            monster.WarningDash(direction.normalized);
-            Sequence seq = DOTween.Sequence();
-            seq.InsertCallback(1.0f, () => { Dash(direction); });seq.Play();
-        }
-    }
-    private void CheckDashCoolTime()
-    {
-        if (dashCoolTimer > 0)
-        {
-            dashCoolTimer -= Time.deltaTime;
-        }
-    }
-
-    private void Dash(Vector3 velocity)
-    {
-        Vector3 destination = monster.transform.position + velocity.normalized * DISTANCE;
-        monster.transform.DOKill();
-        monster.transform.DOMove(destination, DURATION).OnComplete(() => { OnEndDash(); });
-    }
-
-    private void OnEndDash()
-    {
-        isDash = false;
-        SetMove(true);
-        dashCoolTimer = COOLTIME;
-    }
-
-    #endregion
-
     #region MOVE
 
     const float monsterSpeed = 10.0f;
@@ -101,6 +55,8 @@ public class BasicMonsterMove : BaseState
 
     #region STATE
 
+    float DISTANCE = 20f;
+
     // 다른 STATE로 넘어가는 조건
     public override void CheckDistance()
     {
@@ -108,6 +64,10 @@ public class BasicMonsterMove : BaseState
         if (monster.distance <= monster.attackRange)
         {
             stateMachine.ChangeState(monster.idleState);
+        }
+        else if (monster.distance >= DISTANCE && monster.canDash)
+        {
+            stateMachine.ChangeState(monster.dashState);
         }
     }
 
@@ -131,8 +91,6 @@ public class BasicMonsterMove : BaseState
         target = monster.SerachTarget();
 
         Move();
-        CheckDashCoolTime();
-        CheckDash();
     }
 
     // 상태 끝났을 시

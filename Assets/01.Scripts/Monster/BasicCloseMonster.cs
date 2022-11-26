@@ -10,7 +10,6 @@ using UnityEngine.AI;
 public class BasicCloseMonster : StateMachine
 {
     private Transform target = null; // 타겟
-    public GameObject dashLine;
 
     // 상태 스크립트
     public BasicMonsterIdle idleState;
@@ -19,6 +18,7 @@ public class BasicCloseMonster : StateMachine
     public BasicMonsterAttack attackState;
     public BasicMonsterDamage damageState;
     public BasicMonsterDie dieState;
+    public BasicMonsterDash dashState;
 
     // Layer
     public LayerMask targetLayerMask;
@@ -68,6 +68,7 @@ public class BasicCloseMonster : StateMachine
         damageState = new BasicMonsterDamage(this);
         dieState = new BasicMonsterDie(this);
         stunState = new BasicMonsterStun(this);
+        dashState = new BasicMonsterDash(this);
 
         SetMonsterInform();
     }
@@ -192,12 +193,25 @@ public class BasicCloseMonster : StateMachine
 
     #region DASH
 
-    public void WarningDash(Vector3 _end)
+    private float COOLTIME = Define.DASH_COOLTIME;
+    private float curDashTime = 0.0f;
+
+    private bool isDash = false;
+    public void SetDash(bool isS) { isDash = isS; }
+    public bool IsDash() { return isDash; }
+    public bool canDash = true;
+
+    public void StartDashCool()
     {
-        Vector3 newPos = transform.position;
-        GameObject line = Instantiate(dashLine, newPos, transform.rotation);
-        line.GetComponent<WarningLine>().SetPos(_end);
+        canDash = false;
+        StartCoroutine(EndDashCool());
     }
+    IEnumerator EndDashCool()
+    {
+        yield return new WaitForSeconds(COOLTIME);
+        canDash = true;
+    }
+
 
     #endregion
 

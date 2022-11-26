@@ -4,10 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WarningLine : MonoBehaviour
+public class WarningLine : Poolable
 {
     private Vector3 endPosition;
-    private float drawSpeed = 2f;
+    private float drawTime = 0.7f;
+    private float drawDistance = 12f;
 
     private void Start()
     {
@@ -21,17 +22,25 @@ public class WarningLine : MonoBehaviour
 
     private void SetLine()
     {
-        endPosition = new Vector3(endPosition.x, endPosition.y+0.1f, endPosition.z);
-
+        endPosition = transform.position + new Vector3(endPosition.x, endPosition.y+0.1f, endPosition.z) * drawDistance;
+        endPosition.y = 0.3f;
         transform.rotation = Quaternion.Euler(90f, 0, 0);
 
         transform.DOKill();
-        transform.DOMove(transform.position + endPosition *12f, 0.7f);
-        Destroy(gameObject, 1.0f);
+        transform.DOMove(endPosition, drawTime);
+
+        StartCoroutine(DeleteLine());
+        //Destroy(gameObject, 1.0f);
     }
 
-    private void Update()
+    IEnumerator DeleteLine()
+    {
+        yield return new WaitForSeconds(drawTime);
+
+        GameManager.Instance.Pool.Push(this);
+    }
+
+    public override void ResetData()
     {
     }
-
 }
