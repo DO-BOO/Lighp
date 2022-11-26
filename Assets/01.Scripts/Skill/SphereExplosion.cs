@@ -4,24 +4,27 @@ using UnityEngine;
 
 public class SphereExplosion : Poolable
 {
-    private float radius = 1f;
+    private float radius = 8f;
+
     public float Radius
     {
         get => radius;
         set => radius = value;
     }
 
-    private float timer = 1f;
+    private const float TIME = 1f;
+    private float timer = TIME;
 
     private void OnEnable()
     {
         Collider[] enemies = Physics.OverlapSphere(transform.position, radius, Define.MONSTER_LAYER);
 
-            Debug.Log("Exploion Attack");
         foreach (Collider collider in enemies)
         {
-            CharacterHp hp = collider.GetComponent<CharacterHp>();
-            hp?.Hit(10);
+            //CharacterHp hp = collider.GetComponent<CharacterHp>();
+            //hp?.Hit(10);
+
+            collider.GetComponent<BasicCloseMonster>().Damaged(true);
         }
     }
 
@@ -43,12 +46,14 @@ public class SphereExplosion : Poolable
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, Radius);
+        Color color = Color.blue;
+        color.a = 0.3f;
+        Gizmos.color = color;
+        Gizmos.DrawSphere(transform.position, Radius);
     }
 
     public override void ResetData()
     {
-
+        timer = TIME;
     }
 }

@@ -143,11 +143,8 @@ public class MarbleController
 
     public void ExecuteAttack(StateMachine monster)
     {
-        Debug.Log("Marble Hit");
-
         if (IsRGBSynergy())
         {
-            Debug.Log("Explosion");
             Debug.Log(GameManager.Instance.Pool.Pop("Explosion", null, monster.transform.position));
         }
 

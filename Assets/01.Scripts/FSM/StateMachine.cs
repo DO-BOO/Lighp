@@ -55,10 +55,10 @@ public class StateMachine : MonoBehaviour
     public void ChangeState(BaseState newState)
     {
         // State 끝내기
-        curState.Exit();
+        curState?.Exit();
 
         // State 새로 할당
         curState = newState;    
-        curState.Enter();
+        curState?.Enter();
     }
 }

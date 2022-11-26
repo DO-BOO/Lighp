@@ -50,7 +50,8 @@ public class OneHandWeapon : WeaponScript
             if (monster)
             {
                 marbleController.ExecuteAttack(other.GetComponent<StateMachine>());
-                monster.GetComponent<CharacterHp>()?.Hit((int)Damage);
+                //monster.GetComponent<CharacterHp>()?.Hit((int)Damage);
+                monster.GetComponent<BasicCloseMonster>()?.Damaged(false);
             }
 
         }

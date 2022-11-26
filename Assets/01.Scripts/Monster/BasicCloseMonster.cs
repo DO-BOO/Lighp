@@ -7,7 +7,7 @@ using UnityEngine.AI;
 /// <summary>
 /// 근거리 Monster의 기본 FSM
 /// </summary>
-public class BasicCloseMonster : MonsterFSM
+public class BasicCloseMonster : StateMachine
 {
     private Transform target = null; // 타겟
     public GameObject dashLine;
@@ -92,7 +92,7 @@ public class BasicCloseMonster : MonsterFSM
     {
         return Vector3.Distance(target.transform.position, transform.position);
     }
-    
+
     // 타겟과의 방향 구하기
     protected override Vector3 GetDirection()
     {
@@ -139,9 +139,11 @@ public class BasicCloseMonster : MonsterFSM
         if (isStun && !isStunCool)
         {
             ChangeState(stunState);
-            StartCoroutine(StunCoolTimer());
+
+            if (gameObject.activeSelf)
+                StartCoroutine(StunCoolTimer());
         }
-        else 
+        else
             ChangeState(damageState);
     }
 
@@ -161,10 +163,10 @@ public class BasicCloseMonster : MonsterFSM
             ChangeState(dieState);
         }
     }
-    
+
     public void ReviveHP()
     {
-       HP = MAX_HP;
+        HP = MAX_HP;
     }
     #endregion
 
