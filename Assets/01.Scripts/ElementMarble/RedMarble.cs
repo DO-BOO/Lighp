@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class RedMarble : ElementMarble
 {
-    public RedMarble(ElementMarble marble) : base(marble)
-    {
-        MarbleType = MarbleType.Red;
-    }
+    public RedMarble(ElementMarble marble) : base(marble, MarbleType.Red){}
 
-    protected override void ExecuteDoubleSynergy(CharacterHp characterHp)
+    protected override void ExecuteDoubleSynergy(StateMachine machine)
     {
 
     }
 
-    protected override void ExecuteTripleSynergy(CharacterHp characterHp)
+    protected override void ExecuteTripleSynergy(StateMachine machine)
     {
-        characterHp.DOTDeal(5f, 3); // 5초간 3 도트 대미지
+        machine.GetComponent<CharacterHp>()?.DOTDeal(5f, 3); // 5초간 3 도트 대미지
     }
 }

@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class GreenMarble : ElementMarble
 {
-    public GreenMarble(ElementMarble marble) : base(marble)
+    private CharacterMove move;
+
+    public GreenMarble(ElementMarble marble) : base(marble, MarbleType.Green)
     {
-        MarbleType = MarbleType.Green;
+        EventManager<InputType>.StartListening((int)InputAction.Dash, ExecuteTripleSynergy);
+
+        // TODO: FindObject °íÄ¡±â
+        move = Object.FindObjectOfType<PlayerMove>();
     }
 
-    protected override void ExecuteDoubleSynergy(CharacterHp characterHp)
+    private void ExecuteTripleSynergy(InputType inputType)
     {
+        if(inputType == InputType.GetKeyDown && Count >= 3)
+        {
+            move?.ChangeSpeedTemporarily(7f, 1f);
+        }
     }
 
-    protected override void ExecuteTripleSynergy(CharacterHp characterHp)
+    ~GreenMarble()
     {
+        EventManager<InputType>.StopListening((int)InputAction.Dash, ExecuteTripleSynergy);
     }
 }

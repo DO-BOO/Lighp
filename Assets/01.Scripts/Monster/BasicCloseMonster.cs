@@ -7,7 +7,7 @@ using UnityEngine.AI;
 /// <summary>
 /// 근거리 Monster의 기본 FSM
 /// </summary>
-public class BasicCloseMonster : StateMachine
+public class BasicCloseMonster : MonsterFSM
 {
     private Transform target = null; // 타겟
 
@@ -51,7 +51,6 @@ public class BasicCloseMonster : StateMachine
     {
         stunning = stop;
     }
-
 
     private void Awake()
     {
@@ -166,8 +165,6 @@ public class BasicCloseMonster : StateMachine
     {
        HP = MAX_HP;
     }
-
-
     #endregion
 
     #region STUN
@@ -190,7 +187,6 @@ public class BasicCloseMonster : StateMachine
     #endregion
 
     #region ANIMATION
-
     // 애니메이션 Hash
     [HideInInspector]
     public int hashWalk = Animator.StringToHash("Walk");
@@ -233,5 +229,4 @@ public class BasicCloseMonster : StateMachine
         anim.SetBool(hashStun, isOn);
     }
     #endregion
-
 }

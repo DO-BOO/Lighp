@@ -9,7 +9,8 @@ using DG.Tweening;
 public abstract class CharacterMove : Character
 {
     public MoveStat moveStat;
-
+    public float curMoveSpeed;
+    public float timer;
     public bool IsCurrentMoving
     {
         get
@@ -20,10 +21,27 @@ public abstract class CharacterMove : Character
     }
 
     public Vector3 Velocity => rigid.velocity;
-    #region CONTROL
 
+    #region CONTROL
     private bool canMove = true;
     #endregion
+
+    protected override void ChildAwake()
+    {
+        curMoveSpeed = moveStat.speed;
+    }
+
+    protected virtual void Update()
+    {
+        if(timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        else
+        {
+            curMoveSpeed = moveStat.speed;
+        }
+    }
 
     // 캐릭터를 velocity 방향으로 움직이는 함수
     protected void Move(Vector3 velocity, float speed = 1f, bool isRot = false, float rotTime = 0.5f)
@@ -54,4 +72,10 @@ public abstract class CharacterMove : Character
 
     // 움직일 때 자식 클래스에서 재정의할 함수
     protected virtual void OnMove(Vector3 velocity) { }
+
+    public void ChangeSpeedTemporarily(float addSpeed, float time)
+    {
+        curMoveSpeed = moveStat.speed + addSpeed;
+        timer = time;
+    }
 }

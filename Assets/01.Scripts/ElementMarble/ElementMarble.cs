@@ -12,47 +12,75 @@ public class ElementMarble
     /// 원소 구슬의 버프 수치
     /// </summary>
     public float defaultBuffValue;
-    public float doubleValue;   // 더블 시너지일 때 곱할 가중치
-    public float tripleValue;   // 트리플 시너지일 때 곱할 가중치
+    public float doubleValue;       // 더블 시너지일 때 가중치
+    public float tripleValue;       // 트리플 시너지일 때 가중치
+    public float rgbSynergyValue;   // RGB 시너지일 때 가중치
 
-    public float BuffValue { get; private set; }
+    public bool rgbSynergy = false; // 현재 RGB 시너지인지 판단
+    public int Count { get; set; }
 
-    [field: SerializeField]
-    public MarbleType MarbleType { get; protected set; } = MarbleType.End;
+    private float buffValue;
+    public float BuffValue
+    {
+        get
+        {
+            if (rgbSynergy)
+                return rgbSynergyValue;
+
+            switch (Count)
+            {
+                case 0:
+                    buffValue = 0;
+                    break;
+                case 1:
+                    if (rgbSynergy)
+                        buffValue = defaultBuffValue;
+                    else
+                        buffValue = rgbSynergyValue;
+                    break;
+                case 2:
+                    buffValue = doubleValue;
+                    break;
+                case 3:
+                    buffValue = tripleValue;
+                    break;
+            }
+
+            return buffValue;
+        }
+        set => buffValue = value;
+    }
+    public MarbleType MarbleType { get; protected set; } = MarbleType.Length;
 
     public ElementMarble() { }
-    public ElementMarble(ElementMarble elementMarble)
+    public ElementMarble(ElementMarble elementMarble, MarbleType marbleType)
     {
         defaultBuffValue = elementMarble.defaultBuffValue;
         doubleValue = elementMarble.doubleValue;
         tripleValue = elementMarble.tripleValue;
+
+        MarbleType = marbleType;
     }
 
-    protected virtual void ExecuteDoubleSynergy(CharacterHp characterHp) { }
-
-    protected virtual void ExecuteTripleSynergy(CharacterHp characterHp) { }
+    protected virtual void ExecuteDoubleSynergy(StateMachine machine) { }
+    protected virtual void ExecuteTripleSynergy(StateMachine machine) { }
 
     /// <summary>
     /// 무기 스크립트에서 **공격하기 전** 실행해야하는 함수이다.
     /// 원소 구슬의 개수별로 시너지를 실행한다.
     /// </summary>
     /// <param name="count">해당 원소구슬의 개수</param>
-    public void ExecuteMarble(int count, CharacterHp characterHp)
+
+    public void ExecuteMarble(int count, StateMachine mosterStateMachine)
     {
         switch (count)
         {
-            case 1:
-                BuffValue = defaultBuffValue;
-                break;
-
             case 2:
-                BuffValue = doubleValue;
-                ExecuteDoubleSynergy(characterHp);
+                ExecuteDoubleSynergy(mosterStateMachine);
                 break;
 
             case 3:
-                BuffValue = tripleValue;
-                ExecuteTripleSynergy(characterHp);
+                ExecuteTripleSynergy(mosterStateMachine);
                 break;
         }
     }

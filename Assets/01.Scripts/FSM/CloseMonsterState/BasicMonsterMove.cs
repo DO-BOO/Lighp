@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using DG.Tweening;
 using UnityEngine.UIElements;
 using System.Runtime.InteropServices.WindowsRuntime;
+
 /// <summary>
 /// 근거리 몬스터의 이동 스크립트
 /// </summary>
@@ -26,7 +27,7 @@ public class BasicMonsterMove : BaseState
 
     private bool CanDash => dashTime <= 0f;
     private bool isDash = false;
-    
+
     private float dashSpeed = 100f;
     private float dashTime = 0;
 
@@ -41,7 +42,7 @@ public class BasicMonsterMove : BaseState
 
     private void CheckDashCoolTime()
     {
-        if(isDash)
+        if (isDash)
         {
             SetUseCoolTime();
         }
@@ -73,7 +74,7 @@ public class BasicMonsterMove : BaseState
         monster.rigid.AddForce(velocity.normalized * dashSpeed, ForceMode.Impulse);
         monster.rigid.velocity = Vector3.zero;
     }
-    
+
     private void StopDash()
     {
         dashTime = dashCoolTime;
@@ -86,6 +87,12 @@ public class BasicMonsterMove : BaseState
 
     #region MOVE
 
+    public float MoveSpeed
+    {
+        get => monster.agent.speed;
+        set => monster.agent.speed = value;
+    }
+
     private void Move()
     {
         if (target == null) return;
@@ -97,6 +104,17 @@ public class BasicMonsterMove : BaseState
         monster.agent.isStopped = !isMove;
     }
 
+    public IEnumerator ChangeSpeedTemporarily(float second, float percent)
+    {
+        float originalSpeed = monster.agent.speed;
+        float speed = (100f - percent) * 0.01f * monster.agent.speed;
+
+        monster.agent.speed = speed;
+
+        yield return new WaitForSeconds(second);
+
+        monster.agent.speed = originalSpeed;
+    }
     #endregion
 
     #region ANIMATION
