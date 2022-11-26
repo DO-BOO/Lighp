@@ -39,7 +39,7 @@ public class OneHandWeapon : WeaponScript
         IHittable target = other.GetComponent<IHittable>();
         if(target != null && data.isEnemy != target.isEnemy) //타켓의 아군/적군 확인
         {
-            target.GetDamge(data.damage, data.hitStunTime);
+            target.GetDamage(data.damage, data.hitStunTime);
         }
     }
 }

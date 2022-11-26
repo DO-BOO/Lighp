@@ -60,7 +60,7 @@ public class BulletScript : Poolable
                 target = hit.transform.GetComponent<IHittable>();
                 if(target != null)
                 {
-                    target.GetDamge(data.damage, data.hitStun);
+                    target.GetDamage(data.damage, data.hitStun);
                 }
             }
 

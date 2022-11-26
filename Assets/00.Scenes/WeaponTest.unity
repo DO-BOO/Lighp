@@ -13036,7 +13036,6 @@ MonoBehaviour:
   - {fileID: 8443288132878792494, guid: dc7a24ff9df7b824b990c81ad7245efe, type: 3}
   - {fileID: 273714682, guid: 2e8cce6c3d75a654491af6ab8688d419, type: 3}
   weapons: []
-  curWeapon: {fileID: 0}
   handPosition: {fileID: 662660368}
 --- !u!114 &543450652733973855
 MonoBehaviour:
@@ -14498,7 +14497,7 @@ Animator:
   m_GameObject: {fileID: 5926249814685853730}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d60f79cd7a09e8f428d9cc7c24822f4a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 25d2a78344539e3408f591206d767af1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

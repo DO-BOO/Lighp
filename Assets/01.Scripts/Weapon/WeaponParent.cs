@@ -7,8 +7,16 @@ public class WeaponParent : MonoBehaviour
 {
     #region 공격관련 변수
     [SerializeField] private bool isEnemy = false;
-    private bool isAttack = false;
+    private bool isAttack;
     public bool IsAttack => isAttack;
+    private bool isDraw;
+    public bool IsCanAttack
+    {
+        get
+        {
+            return !isAttack && !isDraw;
+        }
+    }
     #endregion
 
     #region 무기관련 변수
@@ -16,13 +24,7 @@ public class WeaponParent : MonoBehaviour
     [SerializeField] private List<WeaponScript> weapons = new List<WeaponScript>();
     [SerializeField] private Transform handPosition = null;
     private int weaponIndex;
-    private WeaponScript curWeapon
-    {
-        get
-        {
-            return weapons[weaponIndex];
-        }
-    }
+    private WeaponScript curWeapon => weapons[weaponIndex];
     #endregion
 
     #region 애니메이션관련 변수
@@ -75,14 +77,14 @@ public class WeaponParent : MonoBehaviour
     #endregion
 
     //매개변수의 무기를 장착
-    private void GetWeapon(WeaponScript weapon)
+    public void GetWeapon(WeaponScript weapon)
     {
         weapons.Add(weapon);
         weapon.Equip(handPosition, isEnemy);
         SelectWeapon(weapons.Count - 1);
     }
 
-    private void SelectWeapon(int index)
+    public void SelectWeapon(int index)
     {
         curWeapon.gameObject.SetActive(false);
         weaponIndex = index;
@@ -92,7 +94,7 @@ public class WeaponParent : MonoBehaviour
 
     private void OnAttack(InputType input)
     {
-        if (input != InputType.GetKeyDown || curWeapon == null || isAttack) return;
+        if (input != InputType.GetKeyDown || curWeapon == null || !IsCanAttack) return;
         isAttack = true;
         animator.SetTrigger(hashAttack);
     }
@@ -126,6 +128,12 @@ public class WeaponParent : MonoBehaviour
     public void Stay()
     {
         curWeapon.Stay();
+    }
+
+    //무기 변경 애니메이션 종료시
+    public void OnDrawEnd()
+    {
+        isDraw = false;
     }
     #endregion
 }
