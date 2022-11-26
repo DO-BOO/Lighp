@@ -27,7 +27,7 @@ public class MarbleController
 
     public MarbleController(GameObject obj)
     {
-        attackMaterial = obj.GetComponentInChildren<TrailRenderer>().material;
+        attackMaterial = obj.GetComponentInChildren<TrailRenderer>()?.material;
     }
 
     /// <summary>
@@ -90,12 +90,16 @@ public class MarbleController
     // 나중에는 다른 스크립트로 빼줄 예정
     private void SetAttackEffectColor()
     {
-        float factor = Mathf.Pow(2, 1);
+        if (attackMaterial)
+        {
+            float factor = Mathf.Pow(2, 1);
 
-        Color marblesColor = MarblesColor();
-        Color emmisionColor = new Color(marblesColor.r * factor, marblesColor.g * factor, marblesColor.b * factor);
-        attackMaterial.color = marblesColor;
-        attackMaterial.SetColor(emmisionHash, emmisionColor);
+            Color marblesColor = MarblesColor();
+            Color emmisionColor = new Color(marblesColor.r * factor, marblesColor.g * factor, marblesColor.b * factor);
+
+            attackMaterial.color = marblesColor;
+            attackMaterial.SetColor(emmisionHash, emmisionColor);
+        }
     }
 
     /// <summary>
