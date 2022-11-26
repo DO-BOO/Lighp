@@ -10462,10 +10462,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3158070957750803538, guid: be02706d20869814f85913b624a6dfd1, type: 3}
-      propertyPath: marbleController.marbles.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5926249814434975643, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_Name
       value: Player
