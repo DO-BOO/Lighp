@@ -139,16 +139,16 @@ public class MarbleController
         }
     }
 
-    public bool IsRGBSynergy()
-    {
-        return marbles[0].rgbSynergy;
-    }
+    public bool IsRGBSynergy() => marbles[0].rgbSynergy;
 
     public void ExecuteAttack(StateMachine monster)
     {
+        Debug.Log("Marble Hit");
+
         if (IsRGBSynergy())
         {
-            GameManager.Instance.Pool.Pop("Explosion", null, monster.transform.position);
+            Debug.Log("Explosion");
+            Debug.Log(GameManager.Instance.Pool.Pop("Explosion", null, monster.transform.position));
         }
 
         foreach (ElementMarble marble in marbles)

@@ -36,7 +36,7 @@ public class OneHandWeapon : WeaponScript
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == Define.MONSTER_LAYER)
+        if(1 << other.gameObject.layer == Define.MONSTER_LAYER)
         {
             //IHittable target = other.GetComponent<IHittable>();
 
@@ -50,7 +50,7 @@ public class OneHandWeapon : WeaponScript
             if (monster)
             {
                 marbleController.ExecuteAttack(other.GetComponent<StateMachine>());
-                monster.GetComponent<CharacterHp>().Hit((int)Damage);
+                monster.GetComponent<CharacterHp>()?.Hit((int)Damage);
             }
 
         }

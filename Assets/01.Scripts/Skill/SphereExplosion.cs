@@ -17,6 +17,7 @@ public class SphereExplosion : Poolable
     {
         Collider[] enemies = Physics.OverlapSphere(transform.position, radius, Define.MONSTER_LAYER);
 
+            Debug.Log("Exploion Attack");
         foreach (Collider collider in enemies)
         {
             CharacterHp hp = collider.GetComponent<CharacterHp>();
@@ -26,13 +27,17 @@ public class SphereExplosion : Poolable
 
     private void Update()
     {
-        if(timer > 0)
+        if (timer > 0)
         {
             timer -= Time.deltaTime;
         }
         else
         {
-            GameManager.Instance.Pool.Push(this);
+            if (IsUsing)
+            {
+                Debug.Log("Push");
+                GameManager.Instance.Pool.Push(this);
+            }
         }
     }
 

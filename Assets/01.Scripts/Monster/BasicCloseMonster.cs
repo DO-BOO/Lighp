@@ -191,9 +191,12 @@ public class BasicCloseMonster : MonsterFSM
 
     public void WarningDash(Vector3 _end)
     {
-        Vector3 newPos = transform.position;
-        GameObject line = Instantiate(dashLine, newPos, transform.rotation);
-        line.GetComponent<WarningLine>().SetPos(_end);
+        if (dashLine)
+        {
+            Vector3 newPos = transform.position;
+            GameObject line = Instantiate(dashLine, newPos, transform.rotation);
+            line.GetComponent<WarningLine>().SetPos(_end);
+        }
     }
 
     #endregion

@@ -33,11 +33,14 @@ public class ElementMarble
                     buffValue = 0;
                     break;
                 case 1:
-                    if (rgbSynergy)
-                        buffValue = defaultBuffValue;
-                    else
-                        buffValue = rgbSynergyValue;
+                    {
+                        if (rgbSynergy)
+                            buffValue = defaultBuffValue;
+                        else
+                            buffValue = rgbSynergyValue;
+                    }
                     break;
+
                 case 2:
                     buffValue = doubleValue;
                     break;
