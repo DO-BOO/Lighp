@@ -32,7 +32,7 @@ public class CharacterHp : Character
     {
         hp += heal;
 
-        if(hp > maxHp)
+        if (hp > maxHp)
         {
             hp = maxHp;
         }
@@ -42,5 +42,31 @@ public class CharacterHp : Character
     {
         hp = maxHp;
         IsDead = false;
+    }
+
+    public void DOTDeal(float time, int perDamage)
+    {
+        StartCoroutine(DOTDamage(time, perDamage));
+    }
+
+    private IEnumerator DOTDamage(float time, int perDamage)
+    {
+        WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
+        float accTime = 0f;
+        float damage = 0f;
+
+        while (accTime <= time)
+        {
+            accTime += Time.fixedDeltaTime;
+            damage += perDamage / Define.FIXED_FPS;
+
+            if (damage >= 1f)
+            {
+                Hit(1);
+                damage -= 1f;
+            }
+
+            yield return fixedUpdate;
+        }
     }
 }

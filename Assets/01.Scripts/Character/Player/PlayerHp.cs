@@ -7,6 +7,10 @@ public class PlayerHp : CharacterHp
     [SerializeField] private int dropHp = 15;
     float accDrop;
 
+    protected override void Start()
+    {
+        base.Start();
+    }
     private void FixedUpdate()
     {
         if (IsDead) return;

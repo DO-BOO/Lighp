@@ -10,6 +10,7 @@ using UnityEngine.AI;
 public class BasicCloseMonster : StateMachine
 {
     private Transform target = null; // 타겟
+    public GameObject dashLine;
 
     // 상태 스크립트
     public BasicMonsterIdle idleState;
@@ -52,7 +53,6 @@ public class BasicCloseMonster : StateMachine
         stunning = stop;
     }
 
-
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -92,7 +92,7 @@ public class BasicCloseMonster : StateMachine
     {
         return Vector3.Distance(target.transform.position, transform.position);
     }
-    
+
     // 타겟과의 방향 구하기
     protected override Vector3 GetDirection()
     {
@@ -139,9 +139,11 @@ public class BasicCloseMonster : StateMachine
         if (isStun && !isStunCool)
         {
             ChangeState(stunState);
-            StartCoroutine(StunCoolTimer());
+
+            if (gameObject.activeSelf)
+                StartCoroutine(StunCoolTimer());
         }
-        else 
+        else
             ChangeState(damageState);
     }
 
@@ -161,13 +163,11 @@ public class BasicCloseMonster : StateMachine
             ChangeState(dieState);
         }
     }
-    
+
     public void ReviveHP()
     {
-       HP = MAX_HP;
+        HP = MAX_HP;
     }
-
-
     #endregion
 
     #region STUN
@@ -189,8 +189,21 @@ public class BasicCloseMonster : StateMachine
 
     #endregion
 
-    #region ANIMATION
+    #region DASH
 
+    public void WarningDash(Vector3 _end)
+    {
+        if (dashLine)
+        {
+            Vector3 newPos = transform.position;
+            GameObject line = Instantiate(dashLine, newPos, transform.rotation);
+            line.GetComponent<WarningLine>().SetPos(_end);
+        }
+    }
+
+    #endregion
+
+    #region ANIMATION
     // 애니메이션 Hash
     [HideInInspector]
     public int hashWalk = Animator.StringToHash("Walk");
@@ -233,5 +246,4 @@ public class BasicCloseMonster : StateMachine
         anim.SetBool(hashStun, isOn);
     }
     #endregion
-
 }

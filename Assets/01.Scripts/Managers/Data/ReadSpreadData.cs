@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Reflection;
 using System;
+using Unity.EditorCoroutines.Editor;
 using System.Linq;
 
 /// <summary>
@@ -24,7 +25,7 @@ public class ReadSpreadData
     }
 
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
-    public IEnumerator LoadData()
+    public IEnumerator LoadDataCoroutine(Action aftaerLoad = null)
     {
         List<Type> sheetTypes = new List<Type>(sheetDatas.Keys);
 
@@ -37,15 +38,20 @@ public class ReadSpreadData
         }
 
         IsLoading = false;
+        aftaerLoad?.Invoke();
     }
 
     // sheet 타입에 맞춰 시트 데이터를 T형의 리스트로 만들어주는 함수
-    public List<T> GetDatas<T>()
+    public List<T> GetDatas<T>(Type spreadType = null)
     {
         List<T> list = new List<T>();
 
         // 탭과 엔터로 값 나누어 데이터 변수에 저장
-        string[] row = sheetDatas[typeof(T)].Split('\n');
+
+        if (spreadType == null)
+            spreadType = typeof(T);
+
+        string[] row = sheetDatas[spreadType].Split('\n');
         int rowSize = row.Length;
 
         for (int i = 0; i < rowSize; i++)
