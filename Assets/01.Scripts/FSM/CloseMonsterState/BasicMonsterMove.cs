@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
-using UnityEngine.UIElements;
-using System.Runtime.InteropServices.WindowsRuntime;
-
 /// <summary>
 /// 근거리 몬스터의 이동 스크립트
 /// </summary>
@@ -21,77 +18,54 @@ public class BasicMonsterMove : BaseState
     }
 
     #region DASH 
-    private const float dashCoolTime = Define.DASH_COOLTIME;
-    private const float dashDuration = Define.DASH_DURATION;
-    private const float dashDistance = 25f;
+    private const float COOLTIME = Define.DASH_COOLTIME;
+    private const float DURATION = Define.DASH_DURATION;
+    private const float DISTANCE = Define.DASH_DISTANCE;
 
-    private bool CanDash => dashTime <= 0f;
+    private bool CanDash => dashCoolTimer <= 0f;
     private bool isDash = false;
-
-    private float dashSpeed = 100f;
-    private float dashTime = 0;
+    private float dashCoolTimer = 0;
 
     private void CheckDash()
     {
         if (isDash) return;
-        if (monster.distance >= dashDistance && CanDash)
+        if (monster.distance >= DISTANCE && CanDash)
         {
-            Dash(monster.dir);
+            isDash = true;
+            SetMove(false);
+            Vector3 direction = monster.dir;
+            monster.WarningDash(direction.normalized);
+            Sequence seq = DOTween.Sequence();
+            seq.InsertCallback(1.0f, () => { Dash(direction); }); seq.Play();
         }
     }
-
     private void CheckDashCoolTime()
     {
-        if (isDash)
+        if (dashCoolTimer > 0)
         {
-            SetUseCoolTime();
+            dashCoolTimer -= Time.deltaTime;
         }
-        else
-        {
-            if (CanDash) return;
-            SetReadyCoolTime();
-        }
-    }
-
-    private void SetUseCoolTime()
-    {
-        dashTime += Time.deltaTime;
-        if (dashTime >= dashDuration)
-        {
-            StopDash();
-        }
-    }
-    private void SetReadyCoolTime()
-    {
-        dashTime -= Time.deltaTime;
     }
 
     private void Dash(Vector3 velocity)
     {
-        isDash = true;
-        SetMove(false);
-
-        monster.rigid.AddForce(velocity.normalized * dashSpeed, ForceMode.Impulse);
-        monster.rigid.velocity = Vector3.zero;
+        Vector3 destination = monster.transform.position + velocity.normalized * DISTANCE;
+        monster.transform.DOKill();
+        monster.transform.DOMove(destination, DURATION).OnComplete(() => { OnEndDash(); });
     }
 
-    private void StopDash()
+    private void OnEndDash()
     {
-        dashTime = dashCoolTime;
-        monster.rigid.velocity = Vector3.zero;
         isDash = false;
         SetMove(true);
+        dashCoolTimer = COOLTIME;
     }
 
     #endregion
 
     #region MOVE
 
-    public float MoveSpeed
-    {
-        get => monster.agent.speed;
-        set => monster.agent.speed = value;
-    }
+    const float monsterSpeed = 10.0f;
 
     private void Move()
     {
@@ -99,21 +73,18 @@ public class BasicMonsterMove : BaseState
         monster.LookTarget(target);
         monster.agent.SetDestination(target.position);
     }
+
     private void SetMove(bool isMove)
     {
-        monster.agent.isStopped = !isMove;
-    }
-
-    public IEnumerator ChangeSpeedTemporarily(float second, float percent)
-    {
-        float originalSpeed = monster.agent.speed;
-        float speed = (100f - percent) * 0.01f * monster.agent.speed;
-
-        monster.agent.speed = speed;
-
-        yield return new WaitForSeconds(second);
-
-        monster.agent.speed = originalSpeed;
+        if (!isMove)
+        {
+            monster.agent.speed = 0;
+            monster.agent.velocity = Vector3.zero;
+        }
+        else
+        {
+            monster.agent.speed = monsterSpeed;
+        }
     }
     #endregion
 
@@ -128,7 +99,6 @@ public class BasicMonsterMove : BaseState
     #endregion
 
     #region STATE
-
 
     // 다른 STATE로 넘어가는 조건
     public override void CheckDistance()
@@ -172,5 +142,7 @@ public class BasicMonsterMove : BaseState
         SetAnim(false);
         SetMove(false);
     }
+
     #endregion
+
 }

@@ -13,7 +13,8 @@ public class BlueMarble : ElementMarble
 
     protected override void ExecuteTripleSynergy(StateMachine machine)
     {
-        BasicMonsterMove move = machine.GetComponent<BasicMonsterMove>();
-        machine.StartCoroutine(move.ChangeSpeedTemporarily(1f, 30f));
+        Debug.Log("몬스터 느려지게!");
+        //BasicMonsterMove move = machine.GetComponent<BasicMonsterMove>();
+        //machine.StartCoroutine(move.ChangeSpeedTemporarily(1f, 30f));
     }
 }
