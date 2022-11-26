@@ -110,9 +110,11 @@ public class WeaponParent : MonoBehaviour
 
     public void SelectWeapon(int index)
     {
+        if (weapons[index] == null) return;
         curWeapon.gameObject.SetActive(false);
         curWeaponIndex = index;
         curWeapon.gameObject.SetActive(true);
+        Debug.Log($"atkCool: {curWeapon.Data.atkCool}, preDelay: {curWeapon.Data.preDelay}, postDelay: {curWeapon.Data.postDelay}, HitTime: {curWeapon.Data.HitTime}");
         SetAnimParam();
         animator.SetTrigger(hashDraw);
     }
