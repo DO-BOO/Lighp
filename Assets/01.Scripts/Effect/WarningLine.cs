@@ -22,6 +22,9 @@ public class WarningLine : MonoBehaviour
     private void SetLine()
     {
         endPosition = new Vector3(endPosition.x, endPosition.y+0.1f, endPosition.z);
+
+        transform.rotation = Quaternion.Euler(90f, 0, 0);
+
         transform.DOKill();
         transform.DOMove(transform.position + endPosition *12f, 0.7f);
         Destroy(gameObject, 1.0f);
