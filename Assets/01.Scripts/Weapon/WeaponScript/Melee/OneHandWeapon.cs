@@ -10,7 +10,7 @@ public class OneHandWeapon : WeaponScript
     #region 기본공격 관련 함수
     public override void PreDelay()
     {
-        
+
     }
     public override void HitTime()
     {
@@ -36,10 +36,23 @@ public class OneHandWeapon : WeaponScript
 
     private void OnTriggerEnter(Collider other)
     {
-        IHittable target = other.GetComponent<IHittable>();
-        if(target != null && data.isEnemy != target.isEnemy) //타켓의 아군/적군 확인
+        if(other.gameObject.layer == Define.MONSTER_LAYER)
         {
-            target.GetDamge(data.damage, data.hitStunTime);
+            //IHittable target = other.GetComponent<IHittable>();
+
+            //if (target != null && data.isEnemy != target.isEnemy) //타켓의 아군/적군 확인
+            //{
+            //    target.GetDamge(data.damage, data.hitStunTime);
+            //}
+
+            StateMachine monster = other.GetComponent<StateMachine>();
+
+            if (monster)
+            {
+                marbleController.ExecuteAttack(other.GetComponent<StateMachine>());
+                monster.GetComponent<CharacterHp>().Hit((int)Damage);
+            }
+
         }
     }
 }
