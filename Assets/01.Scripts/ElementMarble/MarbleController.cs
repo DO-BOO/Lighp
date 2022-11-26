@@ -138,4 +138,14 @@ public class MarbleController
             marble.rgbSynergy = true;
         }
     }
+
+    public void ExecuteAttack(StateMachine monster)
+    {
+        GameManager.Instance.Pool.Pop("Explosion", null, monster.transform.position);
+
+        foreach(ElementMarble marble in marbles)
+        {
+            marble.ExecuteMarble(monster);
+        }
+    }
 }

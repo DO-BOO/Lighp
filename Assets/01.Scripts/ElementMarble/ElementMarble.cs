@@ -71,9 +71,9 @@ public class ElementMarble
     /// </summary>
     /// <param name="count">해당 원소구슬의 개수</param>
 
-    public void ExecuteMarble(int count, StateMachine mosterStateMachine)
+    public void ExecuteMarble(StateMachine mosterStateMachine)
     {
-        switch (count)
+        switch (Count)
         {
             case 2:
                 ExecuteDoubleSynergy(mosterStateMachine);
