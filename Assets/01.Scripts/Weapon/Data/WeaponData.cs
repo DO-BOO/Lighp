@@ -16,7 +16,6 @@ public class WeaponData
     public int damage;
     public float range;
     public float criticalChance;
-    public float ciritcalFactor;
     public float preDelay;
     public float postDelay;
     public float atkCool;

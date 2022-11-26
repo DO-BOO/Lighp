@@ -41,25 +41,27 @@ public class WeaponParent : MonoBehaviour
         SetEvent();
     }
 
-    private void Start()
-    {
-        if(startingWeapons.Count > 0)
-        {
-            foreach(WeaponScript weapon in startingWeapons)
-            {
-                WeaponScript newWeapon = Instantiate(weapon, transform);
-                GetWeapon(newWeapon);
-            }
-            SelectWeapon(0);
-        }
-    }
-
     private void SetEvent()
     {
         EventManager<InputType>.StartListening((int)InputAction.Attack, OnAttack);
         EventManager<InputType>.StartListening((int)InputAction.Dash, OnDash);
         EventManager<InputType, InputAction>.StartListening((int)InputAction.FirstWeapon, SelectWeapon);
         EventManager<InputType, InputAction>.StartListening((int)InputAction.SecondWeapon, SelectWeapon);
+        EventManager.StartListening(Define.ON_END_READ_DATA, SetWeapons);
+    }
+
+    //무기 인벤토리 초기 세팅
+    private void SetWeapons()
+    {
+        if (startingWeapons.Count > 0)
+        {
+            foreach (WeaponScript weapon in startingWeapons)
+            {
+                WeaponScript newWeapon = Instantiate(weapon, transform);
+                GetWeapon(newWeapon);
+            }
+            SelectWeapon(0);
+        }
     }
 
     #region 애니메이터 변수 설정 함수
@@ -114,7 +116,6 @@ public class WeaponParent : MonoBehaviour
         curWeapon.gameObject.SetActive(false);
         curWeaponIndex = index;
         curWeapon.gameObject.SetActive(true);
-        Debug.Log($"atkCool: {curWeapon.Data.atkCool}, preDelay: {curWeapon.Data.preDelay}, postDelay: {curWeapon.Data.postDelay}, HitTime: {curWeapon.Data.HitTime}");
         SetAnimParam();
         animator.SetTrigger(hashDraw);
     }
@@ -164,6 +165,7 @@ public class WeaponParent : MonoBehaviour
     public void OnDrawEnd()
     {
         isDraw = false;
+        Debug.Log("end");
     }
     #endregion
 }

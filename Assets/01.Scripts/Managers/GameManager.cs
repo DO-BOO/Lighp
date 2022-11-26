@@ -66,8 +66,9 @@ public class GameManager : MonoSingleton<GameManager>
     {
         Ray ray = MainCam.ScreenPointToRay(UnityEngine.Input.mousePosition);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, Define.BOTTOM_LAYER))
+        if(Physics.Raycast(ray, out hit, MainCam.farClipPlane, Define.BOTTOM_LAYER))
         {
+            Debug.DrawRay(MainCam.transform.position, hit.point);
             Vector3 mouse = hit.point;
             mouse.y = 0;
             return mouse;

@@ -45,7 +45,6 @@ public class BulletScript : Poolable
         }
     }
 
-    //풀링으로 고칠것
     IEnumerator MoveBullet()
     {
         lifeTime = 3f;
