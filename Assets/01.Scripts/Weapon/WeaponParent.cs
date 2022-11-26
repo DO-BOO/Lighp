@@ -168,4 +168,12 @@ public class WeaponParent : MonoBehaviour
         Debug.Log("end");
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        EventManager<InputType>.StopListening((int)InputAction.Attack, OnAttack);
+        if (curWeapon != null)
+            EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
+        EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
+    }
 }

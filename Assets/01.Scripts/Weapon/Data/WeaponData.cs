@@ -44,24 +44,3 @@ public class WeaponData
         } 
     }
 }
-
-public enum Rarity
-{
-    Common,
-    Rare,
-    Epic,
-    Legend
-}
-
-public enum WeaponGrip
-{
-    OneHand_Melee,
-    OneHand_Range
-}
-
-public enum WeaponType
-{
-    Sword,
-    Pistol,
-    Length
-}

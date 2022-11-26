@@ -3,5 +3,5 @@ public enum MarbleType
     Red,
     Green,
     Blue,
-    End
+    Length
 }

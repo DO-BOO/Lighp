@@ -31,7 +31,7 @@ public class GameManager : MonoSingleton<GameManager>
         MainCam = Camera.main;
         SpreadData.OnAwake();
         UI.OnAwake();
-        StartCoroutine(SpreadData.LoadData());
+        StartCoroutine(SpreadData.LoadDataCoroutine());
     }
 
     private void Start()
