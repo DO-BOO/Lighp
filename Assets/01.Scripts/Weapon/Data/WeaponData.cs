@@ -16,7 +16,6 @@ public class WeaponData
     public int damage;
     public float range;
     public float criticalChance;
-    public float ciritcalFactor;
     public float preDelay;
     public float postDelay;
     public float atkCool;
@@ -27,8 +26,13 @@ public class WeaponData
 
     public float HitTime { get { return atkCool - preDelay - postDelay; } }
     public bool isEnemy;
-    public float chargingAmount  //차징된 데미지
-    { 
+    private float chargingAmount;
+    public float ChargingAmount  //차징된 데미지
+    {
+        get
+        {
+            return chargingAmount;
+        }
         set 
         { 
             if(value <= 0)

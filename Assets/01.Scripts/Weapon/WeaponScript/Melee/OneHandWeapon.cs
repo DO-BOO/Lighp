@@ -53,7 +53,6 @@ public class OneHandWeapon : WeaponScript
                 //monster.GetComponent<CharacterHp>()?.Hit((int)Damage);
                 monster.GetComponent<BasicCloseMonster>()?.Damaged(false);
             }
-
         }
     }
 }
