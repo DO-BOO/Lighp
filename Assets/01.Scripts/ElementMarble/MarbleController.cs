@@ -18,7 +18,6 @@ public class MarbleController
     // TODO: »©±â
     private Material attackMaterial;
     private readonly int emmisionHash = Shader.PropertyToID("_EmissionColor");
-    //
 
     private Action<MarbleType, int> onAddMarble;
 

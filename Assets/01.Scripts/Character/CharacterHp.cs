@@ -9,7 +9,7 @@ public class CharacterHp : Character
 
     [SerializeField]
     private int hp;
-    public int Hp => hp;
+    public int Hp { get => hp; set => hp = value; }
     public bool IsDead { get; private set; }
 
     protected virtual void Start()

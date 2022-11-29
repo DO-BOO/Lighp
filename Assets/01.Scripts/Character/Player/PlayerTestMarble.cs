@@ -8,8 +8,7 @@ public class PlayerTestMarble : MonoBehaviour
 
     private void Start()
     {
-        curWeapon = GetComponentInChildren<WeaponScript>();
-        GameManager.Instance.UI.MarbleUI.RegisterWeapon(curWeapon);
+        curWeapon = FindObjectOfType<WeaponScript>();
     }           
 
     void Update()
