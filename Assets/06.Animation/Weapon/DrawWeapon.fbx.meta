@@ -6,6 +6,9 @@ ModelImporter:
   - first:
       74: -203655887218126122
     second: DrawWeapon
+  - first:
+      74: 4061839508520268033
+    second: mixamo.com
   externalObjects: {}
   materials:
     materialImportMode: 2
