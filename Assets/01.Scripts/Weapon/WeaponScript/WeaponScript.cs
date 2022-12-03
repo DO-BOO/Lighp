@@ -17,7 +17,7 @@ public abstract class WeaponScript : MonoBehaviour
     protected MarbleController marbleController;
     public MarbleController MarbleController => marbleController;
 
-    protected float Damage => marbleController.PowerWeight + data.damage;
+    protected float Damage => (data.damage + Player.AttackPlus) * Player.AttackWeight;
     protected float Range => (1f + marbleController.PowerWeight * 0.01f) * data.range;
     protected float CoolTime => (1f - marbleController.SpeedWeight * 0.01f) * data.atkCool;
     #endregion
@@ -37,12 +37,12 @@ public abstract class WeaponScript : MonoBehaviour
 
     protected virtual void Start()
     {
-        marbleController = new MarbleController(gameObject);
     }
 
     public void SetData()
     {
         data = GameManager.Instance.SpreadData.GetData<WeaponData>(weaponNumber);
+        marbleController = new MarbleController(gameObject);
     }
 
     //선 딜레이 시작
@@ -79,7 +79,7 @@ public abstract class WeaponScript : MonoBehaviour
         return this;
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, SetData);
     }

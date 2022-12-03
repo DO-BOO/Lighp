@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,15 +10,19 @@ public class Dark
 {
     [SerializeField] private int dropDark = 5;
     private int darkValue = 0;
-    public int DarkValue => darkValue;
 
     private float accDrop = 0f;
 
     public float DarkSpeed { get; set; }
-    private readonly float DARK_CONDITION = 0.65f;
-    private readonly float LIGHT_CONDITION = 0.35f;
+    private const float DARK_CONDITION = 0.65f;
+    private const float LIGHT_CONDITION = 0.35f;
+    private const int DAMAGE_WEIGHT = 20;
 
     private bool isDarkActive;
+
+    #region Property
+    public int DarkValue => darkValue;
+    #endregion
 
     /// <summary>
     /// 잠식도를 올려주고 조정하는 함수
@@ -28,15 +33,15 @@ public class Dark
 
         if (!isDarkActive)  // 잠식 중이 아닐 때
         {
-            OnInactiveDark(hp, maxHp);
+            OnInactiveDarkUpdate(hp, maxHp);
         }
         else
         {
-            OnActiveDark(); // 잠식상태일 때
+            OnActiveDarkUpdate(); // 잠식상태일 때
         }
     }
 
-    private void OnInactiveDark(int hp, int maxHp)
+    private void OnInactiveDarkUpdate(int hp, int maxHp)
     {
         // over hp라면 darkValue를 정리
         if (hp + darkValue > maxHp)
@@ -58,7 +63,7 @@ public class Dark
         }
     }
 
-    private void OnActiveDark()
+    private void OnActiveDarkUpdate()
     {
         if (accDrop >= 1f)
         {
@@ -72,15 +77,30 @@ public class Dark
         }
     }
 
+    /// <summary>
+    /// dark + hp => overhp일 때
+    /// dark를 자르는 함수
+    /// </summary>
+    public void OverHp(int hp, int maxHp)
+    {
+        darkValue = maxHp - hp;
+    }
+
     private void ActiveDark()
     {
         isDarkActive = true;
         accDrop = 0f;
+
+        EventManager.TriggerEvent(Define.ON_START_DARK);
+        Player.AddAttackWeight(DAMAGE_WEIGHT);
     }
 
     private void InactiveDark()
     {
         isDarkActive = false;
         accDrop = 0f;
+
+        EventManager.TriggerEvent(Define.ON_END_DARK);
+        Player.AddAttackWeight(-DAMAGE_WEIGHT);
     }
 }

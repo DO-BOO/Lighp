@@ -179,5 +179,6 @@ public class WeaponParent : MonoBehaviour
         if (curWeapon != null)
             EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
         EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
+        EventManager.StopListening(Define.ON_END_READ_DATA, SetWeapons);
     }
 }

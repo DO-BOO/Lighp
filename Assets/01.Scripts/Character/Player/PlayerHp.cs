@@ -10,12 +10,18 @@ public class PlayerHp : CharacterHp
 
     private Dark dark = new Dark();
 
+    #region Property
+    public int DropHP { get => dropHp; set => dropHp = value; }
     private bool IsOverHp => Hp + dark.DarkValue > MaxHp;
     public float Dark => dark.DarkValue;
+    #endregion
 
     protected override void Start()
     {
         base.Start();
+
+        EventManager.StartListening(Define.ON_START_DARK, OnStartDark);
+        EventManager.StartListening(Define.ON_END_DARK, OnEndDark);
     }
 
     private void FixedUpdate()
@@ -52,5 +58,22 @@ public class PlayerHp : CharacterHp
         {
             Heal(1);
         }
+    }
+
+    protected override void ChildHeal()
+    {
+        if (IsOverHp)
+        {
+            dark.OverHp(Hp, MaxHp);
+        }
+    }
+
+    private void OnStartDark() => dropHp += 5;
+    private void OnEndDark() => dropHp -= 5;
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(Define.ON_START_DARK, OnStartDark);
+        EventManager.StopListening(Define.ON_END_DARK, OnEndDark);
     }
 }
