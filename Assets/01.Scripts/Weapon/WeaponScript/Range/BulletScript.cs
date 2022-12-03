@@ -45,7 +45,6 @@ public class BulletScript : Poolable
         }
     }
 
-    //풀링으로 고칠것
     IEnumerator MoveBullet()
     {
         lifeTime = 3f;
@@ -60,7 +59,7 @@ public class BulletScript : Poolable
                 target = hit.transform.GetComponent<IHittable>();
                 if(target != null)
                 {
-                    target.GetDamge(data.damage, data.hitStun);
+                    target.GetDamage(data.damage, data.hitStun);
                 }
             }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDash : CharacterDash
+public sealed class PlayerDash : CharacterDash
 {
     private readonly int dashHash = Animator.StringToHash("Dash");
     private Particle dashParticle;

@@ -9,6 +9,7 @@ public class HandGun : WeaponScript
 
     protected override void Start()
     {
+        base.Start();
         GameManager.Instance.Pool.CreatePool(bulletPrefab.gameObject, 10);
     }
 
@@ -22,6 +23,7 @@ public class HandGun : WeaponScript
         BulletScript obj = GameManager.Instance.Pool.Pop(bulletPrefab.gameObject).GetComponent<BulletScript>();
         obj.transform.SetParent(null);
         Vector3 dir = (GameManager.Instance.GetMousePos() - muzzle.position).normalized;
+        Debug.Log(dir);
         dir.y = 0;
         obj.FireBullet(muzzle.position, dir, data.damage, data.hitStunTime, data.isEnemy);
     }

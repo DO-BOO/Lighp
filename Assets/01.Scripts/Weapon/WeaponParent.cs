@@ -7,13 +7,20 @@ public class WeaponParent : MonoBehaviour
 {
     #region 공격관련 변수
     [SerializeField] private bool isEnemy = false;
-    private bool isAttack = false;
+    private bool isAttack;
     public bool IsAttack => isAttack;
+    private bool isDraw;
+    public bool IsCanAttack => !isAttack && !isDraw;
     #endregion
 
     #region 무기관련 변수
-    [SerializeField] private WeaponScript curWeapon = null;
     [SerializeField] private Transform handPosition = null;
+    [SerializeField] private List<WeaponScript> startingWeapons = new List<WeaponScript>();
+    [SerializeField] private WeaponScript[] weapons;
+    [SerializeField] private int maxWeaponCnt = 2;
+    private int curWeaponCnt = 0;
+    private int curWeaponIndex = 0;
+    private WeaponScript curWeapon => weapons[curWeaponIndex];
     #endregion
 
     #region 애니메이션관련 변수
@@ -23,22 +30,38 @@ public class WeaponParent : MonoBehaviour
     private readonly int hashAttackSpeed = Animator.StringToHash("AttackSpeed");
     private readonly int hashPostSpeed = Animator.StringToHash("PostSpeed");
     private readonly int hashAttack = Animator.StringToHash("Attack");
+    private readonly int hashDraw = Animator.StringToHash("Draw");
     //private int hashIsCharging = Animator.StringToHash("IsCharging");
     #endregion
 
     private void Awake()
     {
         animator = GetComponentInParent<Animator>();
-        SetAnimParam();
+        weapons = new WeaponScript[maxWeaponCnt];
         SetEvent();
     }
 
     private void SetEvent()
     {
         EventManager<InputType>.StartListening((int)InputAction.Attack, OnAttack);
-        if (curWeapon != null)
-            EventManager<InputType>.StartListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
         EventManager<InputType>.StartListening((int)InputAction.Dash, OnDash);
+        EventManager<InputType, InputAction>.StartListening((int)InputAction.FirstWeapon, SelectWeapon);
+        EventManager<InputType, InputAction>.StartListening((int)InputAction.SecondWeapon, SelectWeapon);
+        EventManager.StartListening(Define.ON_END_READ_DATA, SetWeapons);
+    }
+
+    //무기 인벤토리 초기 세팅
+    private void SetWeapons()
+    {
+        if (startingWeapons.Count > 0)
+        {
+            foreach (WeaponScript weapon in startingWeapons)
+            {
+                WeaponScript newWeapon = Instantiate(weapon, transform);
+                GetWeapon(newWeapon);
+            }
+            SelectWeapon(0);
+        }
     }
 
     #region 애니메이터 변수 설정 함수
@@ -55,27 +78,61 @@ public class WeaponParent : MonoBehaviour
     }
     #endregion
 
-    //매개변수의 무기를 장착
-    private void EquipWeapon(WeaponScript weapon)
+
+    public void GetWeapon(WeaponScript weapon)
     {
-        if (curWeapon == null)
+        if(curWeaponCnt >= maxWeaponCnt)
         {
-            weapon.Reset(handPosition, isEnemy);
-            curWeapon = weapon;
-            SetAnimParam();
+            weapon.Equip(handPosition, isEnemy);
+            weapons[curWeaponIndex] = weapon;
+            SelectWeapon(curWeaponIndex);
+        }
+        else
+        {
+            weapon.Equip(handPosition, isEnemy);
+            curWeaponCnt++;
+            weapons[curWeaponCnt - 1] = weapon;
+            SelectWeapon(curWeaponCnt - 1);
+        }
+    }
+    
+    //임시로 만든 입력 함수 추후 수정 요함
+    public void SelectWeapon(InputType type, InputAction action)
+    {
+        if (type != InputType.GetKeyDown) return;
+        if (action == InputAction.FirstWeapon)
+        {
+            SelectWeapon(0);
+        }
+        else if (action == InputAction.SecondWeapon)
+        {
+            SelectWeapon(1);
         }
     }
 
+    public void SelectWeapon(int index)
+    {
+        if (weapons[index] == null) return;
+        curWeapon.gameObject.SetActive(false);
+        curWeaponIndex = index;
+        curWeapon.gameObject.SetActive(true);
+        SetAnimParam();
+        animator.SetTrigger(hashDraw);
+    }
+
+    //공격 실행 시 애니메이션 실행
     private void OnAttack(InputType input)
     {
-        if (input != InputType.GetKeyDown || curWeapon == null || isAttack) return;
+        if (input != InputType.GetKeyDown || curWeapon == null || !IsCanAttack) return;
         isAttack = true;
         animator.SetTrigger(hashAttack);
     }
 
+    //대쉬 사용 시 모션 캔슬
     public void OnDash(InputType type)
     {
         isAttack = false;
+        isDraw = false;
         curWeapon.StopAttack();
     }
         
@@ -103,5 +160,20 @@ public class WeaponParent : MonoBehaviour
     {
         curWeapon.Stay();
     }
+
+    //무기 변경 애니메이션 종료시
+    public void OnDrawEnd()
+    {
+        isDraw = false;
+        Debug.Log("end");
+    }
     #endregion
+
+    private void OnDestroy()
+    {
+        EventManager<InputType>.StopListening((int)InputAction.Attack, OnAttack);
+        if (curWeapon != null)
+            EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
+        EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
+    }
 }

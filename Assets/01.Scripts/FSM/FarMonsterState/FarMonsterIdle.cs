@@ -20,7 +20,7 @@ public class FarMonsterIdle : BaseState
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (target == null) return;
+        if (target == null || !monster.LIVE) return;
 
         if (monster.distance <= monster.attackRange)
         {

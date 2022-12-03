@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ?ÅÏàò Îß§Îãà?Ä
+/// ªÛºˆ ∏≈¥œ¿˙
 /// </summary>
 public class Define
 {
@@ -14,7 +14,8 @@ public class Define
     #region SHEET_URL
     public const string SKILL_URL           = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:H&gid=1746391345";
     public const string KEY_URL             = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
-    public const string ELEMENT_MARBLE_URL  = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=C3:E&gid=846138262";
+    public const string ELEMENT_MARBLE_URL  = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=C3:F&gid=846138262";
+    public const string WEAPON_URL  = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:Q&gid=0";
     #endregion
 
     #region LAYER_MASK
@@ -26,7 +27,7 @@ public class Define
 
     #region DASH
     public const float DASH_DISTANCE    = 12f;
-    public const float DASH_DURATION    = 0.4f;
+    public const float DASH_DURATION    = 0.25f;
     public const float DASH_COOLTIME    = 2f;
     public const float DASH_DOUBLE_TIME = 0.35f;
     #endregion
@@ -46,4 +47,6 @@ public class Define
     #region MARBLE
     public const int ELEMENT_MARBLE_COUNT = 3;
     #endregion
+
+    public const float FIXED_FPS = 50f;
 }

@@ -20,6 +20,7 @@ public sealed class PlayerMove : CharacterMove
 
     protected override void ChildAwake()
     {
+        base.ChildAwake();
         EventManager<InputType>.StartListening((int)InputAction.Up, (type) => InputMove(type, forward));
         EventManager<InputType>.StartListening((int)InputAction.Down, (type) => InputMove(type, -forward));
         EventManager<InputType>.StartListening((int)InputAction.Left, (type) => InputMove(type, -right));
@@ -39,10 +40,11 @@ public sealed class PlayerMove : CharacterMove
         distance = Vector3.Distance(GameManager.Instance.MainCam.transform.position, transform.position);
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         animator.SetBool(isMoveHash, moveInput.sqrMagnitude > 0.1f);
-        Move(moveInput.normalized, moveStat.speed, true, moveStat.rotationSpeed);
+        Move(moveInput.normalized, curMoveSpeed, true, moveStat.rotationSpeed);
         moveInput = Vector3.zero;
 
         InputRotate();
