@@ -60,6 +60,7 @@ public class WeaponParent : MonoBehaviour
                 WeaponScript newWeapon = Instantiate(weapon, transform);
                 GetWeapon(newWeapon);
             }
+
             SelectWeapon(0);
         }
     }
@@ -68,7 +69,7 @@ public class WeaponParent : MonoBehaviour
     //목표재생속도 = 현재재생속도 * 현재재생시간(1초) / 목표재생시간
     private void SetAnimParam()
     {
-        if(curWeapon != null)
+        if (curWeapon != null)
         {
             animator.SetInteger(hashWeaponType, (int)curWeapon.Data.type);
             animator.SetFloat(hashPreSpeed, 1 / curWeapon.Data.preDelay);
@@ -81,7 +82,7 @@ public class WeaponParent : MonoBehaviour
 
     public void GetWeapon(WeaponScript weapon)
     {
-        if(curWeaponCnt >= maxWeaponCnt)
+        if (curWeaponCnt >= maxWeaponCnt)
         {
             weapon.Equip(handPosition, isEnemy);
             weapons[curWeaponIndex] = weapon;
@@ -95,7 +96,7 @@ public class WeaponParent : MonoBehaviour
             SelectWeapon(curWeaponCnt - 1);
         }
     }
-    
+
     //임시로 만든 입력 함수 추후 수정 요함
     public void SelectWeapon(InputType type, InputAction action)
     {
@@ -113,11 +114,15 @@ public class WeaponParent : MonoBehaviour
     public void SelectWeapon(int index)
     {
         if (weapons[index] == null) return;
+
+        int previousIdx = curWeaponIndex;
         curWeapon.gameObject.SetActive(false);
         curWeaponIndex = index;
         curWeapon.gameObject.SetActive(true);
         SetAnimParam();
         animator.SetTrigger(hashDraw);
+
+        EventManager<WeaponScript, WeaponScript>.TriggerEvent(Define.ON_SET_WEAPON, weapons[previousIdx], weapons[curWeaponIndex]);
     }
 
     //공격 실행 시 애니메이션 실행
@@ -135,7 +140,7 @@ public class WeaponParent : MonoBehaviour
         isDraw = false;
         curWeapon.StopAttack();
     }
-        
+
     #region 공격 애니메이션 관련 함수
     //선 딜레이 시작 시
     public void PreDelay()
@@ -165,7 +170,6 @@ public class WeaponParent : MonoBehaviour
     public void OnDrawEnd()
     {
         isDraw = false;
-        Debug.Log("end");
     }
     #endregion
 
@@ -175,5 +179,6 @@ public class WeaponParent : MonoBehaviour
         if (curWeapon != null)
             EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
         EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
+        EventManager.StopListening(Define.ON_END_READ_DATA, SetWeapons);
     }
 }

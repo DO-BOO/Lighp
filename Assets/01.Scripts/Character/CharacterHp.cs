@@ -9,7 +9,7 @@ public class CharacterHp : Character
 
     [SerializeField]
     private int hp;
-    public int Hp => hp;
+    public int Hp { get => hp; set => hp = value; }
     public bool IsDead { get; private set; }
 
     protected virtual void Start()
@@ -26,7 +26,10 @@ public class CharacterHp : Character
             hp = 0;
             IsDead = true;
         }
+
+        ChildHit();
     }
+    protected virtual void ChildHit() { }
 
     public void Heal(int heal)
     {
@@ -36,7 +39,11 @@ public class CharacterHp : Character
         {
             hp = maxHp;
         }
+
+        ChildHeal();
     }
+
+    protected virtual void ChildHeal() { }
 
     private void ResetHp()
     {

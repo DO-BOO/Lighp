@@ -12,9 +12,20 @@ public sealed class PlayerMove : CharacterMove
     private Vector3 right = Vector3.zero;
     private Vector3 moveInput = Vector3.zero;
 
-    // 이거 나중에 상수로 빼든지 해서 어떻게 해야할 듯하다...
+    // TOOD: 나중에 더디에 빼든지 해야할 듯하다...
     private readonly int isMoveHash = Animator.StringToHash("IsMove");
     private PlayerDash dash;
+    private WeaponParent weapon;
+
+    protected override bool CanMove
+    {
+        get
+        {
+            return !weapon.IsAttack;
+        }
+
+        set => base.CanMove = value;
+    }
 
     private float distance;
 
@@ -25,11 +36,13 @@ public sealed class PlayerMove : CharacterMove
         EventManager<InputType>.StartListening((int)InputAction.Down, (type) => InputMove(type, -forward));
         EventManager<InputType>.StartListening((int)InputAction.Left, (type) => InputMove(type, -right));
         EventManager<InputType>.StartListening((int)InputAction.Right, (type) => InputMove(type, right));
+        EventManager<InputType>.StartListening((int)InputAction.Attack, InputRotate);
     }
 
     private void Start()
     {
         dash = GetComponent<PlayerDash>();
+        weapon = GetComponent<WeaponParent>();
 
         forward = GameManager.Instance.MainCam.transform.forward;
         right = GameManager.Instance.MainCam.transform.right;
@@ -46,8 +59,6 @@ public sealed class PlayerMove : CharacterMove
         animator.SetBool(isMoveHash, moveInput.sqrMagnitude > 0.1f);
         Move(moveInput.normalized, curMoveSpeed, true, moveStat.rotationSpeed);
         moveInput = Vector3.zero;
-
-        InputRotate();
     }
 
     private void InputMove(InputType type, Vector3 velocity)
@@ -62,9 +73,9 @@ public sealed class PlayerMove : CharacterMove
 
 
     // 마우스쪽으로 바라보는 함수
-    private void InputRotate()
+    private void InputRotate(InputType inputType)
     {
-        if (Input.GetMouseButton(0))
+        if (CanMove && inputType == InputType.GetKeyDown)
         {
             Camera cam = GameManager.Instance.MainCam;
             Ray cameraRay = cam.ScreenPointToRay(Input.mousePosition);
@@ -87,5 +98,6 @@ public sealed class PlayerMove : CharacterMove
         EventManager<InputType>.StopListening((int)InputAction.Down, (type) => InputMove(type, -forward));
         EventManager<InputType>.StopListening((int)InputAction.Left, (type) => InputMove(type, -right));
         EventManager<InputType>.StopListening((int)InputAction.Right, (type) => InputMove(type, right));
+        EventManager<InputType>.StartListening((int)InputAction.Attack, InputRotate);
     }
 }

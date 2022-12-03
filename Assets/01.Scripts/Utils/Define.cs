@@ -42,6 +42,10 @@ public class Define
     #region EVENT
     public const short ON_END_READ_DATA = 1000;
     public const short ON_ADD_MARBLE = 3000;
+    public const short ON_SET_WEAPON = 4000;
+
+    public const short ON_START_DARK= 5000;
+    public const short ON_END_DARK= 5001;
     #endregion
 
     #region MARBLE

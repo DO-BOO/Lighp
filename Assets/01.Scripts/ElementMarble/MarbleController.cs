@@ -15,11 +15,6 @@ public class MarbleController
     public float SpeedWeight => marbles[(int)MarbleType.Green].BuffValue;
     public float RangeWeight => marbles[(int)MarbleType.Blue].BuffValue;
 
-    // TODO: 빼기
-    private Material attackMaterial;
-    private readonly int emmisionHash = Shader.PropertyToID("_EmissionColor");
-    //
-
     private Action<MarbleType, int> onAddMarble;
 
     private int MarbleCount
@@ -36,22 +31,16 @@ public class MarbleController
 
     public MarbleController(GameObject obj)
     {
-        attackMaterial = obj.GetComponentInChildren<TrailRenderer>().material;
-        EventManager.StartListening(Define.ON_END_READ_DATA, InitMarble);
-    }
-
-    ~MarbleController()
-    {
-        EventManager.StopListening(Define.ON_END_READ_DATA, InitMarble);
+        InitMarble();
     }
 
     private void InitMarble()
     {
-        ReadSpreadData loadData = GameManager.Instance.SpreadData;
+        ReadSpreadData loader = GameManager.Instance.SpreadData;
 
-        marbles[0] = new RedMarble(loadData.GetData<ElementMarble>(0));
-        marbles[1] = new GreenMarble(loadData.GetData<ElementMarble>(1));
-        marbles[2] = new BlueMarble(loadData.GetData<ElementMarble>(2));
+        marbles[0] = new RedMarble(loader.GetData<ElementMarble>(0));
+        marbles[1] = new GreenMarble(loader.GetData<ElementMarble>(1));
+        marbles[2] = new BlueMarble(loader.GetData<ElementMarble>(2));
     }
 
     /// <summary>
@@ -62,22 +51,9 @@ public class MarbleController
         if (MarbleCount >= Define.ELEMENT_MARBLE_COUNT) return;
 
         onAddMarble?.Invoke(marbleType, MarbleCount);
-        marbles[(int)marbleType].Count++;
+        marbles[(int)marbleType].AddCount();
 
         SetRGBSynergy();
-        SetAttackEffectColor();
-    }
-
-    // 공격 이펙트를 원소 구슬의 색으로 바꾸는 함수
-    // 나중에는 다른 스크립트로 빼줄 예정
-    private void SetAttackEffectColor()
-    {
-        float factor = Mathf.Pow(2, 1);
-
-        Color marblesColor = MarblesColor();
-        Color emmisionColor = new Color(marblesColor.r * factor, marblesColor.g * factor, marblesColor.b * factor);
-        attackMaterial.color = marblesColor;
-        attackMaterial.SetColor(emmisionHash, emmisionColor);
     }
 
     /// <summary>
@@ -139,13 +115,11 @@ public class MarbleController
         }
     }
 
-    public bool IsRGBSynergy() => marbles[0].rgbSynergy;
-
     public void ExecuteAttack(StateMachine monster)
     {
-        if (IsRGBSynergy())
+        if (marbles[0].rgbSynergy)
         {
-            Debug.Log(GameManager.Instance.Pool.Pop("Explosion", null, monster.transform.position));
+            GameManager.Instance.Pool.Pop("Explosion", null, monster.transform.position);
         }
 
         foreach (ElementMarble marble in marbles)

@@ -23,7 +23,8 @@ public abstract class CharacterMove : Character
     public Vector3 Velocity => rigid.velocity;
 
     #region CONTROL
-    private bool canMove = true;
+    virtual protected bool CanMove { get; set; }
+
     #endregion
 
     protected override void ChildAwake()
@@ -33,7 +34,7 @@ public abstract class CharacterMove : Character
 
     protected virtual void Update()
     {
-        if(timer > 0)
+        if (timer > 0)
         {
             timer -= Time.deltaTime;
         }
@@ -46,7 +47,7 @@ public abstract class CharacterMove : Character
     // 캐릭터를 velocity 방향으로 움직이는 함수
     protected void Move(Vector3 velocity, float speed = 1f, bool isRot = false, float rotTime = 0.5f)
     {
-        if (!canMove) return;
+        if (!CanMove) return;
 
         velocity *= speed;
         velocity.y = rigid.velocity.y;

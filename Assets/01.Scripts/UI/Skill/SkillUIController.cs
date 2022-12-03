@@ -17,7 +17,7 @@ public class SkillUIController : MonoBehaviour
         skillIcons = Resources.LoadAll<Sprite>("Sprites/SkillIconTest");
     }
 
-    private void Start()
+    private void OnEnable()
     {
         EventManager.StartListening(Define.ON_END_READ_DATA, ShowSkillPanels);
     }
@@ -45,7 +45,7 @@ public class SkillUIController : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, ShowSkillPanels);
     }
