@@ -152,6 +152,7 @@ public class WeaponParent : MonoBehaviour
     public void HitTime()
     {
         curWeapon.HitTime();
+        GameManager.Instance.Pool.Pop("EffectSword", null, transform.position);
     }
 
     //후 딜레이 시작 시
@@ -160,6 +161,7 @@ public class WeaponParent : MonoBehaviour
         curWeapon.PostDelay();
         isAttack = false;
     }
+
     //후 딜레이 종료 시
     public void Stay()
     {

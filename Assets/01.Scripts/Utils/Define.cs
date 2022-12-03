@@ -52,5 +52,5 @@ public class Define
     public const int ELEMENT_MARBLE_COUNT = 3;
     #endregion
 
-    public const float FIXED_FPS = 50f;
+    public const int FIXED_FPS = 50;
 }
