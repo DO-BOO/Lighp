@@ -60,6 +60,11 @@ public abstract class WeaponScript : MonoBehaviour
     //공격 강제 종료
     public abstract void StopAttack();
 
+    /// <summary>
+    /// factor * 기본 범위만큼 범위가 time 동안 증가한다.
+    /// </summary>
+    public abstract void IncreaseRange(float factor, float time);
+
     public void UseSkill(InputType type)
     {
 

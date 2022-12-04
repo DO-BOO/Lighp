@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OneHandWeapon : WeaponScript
 {
-    [SerializeField] private Collider atkArea = null;
+    [SerializeField] private BoxCollider atkArea = null;
     [SerializeField] private TrailRenderer trail = null;
 
     #region 기본공격 관련 함수
@@ -55,4 +55,18 @@ public class OneHandWeapon : WeaponScript
             }
         }
     }
+
+    #region 무기 범위 증가
+    public override void IncreaseRange(float factor, float time)
+    {
+        StartCoroutine(Increase(factor, time));
+    }
+
+    private IEnumerator Increase(float factor, float time)
+    {
+        Vector3 size = atkArea.size;
+        size.y *= factor;
+        
+    }
+    #endregion
 }
