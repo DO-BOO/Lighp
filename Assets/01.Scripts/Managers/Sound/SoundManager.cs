@@ -18,6 +18,11 @@ public class SoundManager : MonoSingleton<SoundManager>
 
     private void Awake()
     {
+		SetAudioSource()
+	}
+
+	private void SetAudioSource()
+	{
 		effectSource = gameObject.AddComponent<AudioSource>();
 		effectSource.playOnAwake = false;
 		effectSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
