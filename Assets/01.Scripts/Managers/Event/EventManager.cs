@@ -47,6 +47,14 @@ public class EventManager
             thisEvent?.Invoke();
         }
     }
+
+    public static void CheckActionListners()
+    {
+        foreach(var dict in eventDictionary)
+        {
+            Debug.Log(dict.Value?.GetInvocationList().Length);
+        }
+    }
 }
 
 public class EventManager<T>

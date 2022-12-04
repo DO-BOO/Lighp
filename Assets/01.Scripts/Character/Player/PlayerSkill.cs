@@ -30,11 +30,6 @@ public class PlayerSkill : CharacterSkill
             {
                 ExecuteCurrentSkill(0);
             }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                ExecuteCurrentSkill(2);
-            }
         }
 
         base.Update();

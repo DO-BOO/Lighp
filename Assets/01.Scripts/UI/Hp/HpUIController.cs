@@ -5,21 +5,27 @@ using UnityEngine.UI;
 
 public class HpUIController : MonoBehaviour
 {
-    private CharacterHp playerHp;
+    private PlayerHp playerHp;
     [SerializeField]
-    private Image fillImage;
+    private Image hpFillImage;
+    [SerializeField]
+    private Image darkFillImage;
     [SerializeField]
     private Text hpText;
 
+    private readonly float damping = 0.7f;
+
     private void Awake()
     {
-        Transform player = FindObjectOfType<PlayerMove>().transform;
-        playerHp = player.GetComponent<CharacterHp>();
+        playerHp = FindObjectOfType<PlayerHp>();
     }
 
     private void Update()
     {
-        fillImage.fillAmount = (float)playerHp.Hp / playerHp.MaxHp;
-        hpText.text = string.Format("{0:0.0}%", fillImage.fillAmount * 100f);
+        hpFillImage.fillAmount = Mathf.Lerp(hpFillImage.fillAmount, (float)playerHp.Hp / playerHp.MaxHp, damping);
+        darkFillImage.fillAmount = Mathf.Lerp(darkFillImage.fillAmount, (float)playerHp.Dark / playerHp.MaxHp, damping);
+        
+        //hpText.text = string.Format("{0:0.0}%", hpFillImage.fillAmount * 100f);
+        hpText.text = string.Format("{0:0}%", hpFillImage.fillAmount * 100f);
     }
 }

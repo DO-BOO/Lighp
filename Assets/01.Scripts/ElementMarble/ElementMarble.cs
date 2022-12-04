@@ -11,60 +11,96 @@ public class ElementMarble
     /// <summary>
     /// 원소 구슬의 버프 수치
     /// </summary>
-    public float defaultBuffValue;
-    public float doubleValue;   // 더블 시너지일 때 곱할 가중치
-    public float tripleValue;   // 트리플 시너지일 때 곱할 가중치
+    public int defaultBuffValue;
+    public int doubleValue;       // 더블 시너지일 때 가중치
+    public int tripleValue;       // 트리플 시너지일 때 가중치
+    public int rgbSynergyValue;   // RGB 시너지일 때 가중치
 
-    public float BuffValue { get; private set; }
+    public bool rgbSynergy = false; // 현재 RGB 시너지인지 판단
+    public int Count { get; private set; }
 
-    [field: SerializeField]
-    public MarbleType MarbleType { get; protected set; } = MarbleType.End;
+    protected int buffValue;
+    public int BuffValue
+    {
+        get
+        {
+            return CalculateBuff();
+        }
+        set => buffValue = value;
+    }
+    public MarbleType MarbleType { get; protected set; } = MarbleType.Length;
 
     public ElementMarble() { }
-    public ElementMarble(ElementMarble elementMarble)
+    public ElementMarble(ElementMarble elementMarble, MarbleType marbleType)
     {
         defaultBuffValue = elementMarble.defaultBuffValue;
         doubleValue = elementMarble.doubleValue;
         tripleValue = elementMarble.tripleValue;
+
+        MarbleType = marbleType;
     }
 
-    protected virtual void ExecuteDoubleSynergy() { }
-
-    protected virtual void ExecuteTripleSynergy() { }
+    protected virtual void ExecuteDoubleSynergy(StateMachine machine) { }
+    protected virtual void ExecuteTripleSynergy(StateMachine machine) { }
 
     /// <summary>
-    /// 무기 스크립트에서 공격하기 전 실행해야하는 함수이다.
+    /// 무기 스크립트에서 **공격하기 전** 실행해야하는 함수이다.
     /// 원소 구슬의 개수별로 시너지를 실행한다.
     /// </summary>
     /// <param name="count">해당 원소구슬의 개수</param>
-    public void ExecuteMarble(int count)
-    {
-        switch (count)
-        {
-            case 1:
-                BuffValue = defaultBuffValue;
-                break;
 
+    public void ExecuteMarble(StateMachine mosterStateMachine)
+    {
+        switch (Count)
+        {
             case 2:
-                BuffValue = doubleValue;
-                ExecuteDoubleSynergy();
+                ExecuteDoubleSynergy(mosterStateMachine);
                 break;
 
             case 3:
-                BuffValue = tripleValue;
-                ExecuteTripleSynergy();
+                ExecuteTripleSynergy(mosterStateMachine);
+                break;
+        }
+    }
+
+    private int CalculateBuff()
+    {
+        if (rgbSynergy)
+            return rgbSynergyValue;
+
+        switch (Count)
+        {
+            case 0:
+                buffValue = 0;
+                break;
+            case 1:
+                {
+                    if (rgbSynergy)
+                        buffValue = rgbSynergyValue;
+                    else
+                        buffValue = defaultBuffValue;
+                }
+                break;
+
+            case 2:
+                buffValue = doubleValue;
+                break;
+            case 3:
+                buffValue = tripleValue;
                 break;
         }
 
-        if (BuffValue > 0)
-        {
-            // 80% => 1.8
-            BuffValue = 1f + BuffValue / 100f;
-        }
-        else
-        {
-            // 80% => 0.2
-            BuffValue /= 100f;
-        }
+        return buffValue;
     }
+
+    /// <summary>
+    /// 구슬 개수가 하나씩 증가할 때 호출되는 함수
+    /// </summary>
+    public void AddCount()
+    {
+        ++Count;
+        ChildAddCount();
+    }
+
+    protected virtual void ChildAddCount() { }
 }

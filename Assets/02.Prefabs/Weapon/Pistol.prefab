@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8acca6ac30b28747947912bd94001a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponNumber: 1
   data:
     number: 1
     name: p1911
@@ -86,6 +87,7 @@ MonoBehaviour:
     usingPrefab: 0
     weight: 8
     damage: 15
+    range: 0
     criticalChance: 20
     ciritcalFactor: 0
     preDelay: 0.15
@@ -96,6 +98,9 @@ MonoBehaviour:
     hitStunTime: 0.3
     isEnemy: 0
   skill: {fileID: 0}
+  marbleController:
+    marbles: []
+    marbleWeight: []
   muzzle: {fileID: 876851178}
   bulletPrefab: {fileID: 1646495376110108561, guid: d82817af07027de4c9502c29cd5b117c, type: 3}
 --- !u!1 &8751230882236208012
