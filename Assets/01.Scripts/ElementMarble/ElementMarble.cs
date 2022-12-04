@@ -11,45 +11,20 @@ public class ElementMarble
     /// <summary>
     /// 원소 구슬의 버프 수치
     /// </summary>
-    public float defaultBuffValue;
-    public float doubleValue;       // 더블 시너지일 때 가중치
-    public float tripleValue;       // 트리플 시너지일 때 가중치
-    public float rgbSynergyValue;   // RGB 시너지일 때 가중치
+    public int defaultBuffValue;
+    public int doubleValue;       // 더블 시너지일 때 가중치
+    public int tripleValue;       // 트리플 시너지일 때 가중치
+    public int rgbSynergyValue;   // RGB 시너지일 때 가중치
 
     public bool rgbSynergy = false; // 현재 RGB 시너지인지 판단
-    public int Count { get; set; }
+    public int Count { get; private set; }
 
-    private float buffValue;
-    public float BuffValue
+    protected int buffValue;
+    public int BuffValue
     {
         get
         {
-            if (rgbSynergy)
-                return rgbSynergyValue;
-
-            switch (Count)
-            {
-                case 0:
-                    buffValue = 0;
-                    break;
-                case 1:
-                    {
-                        if (rgbSynergy)
-                            buffValue = defaultBuffValue;
-                        else
-                            buffValue = rgbSynergyValue;
-                    }
-                    break;
-
-                case 2:
-                    buffValue = doubleValue;
-                    break;
-                case 3:
-                    buffValue = tripleValue;
-                    break;
-            }
-
-            return buffValue;
+            return CalculateBuff();
         }
         set => buffValue = value;
     }
@@ -87,4 +62,45 @@ public class ElementMarble
                 break;
         }
     }
+
+    private int CalculateBuff()
+    {
+        if (rgbSynergy)
+            return rgbSynergyValue;
+
+        switch (Count)
+        {
+            case 0:
+                buffValue = 0;
+                break;
+            case 1:
+                {
+                    if (rgbSynergy)
+                        buffValue = rgbSynergyValue;
+                    else
+                        buffValue = defaultBuffValue;
+                }
+                break;
+
+            case 2:
+                buffValue = doubleValue;
+                break;
+            case 3:
+                buffValue = tripleValue;
+                break;
+        }
+
+        return buffValue;
+    }
+
+    /// <summary>
+    /// 구슬 개수가 하나씩 증가할 때 호출되는 함수
+    /// </summary>
+    public void AddCount()
+    {
+        ++Count;
+        ChildAddCount();
+    }
+
+    protected virtual void ChildAddCount() { }
 }

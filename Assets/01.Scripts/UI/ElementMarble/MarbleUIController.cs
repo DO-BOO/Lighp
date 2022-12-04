@@ -21,22 +21,25 @@ public class MarbleUIController : MonoBehaviour
     {
         marbleIcons = marblesParent.GetComponentsInChildren<Image>();
         grayColor = marbleIcons[0].color;
+
+        EventManager<WeaponScript, WeaponScript>.StartListening(Define.ON_SET_WEAPON, RegisterWeapon);
     }
 
     // 무기를 등록하는 함수
-    public void RegisterWeapon(WeaponScript weapon)
+    public void RegisterWeapon(WeaponScript previous, WeaponScript current)
     {
-        this.weapon = weapon;
+        weapon = current;
+
         marbleController = weapon.MarbleController;
         marbleController.ListenOnAddMarble(AddMarble);
-        
+
         ClearMarbles();
     }
 
     // 원소구슬 아이콘을 초기화하는 함수
     private void ClearMarbles()
     {
-        foreach(Image image in marbleIcons)
+        foreach (Image image in marbleIcons)
         {
             image.color = grayColor;
         }
@@ -59,5 +62,10 @@ public class MarbleUIController : MonoBehaviour
                 marbleIcons[index].color = Color.blue;
                 break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager<WeaponScript, WeaponScript>.StopListening(Define.ON_SET_WEAPON, RegisterWeapon);
     }
 }
