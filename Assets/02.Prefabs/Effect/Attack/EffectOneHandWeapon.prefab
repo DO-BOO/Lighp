@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 2004586377382129240}
   - component: {fileID: 2114053168435547523}
   - component: {fileID: 3721944725289130562}
+  - component: {fileID: 7490461951420591074}
   m_Layer: 0
-  m_Name: EffectSword
+  m_Name: EffectOneHandWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4897,6 +4898,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsing: 0
+--- !u!114 &7490461951420591074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3516612500999013690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a03437edb968b2408bba59e3d6855a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9038247664363681538
 GameObject:
   m_ObjectHideFlags: 0

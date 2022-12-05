@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: f3ebac0493b5dfb4cb181b499254adc5
   m_SerializeEntries:
   - m_GUID: f3586e2a2872f334aa460b2158f63636
-    m_Address: Effect/Sword
+    m_Address: Effect/OneHandWeapon
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
