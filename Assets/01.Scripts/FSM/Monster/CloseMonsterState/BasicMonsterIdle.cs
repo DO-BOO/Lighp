@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
@@ -8,13 +9,17 @@ using UnityEngine.AI;
 /// </summary>
 public class BasicMonsterIdle : BaseState
 {
-    BasicCloseMonster monster;
+    Monster monster;
     Transform target = null;
 
+    Dictionary<BaseState, float> checkDic;
+
     // IDLE 상태 정의
-    public BasicMonsterIdle(BasicCloseMonster stateMachine) : base("IDLE", stateMachine)
+    public BasicMonsterIdle(Monster stateMachine, Dictionary<BaseState, float> checkDic) : base("IDLE", stateMachine)
     {
-        monster = (BasicCloseMonster)stateMachine;
+        monster = (Monster)stateMachine;
+        this.checkDic = checkDic;
+        checkDic.OrderBy(x => x.Value);
     }
 
     #region STATE
@@ -22,15 +27,17 @@ public class BasicMonsterIdle : BaseState
     public override void CheckDistance()
     {
         base.CheckDistance();
-        if (target == null || !monster.Live) return;
-
-        if (monster.distance <= monster.attackRange)
+        foreach (var state in checkDic.Keys)
         {
-            stateMachine.ChangeState(monster.attackState);
+            if (monster.distance <= checkDic[state])
+            {
+                stateMachine.ChangeState(state);
+            }
         }
-        else if (monster.distance <= monster.moveRange)
+        
+        if (monster.distance <= monster.moveRange)
         {
-            stateMachine.ChangeState(monster.moveState);
+            stateMachine.ChangeState(monster.states[typeof(BasicMonsterMove)]);
         }
     }
 

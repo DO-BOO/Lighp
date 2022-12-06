@@ -20,16 +20,6 @@ public class BasicMonsterAttack : BaseState
         monster = (BasicCloseMonster)stateMachine;
     }
 
-    #region ANIMATION
-
-    public override void SetAnim(bool isPlay)
-    {
-        base.SetAnim(isPlay);
-        monster.AttackAnimation(isPlay);
-    }
-
-    #endregion
-
     #region STATE
 
     public override void CheckDistance()

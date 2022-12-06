@@ -22,15 +22,6 @@ public class BasicMonsterStun : BaseState
     }
     #endregion
 
-    #region ANIMATION
-
-    public override void SetAnim(bool isPlay)
-    {
-        base.SetAnim(isPlay);
-        monster.StunAnimation(isPlay);
-    }
-    #endregion
-
     #region STATE
    
     public override void Enter()
@@ -47,7 +38,7 @@ public class BasicMonsterStun : BaseState
         curTime += Time.deltaTime;
         if (curTime >= stunTime)
         {
-            monster.ChangeState(monster.moveState);
+            monster.ChangeState(monster.states[typeof(BasicMonsterMove)]);
         }
     }
 

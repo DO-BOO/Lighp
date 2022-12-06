@@ -30,17 +30,6 @@ public class BasicMonsterDie : BaseState
 
     #endregion
 
-    #region ANIMATION
-
-    public override void SetAnim(bool isPlay)
-    {
-        base.SetAnim(isPlay);
-
-        monster.DieAnimation(isPlay);
-    }
-
-    #endregion
-
     #region STATE
     // 상태 시작 시
     // 죽은 애니메이션 실행

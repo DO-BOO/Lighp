@@ -1225,6 +1225,8 @@ GameObject:
   - component: {fileID: 8422892626592999198}
   - component: {fileID: 1421715874}
   - component: {fileID: 1421715872}
+  - component: {fileID: 7923516105896630044}
+  - component: {fileID: 3935275286657582983}
   - component: {fileID: 1421715873}
   - component: {fileID: 1106877189}
   m_Layer: 9
@@ -1302,24 +1304,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5e5dd8e752efe4f9c81d77f332bd48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashLine: {fileID: 6454639629731489036, guid: ce9381fd066dae5438e7f0e17957cc60, type: 3}
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 136
   blockLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  agent: {fileID: 1421715873}
-  anim: {fileID: 8422892626592999198}
-  rigid: {fileID: 0}
-  collider: {fileID: 0}
   moveRange: 25
   attackRange: 10
-  hashWalk: 765711723
-  hashAttack: 1080829965
-  hashDamage: 375673178
-  hashDie: 20298039
-  hashStun: 1397128752
+  agent: {fileID: 1421715873}
+  canDash: 1
+--- !u!114 &7923516105896630044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422892626600285392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709495a51bda6144bb8087f66e57a3b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+--- !u!114 &3935275286657582983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422892626600285392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7b9a7398464af4f9119dde7d3d2fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &1421715873
 NavMeshAgent:
   m_ObjectHideFlags: 0

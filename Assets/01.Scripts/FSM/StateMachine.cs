@@ -54,6 +54,7 @@ public class StateMachine : MonoBehaviour
     // stateMachine.ChangeState(((BasicMonster)stateMachine).idleState);
     public void ChangeState(BaseState newState)
     {
+        Debug.Log(newState);
         // State ³¡³»±â
         curState?.Exit();
 

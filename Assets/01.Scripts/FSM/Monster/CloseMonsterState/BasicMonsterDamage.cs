@@ -30,16 +30,6 @@ public class BasicMonsterDamage : BaseState
 
     #endregion
 
-    #region ANIMATION
-
-    public override void SetAnim()
-    {
-        base.SetAnim();
-        monster.DamageAnimation();
-    }
-
-    #endregion
-
     #region STATE
 
     public override void CheckDistance()

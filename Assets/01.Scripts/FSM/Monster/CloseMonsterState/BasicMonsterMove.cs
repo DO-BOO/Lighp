@@ -43,16 +43,6 @@ public class BasicMonsterMove : BaseState
 
     #endregion
 
-    #region ANIMATION
-
-    public override void SetAnim(bool isPlay)
-    {
-        base.SetAnim();
-        monster.MoveAnimation(isPlay);
-    }
-
-    #endregion
-
     #region STATE
 
     float DISTANCE = 20f;

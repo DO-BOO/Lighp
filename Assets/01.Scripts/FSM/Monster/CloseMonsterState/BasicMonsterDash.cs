@@ -24,6 +24,8 @@ public class BasicMonsterDash : BaseState
     {
         Vector3 newPos = monster.transform.position;
         WarningLine line = GameManager.Instance.Pool.Pop("WarningLine",null, newPos, Quaternion.identity) as WarningLine;
+        //WarningLine line = Instantiate("WarningLine",null, newPos, Quaternion.identity) as WarningLine;
+        
         line.SetPos(_end);
     }
 
@@ -67,6 +69,12 @@ public class BasicMonsterDash : BaseState
             stateMachine.ChangeState(monster.attackState);
         }
 
+        // patrol
+
+        // 4f attack
+        // 2f dash
+
+        // »ý¼ºÀÚ
     }
 
     public override void Enter()
