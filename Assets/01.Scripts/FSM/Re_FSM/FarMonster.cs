@@ -1,9 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using MonsterLove.StateMachine;
 using DG.Tweening;
+using MonsterLove.StateMachine;
 
-public class MeleeMonster : Character
+public class FarMonster : Character
 {
     public enum States
     {
@@ -11,7 +12,7 @@ public class MeleeMonster : Character
         Walk,
         Attack,
         Stun,
-        Dash,
+        Avoid,
         Hit,
         Die
     }
@@ -27,7 +28,7 @@ public class MeleeMonster : Character
     public LayerMask blockLayerMask;
 
     private float moveRange = 50.0f;
-    private float attackRange = 7.0f;
+    private float attackRange = 40.0f;
     private float moveSpeed = 10.0f;
     private const float colRadius = 100f;
 
@@ -48,6 +49,7 @@ public class MeleeMonster : Character
     {
         monsterHP.Hp = monsterHP.MaxHp;
         agent.speed = moveSpeed;
+        agent.stoppingDistance = attackRange;
     }
 
     #region GET
@@ -145,7 +147,7 @@ public class MeleeMonster : Character
     #region WALK
 
     const float monsterSpeed = 10.0f;
-    const float dash_distance = 40f;
+    const float avoid_distance = 10f;
 
     private void Move()
     {
@@ -156,14 +158,15 @@ public class MeleeMonster : Character
 
     private void CheckDistanceWalk()
     {
-        if (distance <= attackRange)
+        if (distance < avoid_distance && canAvoid)
+        {
+            fsm.ChangeState(States.Avoid);
+        }
+        else if (distance <= attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
-        else if (distance >= dash_distance && canDash)
-        {
-            fsm.ChangeState(States.Dash);
-        }
+        
     }
 
     private void Walk_Enter()
@@ -185,11 +188,32 @@ public class MeleeMonster : Character
 
     #endregion
 
+    #region Shoot
+
+    // 발사체 발사 함수
+    // 방향 구하고 발사체 각도 변경
+    // PoolManager 사용
+    public void Shooting()
+    {
+        Vector3 pos = new Vector3(transform.position.x + 2.0f, 1.0f, transform.position.z);
+        Transform tDir = SearchTarget();
+        Vector3 direction = (tDir.position - pos).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        FarMonsterBullet obj = GameManager.Instance.Pool.Pop("BasicFarMonsterBullet", null, pos, lookRotation) as FarMonsterBullet;
+        obj.gameObject.SetActive(true);
+    }
+
+    #endregion
+
     #region ATTACK
 
     private void CheckDistanceAttack()
     {
-        if(distance > attackRange)
+        if(distance < avoid_distance && canAvoid)
+        {
+            fsm.ChangeState(States.Avoid);
+        }
+        else if(distance > attackRange)
         {
             fsm.ChangeState(States.Walk);
         }
@@ -247,15 +271,13 @@ public class MeleeMonster : Character
     private const float DASH_DISTANCE = Define.DASH_DISTANCE;
     private float DASH_COOLTIME = Define.DASH_COOLTIME;
 
-    private bool isDash = false;
-    private bool canDash = true;
+    private bool canAvoid = true;
 
-    private void Dash_Enter()
+    private void Avoid_Enter()
     {
-        canDash = false;
-        isDash = true;
-        WarningDash(dir);
-        StartCoroutine(Dash(dir));
+        canAvoid = false;
+        WarningDash(-dir);
+        StartCoroutine(Avoid(-dir));
         StartCoroutine(DashCoolTime());
     }
 
@@ -267,10 +289,10 @@ public class MeleeMonster : Character
         line.SetPos(_end);
     }
 
-    private IEnumerator Dash(Vector3 velocity)
+    private IEnumerator Avoid(Vector3 velocity)
     {
         yield return new WaitForSeconds(1.0f);
-        Vector3 destination = transform.position + velocity.normalized * DASH_DISTANCE;
+        Vector3 destination = -(transform.position + velocity.normalized * DASH_DISTANCE);
         transform.DOKill();
         transform.DOMove(destination, DASH_DURATION).OnComplete(() => { EndDash(); });
     }
@@ -283,9 +305,8 @@ public class MeleeMonster : Character
 
     private IEnumerator DashCoolTime()
     {
-        isDash = false;
         yield return new WaitForSeconds(DASH_COOLTIME);
-        canDash = true;
+        canAvoid = true;
     }
 
     #endregion
@@ -332,5 +353,4 @@ public class MeleeMonster : Character
     }
 
     #endregion
-
 }
