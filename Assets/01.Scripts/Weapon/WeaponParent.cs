@@ -192,7 +192,7 @@ public class WeaponParent : MonoBehaviour
     {
         string name = $"{ResourceType.Effect}{curWeapon.GetType().Name}";
         WeaponEffect effect = GameManager.Instance.Pool.Pop(name, null).GetComponent<WeaponEffect>();
-        effect.Init(transform.position);
+        effect.Init(transform.position, transform.rotation);
         effect.StartEffect(attackIndex);
     }
 

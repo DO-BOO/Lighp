@@ -15,10 +15,11 @@ public class WeaponEffect : MonoBehaviour
     protected Quaternion Rotation { get => rotation; }
     #endregion
 
-    public void Init(Vector3 pos)
+    public void Init(Vector3 pos, Quaternion rotation)
     {
         position = pos;
         transform.position = position;
+        this.rotation = rotation;
     }
 
     protected virtual void Awake()

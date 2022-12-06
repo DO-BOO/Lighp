@@ -15,6 +15,7 @@ public class OneHandSwordEffect : WeaponEffect
 
     protected override void SecondAttack()
     {
+        transform.position += Vector3.up;
         transform.eulerAngles = Rotation.eulerAngles + Vector3.up * 80f;
     }
 }
