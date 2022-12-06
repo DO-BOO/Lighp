@@ -1861,18 +1861,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1421715872, guid: 214e08cd5e5d74c458e2a81b7ec2c84c, type: 3}
-      propertyPath: dashLine
-      value: 
-      objectReference: {fileID: 6454639629731489036, guid: ce9381fd066dae5438e7f0e17957cc60, type: 3}
-    - target: {fileID: 1905682162077143645, guid: 214e08cd5e5d74c458e2a81b7ec2c84c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1926534266822776609, guid: 214e08cd5e5d74c458e2a81b7ec2c84c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8422892626600249584, guid: 214e08cd5e5d74c458e2a81b7ec2c84c, type: 3}
       propertyPath: m_RootOrder
       value: 14

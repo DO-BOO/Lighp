@@ -1,53 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class BasicMonsterStun : BaseState
-{
-    BasicCloseMonster monster;
+//public class BasicMonsterStun : BaseState
+//{
+//    BasicCloseMonster monster;
 
-    // 单固瘤 积己磊
-    public BasicMonsterStun(BasicCloseMonster stateMachine) : base("STUN", stateMachine)
-    {
-        monster = (BasicCloseMonster)stateMachine;
-    }
+//    // 单固瘤 积己磊
+//    public BasicMonsterStun(BasicCloseMonster stateMachine) : base("STUN", stateMachine)
+//    {
+//        monster = (BasicCloseMonster)stateMachine;
+//    }
 
-    #region VARIABLE
-    private float stunTime = 3f;
-    private float curTime = 0;
+//    #region VARIABLE
+//    private float stunTime = 3f;
+//    private float curTime = 0;
 
-    private void InitState()
-    {
-        curTime = 0;
-    }
-    #endregion
+//    private void InitState()
+//    {
+//        curTime = 0;
+//    }
+//    #endregion
 
-    #region STATE
+//    #region STATE
    
-    public override void Enter()
-    {
-        base.Enter();
-        InitState();
-        monster.SetStun(true);
-        SetAnim(true);
-    }
+//    public override void Enter()
+//    {
+//        base.Enter();
+//        InitState();
+//        monster.SetStun(true);
+//        SetAnim(true);
+//    }
 
-    public override void UpdateLogic()
-    {
-        base.UpdateLogic();
-        curTime += Time.deltaTime;
-        if (curTime >= stunTime)
-        {
-            monster.ChangeState(monster.states[typeof(BasicMonsterMove)]);
-        }
-    }
+//    public override void UpdateLogic()
+//    {
+//        base.UpdateLogic();
+//        curTime += Time.deltaTime;
+//        if (curTime >= stunTime)
+//        {
+//            monster.ChangeState(monster.states[typeof(BasicMonsterMove)]);
+//        }
+//    }
 
-    public override void Exit()
-    {
-        base.Exit();
-        monster.SetStun(false);
-        SetAnim(false);
-    }
+//    public override void Exit()
+//    {
+//        base.Exit();
+//        monster.SetStun(false);
+//        SetAnim(false);
+//    }
 
-    #endregion
-}
+//    #endregion
+//}

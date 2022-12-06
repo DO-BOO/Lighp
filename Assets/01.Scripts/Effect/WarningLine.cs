@@ -7,8 +7,8 @@ using UnityEngine;
 public class WarningLine : Poolable
 {
     private Vector3 endPosition;
-    private float drawTime = 0.7f;
-    private float drawDistance = 12f;
+    private float drawTime = Define.DASH_DURATION;
+    private float drawDistance = 0.5f;
 
     private void Start()
     {
@@ -27,17 +27,16 @@ public class WarningLine : Poolable
         transform.rotation = Quaternion.Euler(90f, 0, 0);
 
         transform.DOKill();
-        transform.DOMove(endPosition, drawTime);
-
-        StartCoroutine(DeleteLine());
-        //Destroy(gameObject, 1.0f);
+        transform.DOMove(endPosition, drawTime).OnComplete(() => Destroy(gameObject, 1f));
+         
+        //StartCoroutine(DeleteLine());
     }
 
     IEnumerator DeleteLine()
     {
         yield return new WaitForSeconds(drawTime);
 
-        GameManager.Instance.Pool.Push(this);
+        //GameManager.Instance.Pool.Push(this);
     }
 
     public override void ResetData()
