@@ -34,6 +34,7 @@ public class WeaponParent : MonoBehaviour
     private readonly int hashPostSpeed = Animator.StringToHash("PostSpeed");
     private readonly int hashAttack = Animator.StringToHash("Attack");
     private readonly int hashDraw = Animator.StringToHash("Draw");
+    private readonly int hashWeaponSkill = Animator.StringToHash("WeaponSkill");
     //private int hashIsCharging = Animator.StringToHash("IsCharging");
     #endregion
 
@@ -50,6 +51,7 @@ public class WeaponParent : MonoBehaviour
         EventManager<InputType>.StartListening((int)InputAction.Dash, OnDash);
         EventManager<InputType, InputAction>.StartListening((int)InputAction.FirstWeapon, SelectWeapon);
         EventManager<InputType, InputAction>.StartListening((int)InputAction.SecondWeapon, SelectWeapon);
+        EventManager<InputType>.StartListening((int)InputAction.WeaponSkill, OnWeaponSkill);
         EventManager.StartListening(Define.ON_END_READ_DATA, SetWeapons);
     }
 
@@ -65,6 +67,7 @@ public class WeaponParent : MonoBehaviour
             }
 
             SelectWeapon(0);
+
         }
     }
 
@@ -188,19 +191,34 @@ public class WeaponParent : MonoBehaviour
     }
     #endregion
 
-    private void Effect()
+    private void OnWeaponSkill(InputType type)
     {
-        string name = $"{ResourceType.Effect}{curWeapon.GetType().Name}";
-        WeaponEffect effect = GameManager.Instance.Pool.Pop(name, null).GetComponent<WeaponEffect>();
-        effect.Init(transform.position, transform.rotation);
-        effect.StartEffect(attackIndex);
+        if (type == InputType.GetKeyDown)
+        {
+            animator.SetTrigger(hashWeaponSkill);
+            Effect("Skill");
+        }
+     
+        curWeapon.UseSkill(type);
+    }
+
+    private void Effect(string remain = "")
+    {
+        string name = $"{ResourceType.Effect}{curWeapon.GetType().Name}{remain}";
+        WeaponEffect effect = GameManager.Instance.Pool.Pop(name, null)?.GetComponent<WeaponEffect>();
+
+        if(effect!= null)
+        {
+            effect.Init(transform.position, transform.rotation);
+            effect.StartEffect(attackIndex);
+        }
     }
 
     private void OnDestroy()
     {
         EventManager<InputType>.StopListening((int)InputAction.Attack, OnAttack);
         if (curWeapon != null)
-            EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
+            EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, OnWeaponSkill);
         EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
         EventManager.StopListening(Define.ON_END_READ_DATA, SetWeapons);
     }
