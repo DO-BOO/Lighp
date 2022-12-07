@@ -5,6 +5,17 @@ using DG.Tweening;
 
 public class MeleeMonster : Character
 {
+    MonsterData monsterData = null;
+    private int ID => monsterData.number;
+    private string name = "";
+    private int MAX_HP;
+    private int attackPower;
+    private float attackCooltime;
+    private float dashCooltime;
+    private int moveSpeed;
+    private int viewDistance;
+    private float attackRange = 7.0f;
+
     public enum States
     {
         Idle,
@@ -27,8 +38,6 @@ public class MeleeMonster : Character
     public LayerMask blockLayerMask;
 
     private float moveRange = 50.0f;
-    private float attackRange = 7.0f;
-    private float moveSpeed = 10.0f;
     private const float colRadius = 100f;
 
     public GameObject dashWarningLine;
@@ -38,6 +47,7 @@ public class MeleeMonster : Character
         //fsm = new StateMachine<States>(this);
         monsterHP = GetComponent<CharacterHp>();
         fsm = StateMachine<States>.Initialize(this, States.Idle);
+        EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
 
         target = SearchTarget();
         ResetMonster();
@@ -48,6 +58,20 @@ public class MeleeMonster : Character
     {
         monsterHP.Hp = monsterHP.MaxHp;
         agent.speed = moveSpeed;
+        agent.stoppingDistance = attackRange;
+    }
+
+    private void SetMonster()
+    {
+        monsterData = GameManager.Instance.SpreadData.GetData<MonsterData>(0);
+        name = monsterData.name;
+        MAX_HP = monsterData.maxHp;
+        attackPower = monsterData.attackPower;
+        attackCooltime = monsterData.pt1Cool;
+        dashCooltime = monsterData.pt2Cool;
+        moveSpeed = monsterData.moveSpeed;
+        viewDistance = monsterData.viewDistance;
+        attackRange = monsterData.attackRange;
     }
 
     #region GET
@@ -292,19 +316,30 @@ public class MeleeMonster : Character
 
     #region HIT
 
-    int damage = 10;
+    float hitDelay = 1.0f;
 
     private void Hit_Enter()
     {
-        Debug.Log("Hit");
-        AnimationPlay(hashHit);
-        monsterHP.Hit(damage);
-        if (monsterHP.IsDead) fsm.ChangeState(States.Die);
+        StartCoroutine(NextHitState());
+    }
+
+    IEnumerator NextHitState()
+    {
+        yield return new WaitForSeconds(hitDelay);
+        fsm.ChangeState(States.Walk);
     }
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
     public void Damaged(bool isStun)
     {
+        AnimationPlay(hashHit);
+        monsterHP.Hit(10);
+        if (monsterHP.IsDead)
+        {
+            fsm.ChangeState(States.Die);
+            return;
+        }
+
         if (stunning) return;
         if (isStun && !isStunCool)
         {
@@ -332,5 +367,13 @@ public class MeleeMonster : Character
     }
 
     #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.tag == "Player")
+        {
+            Damaged(true);
+        }
+    }
 
 }

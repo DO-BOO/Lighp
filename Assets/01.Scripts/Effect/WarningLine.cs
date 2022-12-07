@@ -7,8 +7,8 @@ using UnityEngine;
 public class WarningLine : Poolable
 {
     private Vector3 endPosition;
-    private float drawTime = Define.DASH_DURATION;
-    private float drawDistance = 0.5f;
+    private float drawTime = Define.WARNING_DURATION;
+    private float drawDistance = Define.WARNING_DISTANCE;
 
     private void Start()
     {

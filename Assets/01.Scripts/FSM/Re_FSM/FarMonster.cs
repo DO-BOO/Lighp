@@ -1,11 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using MonsterLove.StateMachine;
+using DG.Tweening;
+using System.Collections.Generic;
 
 public class FarMonster : Character
 {
+    MonsterData monsterData = null;
+    private int ID => monsterData.number;
+
     public enum States
     {
         Idle,
@@ -27,8 +30,9 @@ public class FarMonster : Character
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
 
-    private float moveRange = 50.0f;
-    private float attackRange = 40.0f;
+    private float moveRange = 30.0f;
+    private float attackRange = 50.0f;
+    private float avoidRange = 20.0f;
     private float moveSpeed = 10.0f;
     private const float colRadius = 100f;
 
@@ -39,10 +43,17 @@ public class FarMonster : Character
         //fsm = new StateMachine<States>(this);
         monsterHP = GetComponent<CharacterHp>();
         fsm = StateMachine<States>.Initialize(this, States.Idle);
+        EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
 
         target = SearchTarget();
         ResetMonster();
         fsm.ChangeState(States.Idle);
+    }
+
+    private void SetMonster()
+    {
+        monsterData = GameManager.Instance.SpreadData.GetData<MonsterData>(1);
+
     }
 
     private void ResetMonster()
@@ -117,14 +128,15 @@ public class FarMonster : Character
 
     private void CheckDistanceIdle()
     {
-        if(distance <= attackRange)
-        {
-            fsm.ChangeState(States.Attack);
-        }
-        else if (distance <= moveRange)
+        if (distance > moveRange)
         {
             fsm.ChangeState(States.Walk);
         }
+        else if (distance <= attackRange)
+        {
+            fsm.ChangeState(States.Attack);
+        }
+        
     }
 
 
@@ -146,8 +158,6 @@ public class FarMonster : Character
 
     #region WALK
 
-    const float monsterSpeed = 10.0f;
-    const float avoid_distance = 10f;
 
     private void Move()
     {
@@ -158,7 +168,7 @@ public class FarMonster : Character
 
     private void CheckDistanceWalk()
     {
-        if (distance < avoid_distance && canAvoid)
+        if (distance < avoidRange && canAvoid)
         {
             fsm.ChangeState(States.Avoid);
         }
@@ -188,7 +198,7 @@ public class FarMonster : Character
 
     #endregion
 
-    #region Shoot
+    #region ATTACK
 
     // 발사체 발사 함수
     // 방향 구하고 발사체 각도 변경
@@ -203,17 +213,13 @@ public class FarMonster : Character
         obj.gameObject.SetActive(true);
     }
 
-    #endregion
-
-    #region ATTACK
-
     private void CheckDistanceAttack()
     {
-        if(distance < avoid_distance && canAvoid)
+        if (distance < avoidRange && canAvoid)
         {
             fsm.ChangeState(States.Avoid);
         }
-        else if(distance > attackRange)
+        else if (distance > attackRange)
         {
             fsm.ChangeState(States.Walk);
         }
@@ -265,47 +271,40 @@ public class FarMonster : Character
 
     #endregion
 
-    #region DASH
+    #region AVOID
 
-    private const float DASH_DURATION = Define.DASH_DURATION;
-    private const float DASH_DISTANCE = Define.DASH_DISTANCE;
-    private float DASH_COOLTIME = Define.DASH_COOLTIME;
+    private const float AVOID_DURATION = Define.AVOID_DURATION;
+    private const float AVOID_DISTANCE = Define.AVOID_DISTANCE;
+    private float AVOID_COOLTIME = Define.AVOID_COOLTIME;
 
+    private bool isAvoid = false;
     private bool canAvoid = true;
 
     private void Avoid_Enter()
     {
         canAvoid = false;
-        WarningDash(-dir);
-        StartCoroutine(Avoid(-dir));
-        StartCoroutine(DashCoolTime());
+        isAvoid = true;
+        Avoid(-dir);
+        StartCoroutine(AvoidCoolTime());
     }
 
-    public void WarningDash(Vector3 _end)
+    private void Avoid(Vector3 velocity)
     {
-        Vector3 newPos = transform.position;
-        //WarningLine line = GameManager.Instance.Pool.Pop("WarningLine", null, newPos, Quaternion.identity) as WarningLine;
-        WarningLine line = Instantiate(dashWarningLine, newPos, Quaternion.identity).GetComponent<WarningLine>();
-        line.SetPos(_end);
-    }
-
-    private IEnumerator Avoid(Vector3 velocity)
-    {
-        yield return new WaitForSeconds(1.0f);
-        Vector3 destination = -(transform.position + velocity.normalized * DASH_DISTANCE);
+        Vector3 destination = transform.position + velocity.normalized * AVOID_DISTANCE;
         transform.DOKill();
-        transform.DOMove(destination, DASH_DURATION).OnComplete(() => { EndDash(); });
+        transform.DOMove(destination, AVOID_DURATION).OnComplete(() => { EndAvoid(); });
     }
 
-    private void EndDash()
+    private void EndAvoid()
     {
         fsm.ChangeState(States.Walk);
         rigid.velocity = Vector3.zero;
     }
 
-    private IEnumerator DashCoolTime()
+    private IEnumerator AvoidCoolTime()
     {
-        yield return new WaitForSeconds(DASH_COOLTIME);
+        isAvoid = false;
+        yield return new WaitForSeconds(AVOID_COOLTIME);
         canAvoid = true;
     }
 
@@ -314,18 +313,30 @@ public class FarMonster : Character
     #region HIT
 
     int damage = 10;
+    float hitDelay = 1.0f;
 
     private void Hit_Enter()
     {
-        Debug.Log("Hit");
-        AnimationPlay(hashHit);
-        monsterHP.Hit(damage);
-        if (monsterHP.IsDead) fsm.ChangeState(States.Die);
+        StartCoroutine(NextHitState());
+    }
+
+    IEnumerator NextHitState()
+    {
+        yield return new WaitForSeconds(hitDelay);
+        fsm.ChangeState(States.Walk);
     }
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
     public void Damaged(bool isStun)
     {
+        AnimationPlay(hashHit);
+        monsterHP.Hit(damage);
+        if (monsterHP.IsDead)
+        {
+            fsm.ChangeState(States.Die);
+            return;
+        }
+
         if (stunning) return;
         if (isStun && !isStunCool)
         {
@@ -353,4 +364,17 @@ public class FarMonster : Character
     }
 
     #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.tag=="Player")
+        {
+            Damaged(false);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(Define.ON_END_READ_DATA, SetMonster);
+    }
 }

@@ -12,6 +12,9 @@ public class FarMonsterBullet : Poolable
 
     float moveSpeed = 20f;
     float deleteTime = 2.0f;
+
+    int damage = 10;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -40,7 +43,11 @@ public class FarMonsterBullet : Poolable
     // 플레이어 공격 성공 시
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag=="Player") DeleteBullet();
+        if (other.tag == "Player")
+        {
+            other.GetComponent<PlayerHp>().Hit(damage);
+            DeleteBullet();
+        }
     }
 
     // 해당 시간 이후 자동 삭제
