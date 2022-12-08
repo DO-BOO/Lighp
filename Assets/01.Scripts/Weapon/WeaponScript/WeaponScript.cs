@@ -7,6 +7,7 @@ using UnityEngine;
 public abstract class WeaponScript : MonoBehaviour
 {
     protected WeaponParent parent = null;
+    public WeaponParent Parent { get => parent; set => parent = value; }
     public int weaponNumber = 0;
     [SerializeField] protected WeaponData data = null;
     public WeaponData Data => data;
@@ -21,7 +22,6 @@ public abstract class WeaponScript : MonoBehaviour
     protected float Range => (1f + marbleController.PowerWeight * 0.01f) /** data.range*/;
     protected float CoolTime => (1f - marbleController.SpeedWeight * 0.01f) * data.atkCool;
     #endregion
-
 
     private void Awake()
     {
@@ -60,10 +60,7 @@ public abstract class WeaponScript : MonoBehaviour
     //공격 강제 종료
     public abstract void StopAttack();
 
-    public void UseSkill(InputType type)
-    {
-
-    }
+    public abstract void UseSkill(InputType type);
 
     /// <summary>
     /// 무기를 handle의 위치에 장착

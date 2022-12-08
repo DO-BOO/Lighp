@@ -41,4 +41,8 @@ public class HandGun : WeaponScript
     {
         
     }
+
+    public override void UseSkill(InputType type)
+    {
+    }
 }

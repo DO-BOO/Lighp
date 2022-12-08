@@ -63,11 +63,11 @@ public class WeaponParent : MonoBehaviour
             foreach (WeaponScript weapon in startingWeapons)
             {
                 WeaponScript newWeapon = Instantiate(weapon, transform);
+                newWeapon.Parent = this;
                 GetWeapon(newWeapon);
             }
 
             SelectWeapon(0);
-
         }
     }
 
@@ -196,7 +196,7 @@ public class WeaponParent : MonoBehaviour
         if (type == InputType.GetKeyDown)
         {
             animator.SetTrigger(hashWeaponSkill);
-            Effect("Skill");
+            //Effect("Skill");
         }
      
         curWeapon.UseSkill(type);

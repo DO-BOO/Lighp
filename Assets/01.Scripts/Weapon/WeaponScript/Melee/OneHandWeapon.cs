@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +37,7 @@ public class OneHandWeapon : WeaponScript
 
     private void OnTriggerEnter(Collider other)
     {
-        if(1 << other.gameObject.layer == Define.MONSTER_LAYER)
+        if (1 << other.gameObject.layer == Define.MONSTER_LAYER)
         {
             //IHittable target = other.GetComponent<IHittable>();
 
@@ -53,6 +54,19 @@ public class OneHandWeapon : WeaponScript
                 //monster.GetComponent<CharacterHp>()?.Hit((int)Damage);
                 monster.GetComponent<BasicCloseMonster>()?.Damaged(false);
             }
+        }
+    }
+
+    public override void UseSkill(InputType type)
+    {
+        if (type == InputType.GetKeyDown)
+        {
+            BulletScript bullet = GameManager.Instance.Pool.Pop($"{GetType().Name}Skill") as BulletScript;
+            Vector3 pos = parent.transform.position;
+            pos += Vector3.up * 3.2f;
+            pos += parent.transform.forward * 2f;
+
+            bullet.FireBullet(pos, parent.transform.forward, data.damage, data.hitStunTime, false);
         }
     }
 }
