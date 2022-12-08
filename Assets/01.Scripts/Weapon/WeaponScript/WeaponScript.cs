@@ -65,9 +65,8 @@ public abstract class WeaponScript : MonoBehaviour
     public abstract void StopAttack();
 
     /// <summary>
-    /// factor * 기본 범위만큼 범위가 영구적으로 증가한다.
+    /// factor * 기본 범위만큼 범위가 time동안 증가한다. time이 0일 시 영구 증가.
     /// </summary>
-    /// <param name="factor"></param>
     public abstract void BuffRange(float factor, float time = 0);
 
     /// <summary>
