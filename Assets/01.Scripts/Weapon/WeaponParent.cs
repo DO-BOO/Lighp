@@ -82,13 +82,14 @@ public class WeaponParent : MonoBehaviour
     }
     #endregion
 
-
+    //매개변수의 무기를 인벤토리에 넣는과 동시에 장착하고 만약 인벤토리가 가득 찼다면 해당 무기를 버리고 장착
     public void GetWeapon(WeaponScript weapon)
     {
         if (curWeaponCnt >= maxWeaponCnt)
         {
             weapon.Equip(handPosition, isEnemy);
             weapons[curWeaponIndex] = weapon;
+            //DropWeapon();
             SelectWeapon(curWeaponIndex);
         }
         else
@@ -198,9 +199,8 @@ public class WeaponParent : MonoBehaviour
 
     private void OnDestroy()
     {
+        //이벤트들 삭제
         EventManager<InputType>.StopListening((int)InputAction.Attack, OnAttack);
-        if (curWeapon != null)
-            EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
         EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
         EventManager.StopListening(Define.ON_END_READ_DATA, SetWeapons);
     }

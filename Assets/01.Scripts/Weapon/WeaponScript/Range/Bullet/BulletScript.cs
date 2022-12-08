@@ -16,14 +16,16 @@ public class BulletScript : Poolable
     private IHittable target;
     #endregion
 
-    public void FireBullet(Vector3 pos, Vector3 dir, int damage, float hitStunTime, bool isEnemy)
+    public void FireBullet(Vector3 pos, Vector3 dir, WeaponData parentData)
     {
         transform.position = pos;
         transform.forward = dir;
         moveDir = dir;
-        data.damage = damage;
-        data.isEnemy = isEnemy;
-        data.hitStun = hitStunTime;
+        data.damage = parentData.damage;
+        data.isEnemy = parentData.isEnemy;
+        data.hitStun = parentData.hitStunTime;
+        data.isCritical = parentData.IsCritical;
+        data.criticalFactor = parentData.criticalFactor;
         SetEnemyLayer(data.isEnemy);
         StartCoroutine(MoveBullet());
     }
@@ -59,7 +61,7 @@ public class BulletScript : Poolable
                 target = hit.transform.GetComponent<IHittable>();
                 if(target != null)
                 {
-                    target.GetDamage(data.damage, data.hitStun);
+                    target.GetDamage(data.damage, data.hitStun, data.isCritical, data.criticalFactor);
                 }
             }
 

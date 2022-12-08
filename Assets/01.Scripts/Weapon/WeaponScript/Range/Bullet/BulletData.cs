@@ -11,7 +11,10 @@ public class BulletData
     public float speed;
     #endregion
 
+    //부모한테서 받아오는 변수들
     public int damage;
     public float hitStun;
+    public bool isCritical;
+    public float criticalFactor;
     public bool isEnemy;
 }
