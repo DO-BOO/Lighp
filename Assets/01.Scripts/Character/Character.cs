@@ -11,7 +11,7 @@ public abstract class Character : MonoBehaviour
     protected Animator animator;
     protected Rigidbody rigid;
     new protected Collider collider;
-
+    
     private void Awake()
     {
         animator = GetComponent<Animator>();
