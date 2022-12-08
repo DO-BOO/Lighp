@@ -43,7 +43,7 @@ public class Define
 
     #region WARNINGLINE
 
-    public const float WARNING_DISTANCE = 12f;
+    public const float WARNING_DISTANCE = 0.35f;
     public const float WARNING_DURATION = 0.2f;
 
     #endregion

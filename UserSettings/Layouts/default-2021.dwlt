@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 772.8
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 19
+  controlID: 42
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 100
+  controlID: 43
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 2077
+  controlID: 128
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -297,8 +297,8 @@ MonoBehaviour:
     y: 0
     width: 357.59998
     height: 722.8
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -428,10 +428,10 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 119.600006}
-      m_SelectedIDs: eef8ffff
-      m_LastClickedID: -1810
-      m_ExpandedIDs: ecfaffffeefaffff
+      scrollPos: {x: 0, y: 7.600006}
+      m_SelectedIDs: 0ce7ffff
+      m_LastClickedID: -6388
+      m_ExpandedIDs: 0ce9ffff16fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -496,22 +496,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/02.Prefabs/Monster
+    - Assets/01.Scripts/Effect
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/02.Prefabs/Monster
+  - Assets/01.Scripts/Effect
   m_LastFoldersGridSize: 64
   m_LastProjectPath: D:\Github\DOOBOO
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 168.6}
-    m_SelectedIDs: 027c0000
-    m_LastClickedID: 31746
-    m_ExpandedIDs: 00000000007a0000027a0000047a0000067a0000087a00000a7a00000c7a00000e7a0000107a0000127a0000147a000000ca9a3b
+    scrollPos: {x: 0, y: 108.600006}
+    m_SelectedIDs: da7b0000
+    m_LastClickedID: 31706
+    m_ExpandedIDs: 00000000f6790000f8790000fa790000fc790000fe790000007a0000027a0000047a0000067a0000087a00000a7a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -539,7 +539,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000007a0000027a0000047a0000067a0000087a00000a7a00000c7a00000e7a0000107a0000127a0000147a0000
+    m_ExpandedIDs: 00000000f6790000f8790000fa790000fc790000fe790000007a0000027a0000047a0000067a0000087a00000a7a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -564,9 +564,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: eef8ffff
-    m_LastClickedInstanceID: -1810
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 201d0000
+    m_LastClickedInstanceID: 7456
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 887b0000003600006c9d0000bc850000ae860000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -962,14 +962,14 @@ MonoBehaviour:
     - {fileID: 4917124385744900858, guid: 9af459f7cb030924ba66924dd30d9f43, type: 2}
     - {fileID: 7450961599214186765, guid: b60dc9aa529b314489f628aa3b57c470, type: 2}
     m_ValueSerializationHelper:
-    - e00: 0.7365947
+    - e00: 0.51904684
       e01: 0
       e02: 0
-      e03: -80.05377
+      e03: 68.3232
       e10: 0
-      e11: 0.7365947
+      e11: 0.51904684
       e12: 0
-      e13: 36.26294
+      e13: 41.00982
       e20: 0
       e21: 0
       e22: 1
@@ -997,11 +997,11 @@ MonoBehaviour:
     - e00: 1.4520494
       e01: 0
       e02: 0
-      e03: -358.85587
+      e03: -394.34592
       e10: 0
       e11: 1.4520494
       e12: 0
-      e13: 81.21338
+      e13: 87.122986
       e20: 0
       e21: 0
       e22: 1

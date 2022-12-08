@@ -7,14 +7,6 @@ public class MeleeMonster : Character
 {
     MonsterData monsterData = null;
     private int ID => monsterData.number;
-    private string name = "";
-    private int MAX_HP;
-    private int attackPower;
-    private float attackCooltime;
-    private float dashCooltime;
-    private int moveSpeed;
-    private int viewDistance;
-    private float attackRange = 7.0f;
 
     public enum States
     {
@@ -50,28 +42,21 @@ public class MeleeMonster : Character
         EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
 
         target = SearchTarget();
-        ResetMonster();
         fsm.ChangeState(States.Idle);
     }
 
     private void ResetMonster()
     {
         monsterHP.Hp = monsterHP.MaxHp;
-        agent.speed = moveSpeed;
-        agent.stoppingDistance = attackRange;
+        agent.speed = monsterData.moveSpeed;
+        agent.stoppingDistance =  monsterData.attackRange-0.1f;
     }
 
     private void SetMonster()
     {
         monsterData = GameManager.Instance.SpreadData.GetData<MonsterData>(0);
-        name = monsterData.name;
-        MAX_HP = monsterData.maxHp;
-        attackPower = monsterData.attackPower;
-        attackCooltime = monsterData.pt1Cool;
-        dashCooltime = monsterData.pt2Cool;
-        moveSpeed = monsterData.moveSpeed;
-        viewDistance = monsterData.viewDistance;
-        attackRange = monsterData.attackRange;
+        monsterHP.Hp = monsterData.maxHp;
+        ResetMonster();
     }
 
     #region GET
@@ -121,6 +106,7 @@ public class MeleeMonster : Character
     int hashAttack = Animator.StringToHash("Attack");
     int hashWalk = Animator.StringToHash("Walk");
     int hashHit = Animator.StringToHash("Damage");
+    int hashStun = Animator.StringToHash("Stun");
     int hashDie = Animator.StringToHash("Die");
 
     public void AnimationPlay(int hash, bool isOn)
@@ -139,7 +125,7 @@ public class MeleeMonster : Character
 
     private void CheckDistanceIdle()
     {
-        if(distance <= attackRange)
+        if(distance <= monsterData.attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -149,20 +135,11 @@ public class MeleeMonster : Character
         }
     }
 
-
-    private void Idle_Enter()
-    {
-    }
-
     private void Idle_Update()
     {
         CheckDistanceIdle();
     }
 
-    private void Idle_Exit()
-    {
-
-    }
 
     #endregion
 
@@ -180,7 +157,7 @@ public class MeleeMonster : Character
 
     private void CheckDistanceWalk()
     {
-        if (distance <= attackRange)
+        if (distance <= monsterData.attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -213,7 +190,7 @@ public class MeleeMonster : Character
 
     private void CheckDistanceAttack()
     {
-        if(distance > attackRange)
+        if(distance > monsterData.attackRange)
         {
             fsm.ChangeState(States.Walk);
         }
@@ -221,46 +198,47 @@ public class MeleeMonster : Character
 
     private void Attack_Enter()
     {
-        AnimationPlay(hashAttack, true);
+        AnimationPlay(hashAttack);
+        Invoke("Attack", 1f);
     }
 
     private void Attack_Update()
     {
         CheckDistanceAttack();
     }
-    private void Attack_Exit()
+
+    private void Attack()
     {
-        AnimationPlay(hashAttack, false);
+        target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
+        fsm.ChangeState(States.Walk);
     }
 
     #endregion
 
     #region STUN
 
-    private bool stunning = false;
-    public bool IsStun => stunning;
-    private float coolTime = 10f;
-    private bool isStunCool = false;
-
-    private IEnumerator StunCoolTimer()
-    {
-        isStunCool = true;
-        yield return new WaitForSeconds(coolTime);
-        StopStunCoolTime();
-    }
-    private void StopStunCoolTime()
-    {
-        StopCoroutine(StunCoolTimer());
-        isStunCool = false;
-    }
-    public void SetStun(bool stop)
-    {
-        stunning = stop;
-    }
+    private bool isStun = false;
+    private bool IsStun => isStun;
+    private float coolTime = 2f;
 
     private void Stun_Enter()
     {
-        Debug.Log("Enter");
+        StartCoroutine(Stun());
+        AnimationPlay(hashStun, true);
+    }
+
+    private void Stun_Exit()
+    {
+        StopCoroutine(Stun());
+        isStun = false;
+        AnimationPlay(hashStun, false);
+    }
+
+    private IEnumerator Stun()
+    {
+        isStun = true;
+        yield return new WaitForSeconds(coolTime);
+        fsm.ChangeState(States.Walk);
     }
 
     #endregion
@@ -278,6 +256,8 @@ public class MeleeMonster : Character
     {
         canDash = false;
         isDash = true;
+        agent.velocity = Vector3.zero;
+        rigid.velocity = Vector3.zero;
         WarningDash(dir);
         StartCoroutine(Dash(dir));
         StartCoroutine(DashCoolTime());
@@ -293,6 +273,7 @@ public class MeleeMonster : Character
 
     private IEnumerator Dash(Vector3 velocity)
     {
+        agent.isStopped = true;
         yield return new WaitForSeconds(1.0f);
         Vector3 destination = transform.position + velocity.normalized * DASH_DISTANCE;
         transform.DOKill();
@@ -301,6 +282,7 @@ public class MeleeMonster : Character
 
     private void EndDash()
     {
+        agent.isStopped = false;
         fsm.ChangeState(States.Walk);
         rigid.velocity = Vector3.zero;
     }
@@ -330,7 +312,7 @@ public class MeleeMonster : Character
     }
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged(bool isStun)
+    public void Damaged(bool stunPlay)
     {
         AnimationPlay(hashHit);
         monsterHP.Hit(10);
@@ -340,11 +322,10 @@ public class MeleeMonster : Character
             return;
         }
 
-        if (stunning) return;
-        if (isStun && !isStunCool)
+        if (isStun) return;
+        if (stunPlay)
         {
             fsm.ChangeState(States.Stun);
-            StartCoroutine(StunCoolTimer());
         }
         else
             fsm.ChangeState(States.Hit);
@@ -372,7 +353,7 @@ public class MeleeMonster : Character
     {
         if(collision.collider.tag == "Player")
         {
-            Damaged(true);
+           // Damaged(true);
         }
     }
 
