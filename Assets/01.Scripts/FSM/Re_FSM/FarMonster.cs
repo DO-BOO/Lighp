@@ -31,9 +31,8 @@ public class FarMonster : Character
     public LayerMask blockLayerMask;
 
     private float moveRange = 30.0f;
-    private float attackRange = 50.0f;
-    private float avoidRange = 20.0f;
     private float moveSpeed = 10.0f;
+    private float avoidRange = 20.0f;
     private const float colRadius = 100f;
 
     public GameObject dashWarningLine;
@@ -46,21 +45,20 @@ public class FarMonster : Character
         EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
 
         target = SearchTarget();
-        ResetMonster();
         fsm.ChangeState(States.Idle);
     }
 
     private void SetMonster()
     {
         monsterData = GameManager.Instance.SpreadData.GetData<MonsterData>(1);
-
+        ResetMonster();
     }
 
     private void ResetMonster()
     {
-        monsterHP.Hp = monsterHP.MaxHp;
-        agent.speed = moveSpeed;
-        agent.stoppingDistance = attackRange;
+        monsterHP.Hp = monsterData.maxHp;
+        agent.speed = monsterData.moveSpeed;
+        agent.stoppingDistance = monsterData.attackRange;
     }
 
     #region GET
@@ -132,7 +130,7 @@ public class FarMonster : Character
         {
             fsm.ChangeState(States.Walk);
         }
-        else if (distance <= attackRange)
+        else if (distance <= monsterData.attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -168,11 +166,11 @@ public class FarMonster : Character
 
     private void CheckDistanceWalk()
     {
-        if (distance < avoidRange && canAvoid)
+        if (distance <= avoidRange && canAvoid)
         {
             fsm.ChangeState(States.Avoid);
         }
-        else if (distance <= attackRange)
+        else if (distance <= monsterData.attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -205,12 +203,19 @@ public class FarMonster : Character
     // PoolManager »ç¿ë
     public void Shooting()
     {
+        LookTarget(target);
+        FarMonsterBullet bullet = BulletInstantiate();
+        bullet.gameObject.SetActive(true);
+    }
+    private FarMonsterBullet BulletInstantiate()
+    {
         Vector3 pos = new Vector3(transform.position.x + 2.0f, 1.0f, transform.position.z);
         Transform tDir = SearchTarget();
         Vector3 direction = (tDir.position - pos).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         FarMonsterBullet obj = GameManager.Instance.Pool.Pop("BasicFarMonsterBullet", null, pos, lookRotation) as FarMonsterBullet;
-        obj.gameObject.SetActive(true);
+        obj.SetDamage(monsterData.attackPower);
+        return obj;
     }
 
     private void CheckDistanceAttack()
@@ -219,7 +224,7 @@ public class FarMonster : Character
         {
             fsm.ChangeState(States.Avoid);
         }
-        else if (distance > attackRange)
+        else if (distance > monsterData.attackRange)
         {
             fsm.ChangeState(States.Walk);
         }

@@ -30,7 +30,8 @@ public class MeleeMonster : Character
     public LayerMask blockLayerMask;
 
     private float moveRange = 50.0f;
-    private const float colRadius = 100f;
+    private float colRadius = 25f;
+    const float dash_distance = 40f;
 
     public GameObject dashWarningLine;
 
@@ -47,15 +48,15 @@ public class MeleeMonster : Character
 
     private void ResetMonster()
     {
-        monsterHP.Hp = monsterHP.MaxHp;
+        monsterHP.Hp = monsterData.maxHp;
         agent.speed = monsterData.moveSpeed;
-        agent.stoppingDistance =  monsterData.attackRange-0.1f;
+        agent.stoppingDistance = monsterData.attackRange;
+        colRadius = monsterData.viewDistance;
     }
 
     private void SetMonster()
     {
         monsterData = GameManager.Instance.SpreadData.GetData<MonsterData>(0);
-        monsterHP.Hp = monsterData.maxHp;
         ResetMonster();
     }
 
@@ -145,8 +146,6 @@ public class MeleeMonster : Character
 
     #region WALK
 
-    const float monsterSpeed = 10.0f;
-    const float dash_distance = 40f;
 
     private void Move()
     {

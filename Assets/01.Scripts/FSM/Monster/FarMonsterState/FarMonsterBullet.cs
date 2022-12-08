@@ -8,12 +8,14 @@ using UnityEngine;
 /// </summary>
 public class FarMonsterBullet : Poolable
 {
+    MonsterData monsterDB;
     Rigidbody rigid;
 
     float moveSpeed = 20f;
     float deleteTime = 2.0f;
 
-    int damage = 10;
+    private int damage = 20;
+    public void SetDamage(int setDamage) { damage = setDamage; }
 
     private void Awake()
     {
