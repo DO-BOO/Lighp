@@ -10510,10 +10510,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6234428345852029159, guid: be02706d20869814f85913b624a6dfd1, type: 3}
-      propertyPath: dropDark
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 6446221590902297889, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_RootOrder
       value: 1

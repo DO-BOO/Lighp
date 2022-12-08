@@ -11,6 +11,9 @@ public class WeaponParent : MonoBehaviour
     public bool IsAttack => isAttack;
     private bool isDraw;
     public bool IsCanAttack => !isAttack && !isDraw;
+
+    private int attackIndex = 0;
+    public int AttackIndex { get => attackIndex; set => attackIndex = value; }
     #endregion
 
     #region 무기관련 변수
@@ -129,6 +132,16 @@ public class WeaponParent : MonoBehaviour
     private void OnAttack(InputType input)
     {
         if (input != InputType.GetKeyDown || curWeapon == null || !IsCanAttack) return;
+
+        if (!animator.GetCurrentAnimatorStateInfo(1).IsName(curWeapon.GetType().Name + "Idle"))
+        {
+            attackIndex = (attackIndex + 1) % curWeapon.Data.attackPattern;
+        }
+        else
+        {
+            attackIndex = 0;
+        }
+
         isAttack = true;
         animator.SetTrigger(hashAttack);
     }
@@ -152,6 +165,7 @@ public class WeaponParent : MonoBehaviour
     public void HitTime()
     {
         curWeapon.HitTime();
+        Effect();
     }
 
     //후 딜레이 시작 시
@@ -160,6 +174,7 @@ public class WeaponParent : MonoBehaviour
         curWeapon.PostDelay();
         isAttack = false;
     }
+
     //후 딜레이 종료 시
     public void Stay()
     {
@@ -172,6 +187,14 @@ public class WeaponParent : MonoBehaviour
         isDraw = false;
     }
     #endregion
+
+    private void Effect()
+    {
+        string name = $"{ResourceType.Effect}{curWeapon.GetType().Name}";
+        WeaponEffect effect = GameManager.Instance.Pool.Pop(name, null).GetComponent<WeaponEffect>();
+        effect.Init(transform.position, transform.rotation);
+        effect.StartEffect(attackIndex);
+    }
 
     private void OnDestroy()
     {

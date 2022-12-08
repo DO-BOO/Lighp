@@ -7,9 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Define
 {
-    public const string HORIZONTAL  = "Horizontal";
-    public const string VERTICAL    = "Vertical";
-    public const string JUMP        = "Jump";
+    public const string STAY        = "Stay";
 
     #region SHEET_URL
     public const string SKILL_URL           = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:H&gid=1746391345";
@@ -52,5 +50,5 @@ public class Define
     public const int ELEMENT_MARBLE_COUNT = 3;
     #endregion
 
-    public const float FIXED_FPS = 50f;
+    public const int FIXED_FPS = 50;
 }
