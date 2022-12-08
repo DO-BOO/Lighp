@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WeaponScript" Collapsed="true">
+    <Position X="5.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQBCBICMACABAAACAEAEAAAABABAwAEAQAABAAEA=</HashCode>
+      <FileName>Assets\01.Scripts\Weapon\WeaponScript\WeaponScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OneHandWeapon" Collapsed="true">
+    <Position X="4.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAIAMAAAAAAAAAAAAgAAAAEAAQQEAAAAAAAIA=</HashCode>
+      <FileName>Assets\01.Scripts\Weapon\WeaponScript\Melee\OneHandWeapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HandGun" Collapsed="true">
+    <Position X="7" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAQAAAICMAAAAAAAAAAAAAAAAAAAAQAEAAQAAAAAA=</HashCode>
+      <FileName>Assets\01.Scripts\Weapon\WeaponScript\Range\HandGun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BulletScript" Collapsed="true">
+    <Position X="8.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAIAAAgAAAAQgAAIAgAAAACAAAAAYAAAAAQAAAAAAA=</HashCode>
+      <FileName>Assets\01.Scripts\Weapon\WeaponScript\Range\BulletScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BulletData" Collapsed="true">
+    <Position X="10.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAACAAAAAAgAAAAAAAAAAAAAAEAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\01.Scripts\Weapon\WeaponScript\Range\BulletData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponParent" Collapsed="true">
+    <Position X="3.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>xAIHAAoBICsIAQCACAAQAAAACICAAoIQSAASGAAQAGA=</HashCode>
+      <FileName>Assets\01.Scripts\Weapon\WeaponParent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

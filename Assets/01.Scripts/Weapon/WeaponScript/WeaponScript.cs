@@ -6,11 +6,14 @@ using UnityEngine;
 
 public abstract class WeaponScript : MonoBehaviour
 {
-    protected WeaponParent parent = null;
+    #region 무기 정보 관련 변수
     public int weaponNumber = 0;
+    [SerializeField] private WeaponSkill skill = null;
     [SerializeField] protected WeaponData data = null;
     public WeaponData Data => data;
-    [SerializeField] private WeaponSkill skill = null;
+    #endregion
+
+    protected WeaponParent parent = null;
 
     #region Element Marble
     [SerializeField]
@@ -18,7 +21,7 @@ public abstract class WeaponScript : MonoBehaviour
     public MarbleController MarbleController => marbleController;
 
     protected float Damage => (data.damage + Player.AttackPlus) * Player.AttackWeight;
-    protected float Range => (1f + marbleController.PowerWeight * 0.01f) * data.range;
+    //protected float Range => (1f + marbleController.PowerWeight * 0.01f) * data.range;
     protected float CoolTime => (1f - marbleController.SpeedWeight * 0.01f) * data.atkCool;
     #endregion
 
@@ -37,6 +40,7 @@ public abstract class WeaponScript : MonoBehaviour
 
     protected virtual void Start()
     {
+
     }
 
     public void SetData()
@@ -57,18 +61,14 @@ public abstract class WeaponScript : MonoBehaviour
     //후 딜레이 종료
     public abstract void Stay();
 
-    //공격 강제 종료
+    //공격을 강제로 종료 시킬 때
     public abstract void StopAttack();
 
     /// <summary>
-    /// factor * 기본 범위만큼 범위가 time 동안 증가한다.
+    /// factor * 기본 범위만큼 범위가 영구적으로 증가한다.
     /// </summary>
-    public abstract void IncreaseRange(float factor, float time);
-
-    public void UseSkill(InputType type)
-    {
-
-    }
+    /// <param name="factor"></param>
+    public abstract void BuffRange(float factor, float time = 0);
 
     /// <summary>
     /// 무기를 handle의 위치에 장착

@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IHittable
 {
     public bool isEnemy { get; }
-    public abstract void GetDamage(int damage, float hitStun);
+    public abstract void GetDamage(int damage, float hitStun, bool isCritical, float criticalFactor);
 }
