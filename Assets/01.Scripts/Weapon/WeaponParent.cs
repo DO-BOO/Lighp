@@ -24,9 +24,6 @@ public class WeaponParent : MonoBehaviour
     private int curWeaponCnt = 0;
     private int curWeaponIndex = 0;
     private WeaponScript curWeapon => weapons[curWeaponIndex];
-    //몇 번째 공격인지
-    private int attackIndex = 0;
-    public int AttackIndex => attackIndex;
     #endregion
 
     #region 애니메이션관련 변수
