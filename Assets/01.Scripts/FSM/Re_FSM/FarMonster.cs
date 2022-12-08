@@ -31,7 +31,6 @@ public class FarMonster : Character
     public LayerMask blockLayerMask;
 
     private float moveRange = 30.0f;
-    private float moveSpeed = 10.0f;
     private float avoidRange = 20.0f;
     private const float colRadius = 100f;
 
@@ -40,11 +39,11 @@ public class FarMonster : Character
     protected override void ChildAwake()
     {
         //fsm = new StateMachine<States>(this);
+        target = SearchTarget();
         monsterHP = GetComponent<CharacterHp>();
         fsm = StateMachine<States>.Initialize(this, States.Idle);
         EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
 
-        target = SearchTarget();
         fsm.ChangeState(States.Idle);
     }
 
@@ -107,6 +106,7 @@ public class FarMonster : Character
 
     int hashAttack = Animator.StringToHash("Attack");
     int hashWalk = Animator.StringToHash("Walk");
+    int hashStun = Animator.StringToHash("Stun");
     int hashHit = Animator.StringToHash("Damage");
     int hashDie = Animator.StringToHash("Die");
 
@@ -155,7 +155,6 @@ public class FarMonster : Character
     #endregion
 
     #region WALK
-
 
     private void Move()
     {
@@ -248,30 +247,28 @@ public class FarMonster : Character
 
     #region STUN
 
-    private bool stunning = false;
-    public bool IsStun => stunning;
-    private float coolTime = 10f;
-    private bool isStunCool = false;
-
-    private IEnumerator StunCoolTimer()
-    {
-        isStunCool = true;
-        yield return new WaitForSeconds(coolTime);
-        StopStunCoolTime();
-    }
-    private void StopStunCoolTime()
-    {
-        StopCoroutine(StunCoolTimer());
-        isStunCool = false;
-    }
-    public void SetStun(bool stop)
-    {
-        stunning = stop;
-    }
+    private bool isStun = false;
+    private bool IsStun => isStun;
+    private float coolTime = 2f;
 
     private void Stun_Enter()
     {
-        Debug.Log("Enter");
+        StartCoroutine(Stun());
+        AnimationPlay(hashStun, true);
+    }
+
+    private void Stun_Exit()
+    {
+        StopCoroutine(Stun());
+        isStun = false;
+        AnimationPlay(hashStun, false);
+    }
+
+    private IEnumerator Stun()
+    {
+        isStun = true;
+        yield return new WaitForSeconds(coolTime);
+        fsm.ChangeState(States.Walk);
     }
 
     #endregion
@@ -332,21 +329,20 @@ public class FarMonster : Character
     }
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged(bool isStun)
+    public void Damaged(bool stunPlay)
     {
         AnimationPlay(hashHit);
-        monsterHP.Hit(damage);
+        monsterHP.Hit(10);
         if (monsterHP.IsDead)
         {
             fsm.ChangeState(States.Die);
             return;
         }
 
-        if (stunning) return;
-        if (isStun && !isStunCool)
+        if (isStun) return;
+        if (stunPlay)
         {
             fsm.ChangeState(States.Stun);
-            StartCoroutine(StunCoolTimer());
         }
         else
             fsm.ChangeState(States.Hit);
@@ -358,7 +354,6 @@ public class FarMonster : Character
 
     private void Die_Enter()
     {
-        Debug.Log("Die");
         AnimationPlay(hashDie, true);
         MonsterDie();
     }
@@ -374,7 +369,7 @@ public class FarMonster : Character
     {
         if(collision.collider.tag=="Player")
         {
-            Damaged(false);
+            Damaged(true);
         }
     }
 

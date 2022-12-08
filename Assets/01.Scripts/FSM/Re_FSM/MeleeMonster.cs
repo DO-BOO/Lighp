@@ -30,7 +30,7 @@ public class MeleeMonster : Character
     public LayerMask blockLayerMask;
 
     private float moveRange = 50.0f;
-    private float colRadius = 25f;
+    private float colRadius = 100f;
     const float dash_distance = 40f;
 
     public GameObject dashWarningLine;
@@ -38,12 +38,10 @@ public class MeleeMonster : Character
     protected override void ChildAwake()
     {
         //fsm = new StateMachine<States>(this);
+        target = SearchTarget();
         monsterHP = GetComponent<CharacterHp>();
         fsm = StateMachine<States>.Initialize(this, States.Idle);
         EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
-
-        target = SearchTarget();
-        fsm.ChangeState(States.Idle);
     }
 
     private void ResetMonster()
@@ -51,13 +49,15 @@ public class MeleeMonster : Character
         monsterHP.Hp = monsterData.maxHp;
         agent.speed = monsterData.moveSpeed;
         agent.stoppingDistance = monsterData.attackRange;
-        colRadius = monsterData.viewDistance;
+        //colRadius = monsterData.viewDistance;
+        colRadius = 100f;
     }
 
     private void SetMonster()
     {
         monsterData = GameManager.Instance.SpreadData.GetData<MonsterData>(0);
         ResetMonster();
+        fsm.ChangeState(States.Idle);
     }
 
     #region GET
@@ -66,7 +66,7 @@ public class MeleeMonster : Character
     public Vector3 dir => GetDirection();
 
     // 타겟과의 거리 구하기
-    private float GetDistance() { return Vector3.Distance(target.transform.position, transform.position); }
+    private float GetDistance() { return Vector3.Distance(transform.position, target.position); }
 
     // 타겟과의 방향 구하기
     private Vector3 GetDirection()
@@ -145,7 +145,6 @@ public class MeleeMonster : Character
     #endregion
 
     #region WALK
-
 
     private void Move()
     {
@@ -356,4 +355,8 @@ public class MeleeMonster : Character
         }
     }
 
+    private void OnDestroy()
+    {
+        EventManager.StopListening(Define.ON_END_READ_DATA, SetMonster);
+    }
 }
