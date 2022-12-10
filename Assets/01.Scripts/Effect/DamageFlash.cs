@@ -10,20 +10,48 @@ public class DamageFlash : MonoBehaviour
 {
     private readonly int hashEmmision = Shader.PropertyToID("_EmissionColor");
 
+    List<Color> colors = new List<Color>();
+    Renderer[] renderers;
+
     Color32 flashColor = Color.red;
 
     bool isDamage = false;
 
-    public void SetColor(Color32 color)
+    private void Awake()
     {
+        renderers = GetComponentsInChildren<Renderer>();
+        SetBeforeColor();
+    }
+
+    // 바꿀 색 받기 default : red
+    public void SetColor(Color color)
+    {
+        float factor = Mathf.Pow(2, 2f);
+
+        color.r *= factor;
+        color.g *= factor;
+        color.b *= factor;
+        color.a *= factor;
+
         flashColor = color;
     }
 
+    // 맨 처음 오브젝트의 색 저장
+    private void SetBeforeColor()
+    {
+        foreach (Renderer renderer in renderers)
+        {
+            colors.Add(renderer.material.GetColor(hashEmmision));
+        }
+    }
+
+    // 색바꾸기
     public void DamageEffect()
     {
-        if(isDamage)
+        if (isDamage)
         {
-        StopCoroutine(TwinkleDamageEffect());
+            StopCoroutine(TwinkleDamageEffect());
+            ChangeBeforeColor();
         }
         isDamage = true;
         StartCoroutine(TwinkleDamageEffect());
@@ -31,31 +59,26 @@ public class DamageFlash : MonoBehaviour
 
     private IEnumerator TwinkleDamageEffect()
     {
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-        Queue<Color> colors = new Queue<Color>();
-
-        foreach (Renderer renderer in renderers)
-        {
-            Color color = Color.black;
-            float factor = Mathf.Pow(2, 2f);
-
-            color.r *= factor;
-            color.g *= factor;
-            color.b *= factor;
-            color.a *= factor;
-
-            colors.Enqueue(renderer.material.GetColor(hashEmmision));
-            renderer.material.SetColor(hashEmmision, flashColor);
-        }
-
+        ChangeColor();
         yield return new WaitForSeconds(0.5f);
-
-        foreach (Renderer renderer in renderers)
-        {
-            renderer.material.SetColor(hashEmmision, colors.Dequeue());
-        }
+        ChangeBeforeColor();
         isDamage = false;
     }
 
+    private void ChangeColor()
+    {
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.material.SetColor(hashEmmision, flashColor);
+        }
+    }
+
+    private void ChangeBeforeColor()
+    {
+        for(int i=0;i<renderers.Length;i++)
+        {
+            renderers[i].material.SetColor(hashEmmision, colors[i]);
+        }
+    }
 
 }

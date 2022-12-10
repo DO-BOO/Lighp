@@ -50,7 +50,6 @@ public class MeleeMonster : Character
 
     private void ResetMonster()
     {
-        Debug.Log(monsterData.attackRange);
         monsterHP.Hp = monsterData.maxHp;
         agent.speed = monsterData.moveSpeed;
         agent.stoppingDistance = attackRange;
@@ -237,9 +236,9 @@ public class MeleeMonster : Character
 
     private void Stun_Enter()
     {
+        AnimationPlay(hashStun, true);
         SetMove(false);
         StartCoroutine(Stun());
-        AnimationPlay(hashStun, true);
     }
 
     private void Stun_Exit()
@@ -317,6 +316,7 @@ public class MeleeMonster : Character
 
     private void Hit_Enter()
     {
+        AnimationPlay(hashHit);
         StartCoroutine(NextHitState());
     }
 
@@ -329,7 +329,6 @@ public class MeleeMonster : Character
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
     public void Damaged(bool stunPlay)
     {
-        AnimationPlay(hashHit);
         flashEffect.DamageEffect();
         monsterHP.Hit(10);
         if (monsterHP.IsDead)
@@ -344,7 +343,9 @@ public class MeleeMonster : Character
             fsm.ChangeState(States.Stun);
         }
         else
+        {
             fsm.ChangeState(States.Hit);
+        }
     }
 
     #endregion
@@ -369,7 +370,7 @@ public class MeleeMonster : Character
     {
         if (collision.collider.tag == "Player")
         {
-            Damaged(false);
+            Damaged(true);
         }
     }
 
