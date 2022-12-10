@@ -31,6 +31,7 @@ public class EditorMenu_CreateEnumScript
         afterLoad += () => CreateFile<WeaponData>("Rarity", 2);
         afterLoad += () => CreateFile<WeaponData>("WeaponGrip", 3);
         afterLoad += () => CreateFile<WeaponData>("WeaponType", 4);
+        afterLoad += () => CreateFile<MonsterData>("MonsterPatternType", 7);
 
         EditorCoroutineUtility.StartCoroutine(dataLoader.LoadDataCoroutine(afterLoad), null);
     }

@@ -1099,14 +1099,16 @@ GameObject:
   - component: {fileID: 1414582504929580136}
   - component: {fileID: 1414582504929580139}
   - component: {fileID: 1414582504572806863}
-  - component: {fileID: 1414582505661726152}
+  - component: {fileID: 2127138379199887873}
+  - component: {fileID: 8402618256543835453}
+  - component: {fileID: 1942647353}
   m_Layer: 0
   m_Name: FarMonster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7441560104420324666
 Transform:
   m_ObjectHideFlags: 0
@@ -1139,7 +1141,7 @@ Animator:
   m_GameObject: {fileID: 7441560104420682010}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e3c580ef0de6aa24589b3d9db28b3726, type: 3}
-  m_Controller: {fileID: 22100000, guid: 9cda0dfe355055b4caae9b0baba55f58, type: 2}
+  m_Controller: {fileID: 9100000, guid: 17d7bd126b45a8f45aa0974837c88b8c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1199,9 +1201,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1414582505661726152
+--- !u!114 &2127138379199887873
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1210,25 +1212,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 7441560104420682010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 519cc74bc86667d49b766934c90967e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 709495a51bda6144bb8087f66e57a3b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 50
+--- !u!114 &8402618256543835453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7441560104420682010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee051d2ebf7d8ec498e99ee0e862f999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetLayerMask:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 128
   blockLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  agent: {fileID: 0}
-  anim: {fileID: 0}
-  rigid: {fileID: 0}
-  moveRange: 40
-  attackRange: 35
-  hashWalk: 765711723
-  hashAttack: 1080829965
-  hashDamage: 375673178
-  hashDie: 20298039
-  bullet: {fileID: 6667732855625101390, guid: 8c371fec2c0d5e343a092bc3a222b231, type: 3}
+--- !u!114 &1942647353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7441560104420682010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed28c871ba8d9349af1e27565eb3140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7570704241665535485
 GameObject:
   m_ObjectHideFlags: 0

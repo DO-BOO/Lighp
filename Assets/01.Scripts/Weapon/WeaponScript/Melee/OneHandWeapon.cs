@@ -41,7 +41,12 @@ public class OneHandWeapon : MeleeWeapon
             if (monster)
             {
                 marbleController.ExecuteAttack(other.GetComponent<StateMachine>());
+<<<<<<< HEAD
                 monster.GetComponent<BasicCloseMonster>()?.Damaged(false);
+=======
+                //monster.GetComponent<CharacterHp>()?.Hit((int)Damage);
+                monster.GetComponent<MeleeMonster>()?.Damaged(false);
+>>>>>>> Re_FSM
             }
         }
     }
