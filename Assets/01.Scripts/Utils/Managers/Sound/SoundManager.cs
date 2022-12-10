@@ -18,7 +18,7 @@ public class SoundManager : MonoSingleton<SoundManager>
 
     private void Awake()
     {
-		SetAudioSource()
+		SetAudioSource();
 	}
 
 	private void SetAudioSource()

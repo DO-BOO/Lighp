@@ -13,16 +13,12 @@ public class Character : MonoBehaviour
     protected Rigidbody rigid;
     protected NavMeshAgent agent;
     new protected Collider collider;
-<<<<<<< HEAD
-    
-=======
 
     public Animator anim => animator;
     public Rigidbody rb => rigid;
     public NavMeshAgent ag => agent;
     public Collider col => collider;
 
->>>>>>> Re_FSM
     private void Awake()
     {
         animator = GetComponent<Animator>();
