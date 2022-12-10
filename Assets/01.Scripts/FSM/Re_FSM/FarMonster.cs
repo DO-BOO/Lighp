@@ -30,21 +30,21 @@ public class FarMonster : Character
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
 
-    private float moveRange = 30.0f;
+    private float moveRange = 50.0f;
+    private float attackRange = 30.0f;
     private float avoidRange = 20.0f;
     private const float colRadius = 100f;
 
-    public GameObject dashWarningLine;
+    private DamageFlash flashEffect;
 
     protected override void ChildAwake()
     {
         //fsm = new StateMachine<States>(this);
         target = SearchTarget();
         monsterHP = GetComponent<CharacterHp>();
+        flashEffect = GetComponent<DamageFlash>();
         fsm = StateMachine<States>.Initialize(this, States.Idle);
         EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
-
-        fsm.ChangeState(States.Idle);
     }
 
     private void SetMonster()
@@ -57,7 +57,7 @@ public class FarMonster : Character
     {
         monsterHP.Hp = monsterData.maxHp;
         agent.speed = monsterData.moveSpeed;
-        agent.stoppingDistance = monsterData.attackRange;
+        agent.stoppingDistance = attackRange;
     }
 
     #region GET
@@ -126,35 +126,32 @@ public class FarMonster : Character
 
     private void CheckDistanceIdle()
     {
-        if (distance > moveRange)
-        {
-            fsm.ChangeState(States.Walk);
-        }
-        else if (distance <= monsterData.attackRange)
+        if (distance <= attackRange)
         {
             fsm.ChangeState(States.Attack);
+        }
+        else if (distance <= moveRange)
+        {
+            fsm.ChangeState(States.Walk);
         }
         
     }
 
-
-    private void Idle_Enter()
-    {
-    }
 
     private void Idle_Update()
     {
         CheckDistanceIdle();
     }
 
-    private void Idle_Exit()
-    {
-
-    }
 
     #endregion
 
     #region WALK
+
+    private void SetMove(bool isMove)
+    {
+            agent.isStopped = !isMove;
+    }
 
     private void Move()
     {
@@ -169,7 +166,7 @@ public class FarMonster : Character
         {
             fsm.ChangeState(States.Avoid);
         }
-        else if (distance <= monsterData.attackRange)
+        else if (distance <= attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -178,6 +175,7 @@ public class FarMonster : Character
 
     private void Walk_Enter()
     {
+        SetMove(true);
         AnimationPlay(hashWalk, true);
     }
 
@@ -190,6 +188,7 @@ public class FarMonster : Character
 
     private void Walk_Exit()
     {
+        SetMove(false);
         AnimationPlay(hashWalk, false);
     }
 
@@ -223,7 +222,7 @@ public class FarMonster : Character
         {
             fsm.ChangeState(States.Avoid);
         }
-        else if (distance > monsterData.attackRange)
+        else if (distance > attackRange)
         {
             fsm.ChangeState(States.Walk);
         }
@@ -253,6 +252,7 @@ public class FarMonster : Character
 
     private void Stun_Enter()
     {
+        SetMove(false);
         StartCoroutine(Stun());
         AnimationPlay(hashStun, true);
     }
@@ -314,7 +314,6 @@ public class FarMonster : Character
 
     #region HIT
 
-    int damage = 10;
     float hitDelay = 1.0f;
 
     private void Hit_Enter()
@@ -332,6 +331,7 @@ public class FarMonster : Character
     public void Damaged(bool stunPlay)
     {
         AnimationPlay(hashHit);
+        flashEffect.DamageEffect();
         monsterHP.Hit(10);
         if (monsterHP.IsDead)
         {
@@ -355,6 +355,7 @@ public class FarMonster : Character
     private void Die_Enter()
     {
         AnimationPlay(hashDie, true);
+        SetMove(false);
         MonsterDie();
     }
 
@@ -369,7 +370,7 @@ public class FarMonster : Character
     {
         if(collision.collider.tag=="Player")
         {
-            Damaged(true);
+            Damaged(false);
         }
     }
 

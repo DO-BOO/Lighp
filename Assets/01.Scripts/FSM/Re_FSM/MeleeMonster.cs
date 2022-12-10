@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using MonsterLove.StateMachine;
 using DG.Tweening;
@@ -30,25 +31,29 @@ public class MeleeMonster : Character
     public LayerMask blockLayerMask;
 
     private float moveRange = 50.0f;
+    private float attackRange = 13.0f;
     private float colRadius = 100f;
     const float dash_distance = 40f;
 
     public GameObject dashWarningLine;
+    private DamageFlash flashEffect;
 
     protected override void ChildAwake()
     {
         //fsm = new StateMachine<States>(this);
         target = SearchTarget();
         monsterHP = GetComponent<CharacterHp>();
+        flashEffect = GetComponent<DamageFlash>();
         fsm = StateMachine<States>.Initialize(this, States.Idle);
         EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
     }
 
     private void ResetMonster()
     {
+        Debug.Log(monsterData.attackRange);
         monsterHP.Hp = monsterData.maxHp;
         agent.speed = monsterData.moveSpeed;
-        agent.stoppingDistance = monsterData.attackRange;
+        agent.stoppingDistance = attackRange;
         //colRadius = monsterData.viewDistance;
         colRadius = 100f;
     }
@@ -104,7 +109,7 @@ public class MeleeMonster : Character
 
     #region ANIMATION
 
-    int hashAttack = Animator.StringToHash("Attack");
+    int hashAttack = Animator.StringToHash("IsAttack");
     int hashWalk = Animator.StringToHash("Walk");
     int hashHit = Animator.StringToHash("Damage");
     int hashStun = Animator.StringToHash("Stun");
@@ -126,7 +131,7 @@ public class MeleeMonster : Character
 
     private void CheckDistanceIdle()
     {
-        if(distance <= monsterData.attackRange)
+        if (distance <= monsterData.attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -146,6 +151,11 @@ public class MeleeMonster : Character
 
     #region WALK
 
+    private void SetMove(bool isMove)
+    {
+            agent.isStopped = !isMove;
+    }
+
     private void Move()
     {
         if (target == null) return;
@@ -155,7 +165,7 @@ public class MeleeMonster : Character
 
     private void CheckDistanceWalk()
     {
-        if (distance <= monsterData.attackRange)
+        if (distance <= attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -168,6 +178,7 @@ public class MeleeMonster : Character
     private void Walk_Enter()
     {
         AnimationPlay(hashWalk, true);
+        SetMove(true);
     }
 
     private void Walk_Update()
@@ -180,6 +191,7 @@ public class MeleeMonster : Character
     private void Walk_Exit()
     {
         AnimationPlay(hashWalk, false);
+        SetMove(false);
     }
 
     #endregion
@@ -188,7 +200,7 @@ public class MeleeMonster : Character
 
     private void CheckDistanceAttack()
     {
-        if(distance > monsterData.attackRange)
+        if (distance > attackRange)
         {
             fsm.ChangeState(States.Walk);
         }
@@ -196,7 +208,7 @@ public class MeleeMonster : Character
 
     private void Attack_Enter()
     {
-        AnimationPlay(hashAttack);
+        AnimationPlay(hashAttack, true);
         Invoke("Attack", 1f);
     }
 
@@ -205,10 +217,14 @@ public class MeleeMonster : Character
         CheckDistanceAttack();
     }
 
-    private void Attack()
+    private void Attack_Exit()
+    {
+        AnimationPlay(hashAttack, false);
+    }
+
+    public void Attack()
     {
         target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
-        fsm.ChangeState(States.Walk);
     }
 
     #endregion
@@ -221,6 +237,7 @@ public class MeleeMonster : Character
 
     private void Stun_Enter()
     {
+        SetMove(false);
         StartCoroutine(Stun());
         AnimationPlay(hashStun, true);
     }
@@ -313,6 +330,7 @@ public class MeleeMonster : Character
     public void Damaged(bool stunPlay)
     {
         AnimationPlay(hashHit);
+        flashEffect.DamageEffect();
         monsterHP.Hit(10);
         if (monsterHP.IsDead)
         {
@@ -335,7 +353,7 @@ public class MeleeMonster : Character
 
     private void Die_Enter()
     {
-        Debug.Log("Die");
+        SetMove(false);
         AnimationPlay(hashDie, true);
         MonsterDie();
     }
@@ -349,9 +367,9 @@ public class MeleeMonster : Character
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.tag == "Player")
+        if (collision.collider.tag == "Player")
         {
-           // Damaged(true);
+            Damaged(false);
         }
     }
 
