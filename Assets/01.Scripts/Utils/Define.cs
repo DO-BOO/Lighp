@@ -35,7 +35,7 @@ public class Define
 
     #region AVOID
 
-    public const float AVOID_DISTANCE = 12f;
+    public const float AVOID_DISTANCE = 20f;
     public const float AVOID_DURATION = 0.3f;
     public const float AVOID_COOLTIME = 5f;
 

@@ -3,6 +3,7 @@ using UnityEngine;
 using MonsterLove.StateMachine;
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Threading;
 
 public class FarMonster : Character
 {
@@ -276,7 +277,6 @@ public class FarMonster : Character
     #region AVOID
 
     private const float AVOID_DURATION = Define.AVOID_DURATION;
-    private const float AVOID_DISTANCE = Define.AVOID_DISTANCE;
     private float AVOID_COOLTIME = Define.AVOID_COOLTIME;
 
     private bool isAvoid = false;
@@ -292,7 +292,19 @@ public class FarMonster : Character
 
     private void Avoid(Vector3 velocity)
     {
-        Vector3 destination = transform.position + velocity.normalized * AVOID_DISTANCE;
+        Vector3 addTurnDir = Vector3.zero;
+        int randDir = Random.Range(0, 101);
+        if (randDir >= 50)
+        {
+            addTurnDir = new Vector3(0f, 45f, 0f);
+        }
+        else
+        {
+            addTurnDir = new Vector3(0f, -45f, 0f);
+        }
+        transform.Rotate(addTurnDir, Space.Self);
+        velocity = (-1 * transform.forward);
+        Vector3 destination = transform.position + velocity.normalized * Define.AVOID_DISTANCE;
         transform.DOKill();
         transform.DOMove(destination, AVOID_DURATION).OnComplete(() => { EndAvoid(); });
     }
