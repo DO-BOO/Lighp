@@ -1230,7 +1230,7 @@ GameObject:
   - component: {fileID: 1535763225976265159}
   - component: {fileID: 1458526085}
   m_Layer: 9
-  m_Name: CloseMonster
+  m_Name: MeleeMonster
   m_TagString: CLOSE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1342,6 +1342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b51c0257b4c1449b3ce84067cc3e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsing: 0
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -1361,6 +1362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709495a51bda6144bb8087f66e57a3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsing: 0
   hp: 100
 --- !u!114 &1458526085
 MonoBehaviour:

@@ -44,13 +44,21 @@ public class FarMonster : Character
         target = SearchTarget();
         monsterHP = GetComponent<CharacterHp>();
         flashEffect = GetComponent<DamageFlash>();
-        fsm = StateMachine<States>.Initialize(this, States.Idle);
-        EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
+
+        if (GameManager.Instance.SpreadData.IsLoading)  // 로딩이 안 된 상태
+        {
+            EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
+        }
+        else
+        {
+            SetMonster();
+        }
     }
 
     private void SetMonster()
     {
         monsterData = GameManager.Instance.SpreadData.GetData<MonsterData>(1);
+        fsm = StateMachine<States>.Initialize(this, States.Idle);
         ResetMonster();
     }
 
@@ -135,7 +143,7 @@ public class FarMonster : Character
         {
             fsm.ChangeState(States.Walk);
         }
-        
+
     }
 
 
@@ -151,7 +159,7 @@ public class FarMonster : Character
 
     private void SetMove(bool isMove)
     {
-            agent.isStopped = !isMove;
+        agent.isStopped = !isMove;
     }
 
     private void Move()
@@ -171,7 +179,7 @@ public class FarMonster : Character
         {
             fsm.ChangeState(States.Attack);
         }
-        
+
     }
 
     private void Walk_Enter()
@@ -380,7 +388,7 @@ public class FarMonster : Character
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.tag=="Player")
+        if (collision.collider.tag == "Player")
         {
             Damaged(false);
         }

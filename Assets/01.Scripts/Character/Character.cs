@@ -7,7 +7,7 @@ using UnityEngine.AI;
 /// <summary>
 /// √÷ªÛ¿ß Character class
 /// </summary>
-public class Character : MonoBehaviour
+public class Character : Poolable
 {
     protected Animator animator;
     protected Rigidbody rigid;
@@ -30,4 +30,8 @@ public class Character : MonoBehaviour
     }
 
     protected virtual void ChildAwake() { }
+
+    public override void ResetData()
+    {
+    }
 }
