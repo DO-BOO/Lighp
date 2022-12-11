@@ -5,22 +5,75 @@ using UnityEngine;
 public class PlayerHp : CharacterHp
 {
     [SerializeField] private int dropHp = 15;
-    float accDrop;
+
+    private float accDropHp;
+
+    private Dark dark = new Dark();
+
+    #region Property
+    public int DropHP { get => dropHp; set => dropHp = value; }
+    private bool IsOverHp => Hp + dark.DarkValue > MaxHp;
+    public float Dark => dark.DarkValue;
+    #endregion
 
     protected override void Start()
     {
         base.Start();
+
+        EventManager.StartListening(Define.ON_START_DARK, OnStartDark);
+        EventManager.StartListening(Define.ON_END_DARK, OnEndDark);
     }
+
     private void FixedUpdate()
     {
         if (IsDead) return;
 
-        accDrop += dropHp / Define.FIXED_FPS;
+        UpdateHp();
+        dark.Update(Hp, MaxHp);
 
-        if (accDrop >= 1f)
+        if (IsOverHp)
+        {
+            Hp = MaxHp - dark.DarkValue;
+        }
+
+#if UNITY_EDITOR
+        Test_AddHp();
+#endif
+    }
+
+    private void UpdateHp()
+    {
+        accDropHp += dropHp / Define.FIXED_FPS;
+
+        if (accDropHp >= 1f)
         {
             Hit(1);
-            accDrop -= 1f;
+            accDropHp -= 1f;
         }
+    }
+
+    private void Test_AddHp()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Heal(1);
+        }
+    }
+
+    protected override void ChildHeal()
+    {
+        if (IsOverHp)
+        {
+            dark.OverHp(Hp, MaxHp);
+        }
+    }
+
+    private void OnStartDark() => dropHp += 5;
+    private void OnEndDark() => dropHp -= 5;
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(Define.ON_START_DARK, OnStartDark);
+        EventManager.StopListening(Define.ON_END_DARK, OnEndDark);
     }
 }

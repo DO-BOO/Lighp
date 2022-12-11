@@ -11,6 +11,9 @@ public class WeaponParent : MonoBehaviour
     public bool IsAttack => isAttack;
     private bool isDraw;
     public bool IsCanAttack => !isAttack && !isDraw;
+
+    private int attackIndex = 0;
+    public int AttackIndex { get => attackIndex; set => attackIndex = value; }
     #endregion
 
     #region 무기관련 변수
@@ -60,6 +63,7 @@ public class WeaponParent : MonoBehaviour
                 WeaponScript newWeapon = Instantiate(weapon, transform);
                 GetWeapon(newWeapon);
             }
+
             SelectWeapon(0);
         }
     }
@@ -68,7 +72,7 @@ public class WeaponParent : MonoBehaviour
     //목표재생속도 = 현재재생속도 * 현재재생시간(1초) / 목표재생시간
     private void SetAnimParam()
     {
-        if(curWeapon != null)
+        if (curWeapon != null)
         {
             animator.SetInteger(hashWeaponType, (int)curWeapon.Data.type);
             animator.SetFloat(hashPreSpeed, 1 / curWeapon.Data.preDelay);
@@ -78,13 +82,14 @@ public class WeaponParent : MonoBehaviour
     }
     #endregion
 
-
+    //매개변수의 무기를 인벤토리에 넣는과 동시에 장착하고 만약 인벤토리가 가득 찼다면 해당 무기를 버리고 장착
     public void GetWeapon(WeaponScript weapon)
     {
-        if(curWeaponCnt >= maxWeaponCnt)
+        if (curWeaponCnt >= maxWeaponCnt)
         {
             weapon.Equip(handPosition, isEnemy);
             weapons[curWeaponIndex] = weapon;
+            //DropWeapon();
             SelectWeapon(curWeaponIndex);
         }
         else
@@ -95,7 +100,7 @@ public class WeaponParent : MonoBehaviour
             SelectWeapon(curWeaponCnt - 1);
         }
     }
-    
+
     //임시로 만든 입력 함수 추후 수정 요함
     public void SelectWeapon(InputType type, InputAction action)
     {
@@ -113,17 +118,31 @@ public class WeaponParent : MonoBehaviour
     public void SelectWeapon(int index)
     {
         if (weapons[index] == null) return;
+
+        int previousIdx = curWeaponIndex;
         curWeapon.gameObject.SetActive(false);
         curWeaponIndex = index;
         curWeapon.gameObject.SetActive(true);
         SetAnimParam();
         animator.SetTrigger(hashDraw);
+
+        EventManager<WeaponScript, WeaponScript>.TriggerEvent(Define.ON_SET_WEAPON, weapons[previousIdx], weapons[curWeaponIndex]);
     }
 
     //공격 실행 시 애니메이션 실행
     private void OnAttack(InputType input)
     {
         if (input != InputType.GetKeyDown || curWeapon == null || !IsCanAttack) return;
+
+        if (!animator.GetCurrentAnimatorStateInfo(1).IsName(curWeapon.GetType().Name + "Idle"))
+        {
+            attackIndex = (attackIndex + 1) % curWeapon.Data.attackPattern;
+        }
+        else
+        {
+            attackIndex = 0;
+        }
+
         isAttack = true;
         animator.SetTrigger(hashAttack);
     }
@@ -135,7 +154,7 @@ public class WeaponParent : MonoBehaviour
         isDraw = false;
         curWeapon.StopAttack();
     }
-        
+
     #region 공격 애니메이션 관련 함수
     //선 딜레이 시작 시
     public void PreDelay()
@@ -147,6 +166,7 @@ public class WeaponParent : MonoBehaviour
     public void HitTime()
     {
         curWeapon.HitTime();
+        Effect();
     }
 
     //후 딜레이 시작 시
@@ -155,6 +175,7 @@ public class WeaponParent : MonoBehaviour
         curWeapon.PostDelay();
         isAttack = false;
     }
+
     //후 딜레이 종료 시
     public void Stay()
     {
@@ -165,15 +186,22 @@ public class WeaponParent : MonoBehaviour
     public void OnDrawEnd()
     {
         isDraw = false;
-        Debug.Log("end");
     }
     #endregion
 
+    private void Effect()
+    {
+        string name = $"{ResourceType.Effect}{curWeapon.GetType().Name}";
+        WeaponEffect effect = GameManager.Instance.Pool.Pop(name, null).GetComponent<WeaponEffect>();
+        effect.Init(transform.position, transform.rotation);
+        effect.StartEffect(attackIndex);
+    }
+
     private void OnDestroy()
     {
+        //이벤트들 삭제
         EventManager<InputType>.StopListening((int)InputAction.Attack, OnAttack);
-        if (curWeapon != null)
-            EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, curWeapon.UseSkill);
         EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
+        EventManager.StopListening(Define.ON_END_READ_DATA, SetWeapons);
     }
 }
