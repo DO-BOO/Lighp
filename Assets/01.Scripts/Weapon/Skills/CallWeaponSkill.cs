@@ -7,7 +7,7 @@ public class CallWeaponSkill : MonoBehaviour
     WeaponParent parent = null;
     WeaponSkill skill => parent?.CurWeapon?.WeaponSkill;
 
-    private readonly int hashWeaponSkill = Animator.StringToHash("WeaponSkill");
+    private int hashWeaponSkill;
     private Animator animator;
 
     private void Start()
@@ -15,12 +15,19 @@ public class CallWeaponSkill : MonoBehaviour
         parent = GetComponent<WeaponParent>();
         animator = GetComponent<Animator>();
 
+        hashWeaponSkill = Animator.StringToHash(InputAction.WeaponSkill.ToString());
+
         EventManager<InputType>.StartListening((int)InputAction.WeaponSkill, OnWeaponSkill);
+    }
+
+    private void Update()
+    {
+        skill?.Update();
     }
 
     private void OnWeaponSkill(InputType type)
     {
-        if (type == InputType.GetKeyDown)
+        if (type == InputType.GetKeyDown && skill.CanUse)
         {
             animator.SetTrigger(hashWeaponSkill);
             //Effect("Skill");

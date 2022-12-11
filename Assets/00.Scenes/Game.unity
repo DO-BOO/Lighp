@@ -1643,6 +1643,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skill Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2217650328733599562, guid: cef182f410e32bd46b5e893d0f23660a, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2217650328733599562, guid: cef182f410e32bd46b5e893d0f23660a, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 2217650328733599562, guid: cef182f410e32bd46b5e893d0f23660a, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 2217650328733599564, guid: cef182f410e32bd46b5e893d0f23660a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3850,6 +3862,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1235657553657581493, guid: e09f58a22938e19409564d61fe56e212, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235657553657581493, guid: e09f58a22938e19409564d61fe56e212, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235657553657581493, guid: e09f58a22938e19409564d61fe56e212, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 1235657553657581495, guid: e09f58a22938e19409564d61fe56e212, type: 3}
       propertyPath: m_Name
       value: Hp Canvas
@@ -4732,6 +4756,18 @@ PrefabInstance:
     - target: {fileID: 2038730169976168080, guid: e46c7a54ad10fd445b1b0337c3c38cb0, type: 3}
       propertyPath: m_Name
       value: Gold Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038730169976168082, guid: e46c7a54ad10fd445b1b0337c3c38cb0, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038730169976168082, guid: e46c7a54ad10fd445b1b0337c3c38cb0, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038730169976168082, guid: e46c7a54ad10fd445b1b0337c3c38cb0, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 2038730169976168084, guid: e46c7a54ad10fd445b1b0337c3c38cb0, type: 3}
       propertyPath: m_Pivot.x
@@ -7096,6 +7132,18 @@ PrefabInstance:
     - target: {fileID: 2179741224939387335, guid: 1ffd9d2c4e317a145b7c008c6c1309c0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4025454235264135248, guid: 1ffd9d2c4e317a145b7c008c6c1309c0, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4025454235264135248, guid: 1ffd9d2c4e317a145b7c008c6c1309c0, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 4025454235264135248, guid: 1ffd9d2c4e317a145b7c008c6c1309c0, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 4025454235264135250, guid: 1ffd9d2c4e317a145b7c008c6c1309c0, type: 3}
       propertyPath: m_Pivot.x
@@ -10509,6 +10557,14 @@ PrefabInstance:
     - target: {fileID: 5926249814434975643, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068288286989765370, guid: be02706d20869814f85913b624a6dfd1, type: 3}
+      propertyPath: inputAction
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068288286989765370, guid: be02706d20869814f85913b624a6dfd1, type: 3}
+      propertyPath: animatorTrigger
+      value: WeaponSkill
       objectReference: {fileID: 0}
     - target: {fileID: 6446221590902297889, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_RootOrder

@@ -34,7 +34,7 @@ public class OneHandWeapon : MeleeWeapon
 
     protected override void Start()
     {
-        weaponSkill = new OneHandWeaponSkill(parent, data);
+        weaponSkill = new OneHandWeaponSkill_N(parent, data);
     }
 
     private void OnTriggerEnter(Collider other)

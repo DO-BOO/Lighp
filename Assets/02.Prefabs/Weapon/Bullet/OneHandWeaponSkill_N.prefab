@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2069006035481421032}
   - component: {fileID: 6296524376335835722}
   m_Layer: 0
-  m_Name: OneHandWeaponSkill
+  m_Name: OneHandWeaponSkill_N
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

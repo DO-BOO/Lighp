@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OneHandWeaponSkill : WeaponSkill
+public class OneHandWeaponSkill_N : WeaponSkill
 {
-    public OneHandWeaponSkill(WeaponParent parent, WeaponData data) : base(parent, data){}
+    public OneHandWeaponSkill_N(WeaponParent parent, WeaponData data) : base(parent, data)
+    {
+    }
 
     public override void Hit()
     {
@@ -14,5 +16,10 @@ public class OneHandWeaponSkill : WeaponSkill
         pos += parent.transform.forward * 2f;
 
         bullet.FireBullet(pos, parent.transform.forward, data, false);
+    }
+
+    ~OneHandWeaponSkill_N()
+    {
+
     }
 }
