@@ -16,23 +16,53 @@ public class BulletScript : Poolable
     private IHittable target;
     #endregion
 
-    public void FireBullet(Vector3 pos, Vector3 dir, WeaponData parentData)
+    public void FireBullet(Vector3 pos, Vector3 dir, WeaponData parentData, bool isEnemy = false)
     {
         transform.position = pos;
-        transform.forward = dir;
-        moveDir = dir;
-        data.damage = parentData.damage;
         data.isEnemy = parentData.isEnemy;
         data.hitStun = parentData.hitStunTime;
         data.isCritical = parentData.IsCritical;
         data.criticalFactor = parentData.criticalFactor;
+        
+        FireBullet(dir, parentData.damage);
         SetEnemyLayer(data.isEnemy);
-        StartCoroutine(MoveBullet());
+    }
+
+    public void FireBullet(Vector3 dir, int damage)
+    {
+        transform.forward = dir;
+        moveDir = dir;
+        data.damage = damage;
     }
 
     public override void ResetData()
     {
+        lifeTime = 3f;
         //do nothing
+    }
+
+    private void Update()
+    {
+        if (lifeTime > 0f)
+        {
+            lifeTime -= Time.deltaTime;
+            beforePos = transform.position;
+            transform.position += moveDir * data.speed * Time.deltaTime;
+
+            if (Physics.Raycast(beforePos, moveDir, out hit, (transform.position - beforePos).magnitude, 1 << enemyLayer))
+            {
+                target = hit.transform.GetComponent<IHittable>();
+
+                if (target != null)
+                {
+                    target.GetDamage(data.damage, data.hitStun, data.isCritical, data.criticalFactor);
+                }
+            }
+        }
+        else
+        {
+            GameManager.Instance.Pool.Push(this);
+        }
     }
 
     public void SetEnemyLayer(bool isEnemy)
@@ -45,29 +75,5 @@ public class BulletScript : Poolable
         {
             enemyLayer = LayerMask.GetMask("Enemy");
         }
-    }
-
-    IEnumerator MoveBullet()
-    {
-        lifeTime = 3f;
-        while(lifeTime > 0)
-        {
-            lifeTime -= Time.deltaTime;
-            beforePos = transform.position;
-            transform.position += moveDir * data.speed * Time.deltaTime;
-
-            if (Physics.Raycast(beforePos, moveDir, out hit, (transform.position - beforePos).magnitude, 1 << enemyLayer))
-            {
-                target = hit.transform.GetComponent<IHittable>();
-                if(target != null)
-                {
-                    target.GetDamage(data.damage, data.hitStun, data.isCritical, data.criticalFactor);
-                }
-            }
-
-            yield return null;
-        }
-        GameManager.Instance.Pool.Push(this);
-        yield break;
     }
 }

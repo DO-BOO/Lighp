@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class HandGun : RangeWeapon
 {
+    protected override void Start()
+    {
+        // TODO: 무기 스킬 만들어주기
+        //weaponSkill = new 
+    }
+
     public override void PreDelay()
     {
 

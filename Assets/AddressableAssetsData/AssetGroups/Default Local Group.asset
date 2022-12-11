@@ -18,9 +18,15 @@ MonoBehaviour:
   m_GUID: f3ebac0493b5dfb4cb181b499254adc5
   m_SerializeEntries:
   - m_GUID: f3586e2a2872f334aa460b2158f63636
-    m_Address: Effect/OneHandWeapon
+    m_Address: Effect/OneHandWeapon_N
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Effect
+  - m_GUID: 5d043068a05305a4eb777ca482bd4d80
+    m_Address: Effect/OneHandWeaponSkill
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effect
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cd4026295c4ed4f4da6019be1111f248, type: 2}
   m_SchemaSet:
