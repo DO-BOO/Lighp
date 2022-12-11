@@ -24,6 +24,7 @@ public class WeaponParent : MonoBehaviour
     private int curWeaponCnt = 0;
     private int curWeaponIndex = 0;
     private WeaponScript curWeapon => weapons[curWeaponIndex];
+    public WeaponScript CurWeapon => curWeapon;
     #endregion
 
     #region 애니메이션관련 변수
@@ -61,6 +62,7 @@ public class WeaponParent : MonoBehaviour
             foreach (WeaponScript weapon in startingWeapons)
             {
                 WeaponScript newWeapon = Instantiate(weapon, transform);
+                newWeapon.Parent = this;
                 GetWeapon(newWeapon);
             }
 
@@ -134,7 +136,7 @@ public class WeaponParent : MonoBehaviour
     {
         if (input != InputType.GetKeyDown || curWeapon == null || !IsCanAttack) return;
 
-        if (!animator.GetCurrentAnimatorStateInfo(1).IsName(curWeapon.GetType().Name + "Idle"))
+        if (animator.GetCurrentAnimatorStateInfo(1).IsTag(Define.ANIM_TAG_ATTACK))
         {
             attackIndex = (attackIndex + 1) % curWeapon.Data.attackPattern;
         }
@@ -189,19 +191,24 @@ public class WeaponParent : MonoBehaviour
     }
     #endregion
 
-    private void Effect()
+    private void Effect(string remain = "")
     {
-        string name = $"{ResourceType.Effect}{curWeapon.GetType().Name}";
-        WeaponEffect effect = GameManager.Instance.Pool.Pop(name, null).GetComponent<WeaponEffect>();
-        effect.Init(transform.position, transform.rotation);
-        effect.StartEffect(attackIndex);
+        string name = $"{ResourceType.Effect}{curWeapon.GetType().Name}{remain}";
+        WeaponEffect effect = GameManager.Instance.Pool.Pop(name, null)?.GetComponent<WeaponEffect>();
+
+        if(effect!= null)
+        {
+            effect.Init(transform.position, transform.rotation);
+            effect.StartEffect(attackIndex);
+        }
     }
 
     private void OnDestroy()
     {
-        //이벤트들 삭제
         EventManager<InputType>.StopListening((int)InputAction.Attack, OnAttack);
         EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
         EventManager.StopListening(Define.ON_END_READ_DATA, SetWeapons);
+        EventManager<InputType, InputAction>.StopListening((int)InputAction.FirstWeapon, SelectWeapon);
+        EventManager<InputType, InputAction>.StopListening((int)InputAction.SecondWeapon, SelectWeapon);
     }
 }

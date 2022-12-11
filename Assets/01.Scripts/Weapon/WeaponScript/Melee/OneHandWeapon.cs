@@ -32,9 +32,14 @@ public class OneHandWeapon : MeleeWeapon
     }
     #endregion
 
+    protected override void Start()
+    {
+        weaponSkill = new OneHandWeaponSkill_N(parent, data);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(1 << other.gameObject.layer == Define.MONSTER_LAYER)
+        if (1 << other.gameObject.layer == Define.MONSTER_LAYER)
         {
             StateMachine monster = other.GetComponent<StateMachine>();
 
@@ -49,7 +54,7 @@ public class OneHandWeapon : MeleeWeapon
 
     public override void BuffRange(float factor, float time)
     {
-        if(time >= 0)
+        if (time >= 0)
             StartCoroutine(IncreaseCollider(factor, time));
         else
             IncreaseCollider(factor);

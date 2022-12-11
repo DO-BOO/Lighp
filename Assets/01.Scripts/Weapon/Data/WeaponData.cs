@@ -14,7 +14,7 @@ public class WeaponData
     public int usingPrefab = 0;
     public int weight;
     public int damage;
-    public float hitCount;
+    //public float hitCount;
     public int attackPattern;
     public float criticalChance;
     public float preDelay;

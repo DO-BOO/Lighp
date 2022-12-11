@@ -6,14 +6,15 @@ using UnityEngine;
 
 public abstract class WeaponScript : MonoBehaviour
 {
+    protected WeaponParent parent = null;
+    public WeaponParent Parent { get => parent; set => parent = value; }
+    
     #region 무기 정보 관련 변수
     public int weaponNumber = 0;
     [SerializeField] private WeaponSkill skill = null;
     [SerializeField] protected WeaponData data = null;
     public WeaponData Data => data;
     #endregion
-
-    protected WeaponParent parent = null;
 
     #region Element Marble
     [SerializeField]
@@ -25,6 +26,8 @@ public abstract class WeaponScript : MonoBehaviour
     protected float CoolTime => (1f - marbleController.SpeedWeight * 0.01f) * data.atkCool;
     #endregion
 
+    protected WeaponSkill weaponSkill;
+    public WeaponSkill WeaponSkill => weaponSkill;
 
     private void Awake()
     {
@@ -63,7 +66,7 @@ public abstract class WeaponScript : MonoBehaviour
 
     //공격을 강제로 종료 시킬 때
     public abstract void StopAttack();
-
+    
     /// <summary>
     /// factor * 기본 범위만큼 범위가 time동안 증가한다. time이 0일 시 영구 증가.
     /// </summary>
