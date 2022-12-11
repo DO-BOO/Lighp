@@ -3,11 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OneHandWeapon : WeaponScript
+public class OneHandWeapon : MeleeWeapon
 {
-    [SerializeField] private Collider atkArea = null;
-    [SerializeField] private TrailRenderer trail = null;
-
     #region 기본공격 관련 함수
     public override void PreDelay()
     {
@@ -35,38 +32,31 @@ public class OneHandWeapon : WeaponScript
     }
     #endregion
 
+    protected override void Start()
+    {
+        weaponSkill = new OneHandWeaponSkill(parent, data);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (1 << other.gameObject.layer == Define.MONSTER_LAYER)
         {
-            //IHittable target = other.GetComponent<IHittable>();
-
-            //if (target != null && data.isEnemy != target.isEnemy) //타켓의 아군/적군 확인
-            //{
-            //    target.GetDamge(data.damage, data.hitStunTime);
-            //}
-
             StateMachine monster = other.GetComponent<StateMachine>();
 
             if (monster)
             {
                 marbleController.ExecuteAttack(other.GetComponent<StateMachine>());
                 //monster.GetComponent<CharacterHp>()?.Hit((int)Damage);
-                monster.GetComponent<BasicCloseMonster>()?.Damaged(false);
+                monster.GetComponent<MeleeMonster>()?.Damaged(false);
             }
         }
     }
 
-    public override void UseSkill(InputType type)
+    public override void BuffRange(float factor, float time)
     {
-        if (type == InputType.GetKeyDown)
-        {
-            BulletScript bullet = GameManager.Instance.Pool.Pop($"{GetType().Name}Skill") as BulletScript;
-            Vector3 pos = parent.transform.position;
-            pos += Vector3.up * 3.2f;
-            pos += parent.transform.forward * 2f;
-
-            bullet.FireBullet(pos, parent.transform.forward, data.damage, data.hitStunTime, false);
-        }
+        if (time >= 0)
+            StartCoroutine(IncreaseCollider(factor, time));
+        else
+            IncreaseCollider(factor);
     }
 }

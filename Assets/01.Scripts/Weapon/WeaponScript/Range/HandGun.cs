@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandGun : WeaponScript
+public class HandGun : RangeWeapon
 {
-    [SerializeField] private Transform muzzle;
-    [SerializeField] private BulletScript bulletPrefab;
-
     protected override void Start()
     {
-        base.Start();
-        GameManager.Instance.Pool.CreatePool(bulletPrefab.gameObject, 10);
+        // TODO: 무기 스킬 만들어주기
+        //weaponSkill = new 
     }
 
     public override void PreDelay()
@@ -25,7 +22,7 @@ public class HandGun : WeaponScript
         Vector3 dir = (GameManager.Instance.GetMousePos() - muzzle.position).normalized;
         Debug.Log(dir);
         dir.y = 0;
-        obj.FireBullet(muzzle.position, dir, data.damage, data.hitStunTime, data.isEnemy);
+        obj.FireBullet(muzzle.position, dir, data);
     }
 
     public override void PostDelay()
@@ -37,12 +34,17 @@ public class HandGun : WeaponScript
     {
 
     }
+
     public override void StopAttack()
     {
-        
+
     }
 
-    public override void UseSkill(InputType type)
+    public override void BuffRange(float factor, float time)
     {
+        if(time >= 0)
+            StartCoroutine(IncreaseBulletScale(factor, time));
+        else
+            IncreaseBulletScale(factor);
     }
 }

@@ -24,6 +24,7 @@ public class WeaponParent : MonoBehaviour
     private int curWeaponCnt = 0;
     private int curWeaponIndex = 0;
     private WeaponScript curWeapon => weapons[curWeaponIndex];
+    public WeaponScript CurWeapon => curWeapon;
     #endregion
 
     #region 애니메이션관련 변수
@@ -34,7 +35,6 @@ public class WeaponParent : MonoBehaviour
     private readonly int hashPostSpeed = Animator.StringToHash("PostSpeed");
     private readonly int hashAttack = Animator.StringToHash("Attack");
     private readonly int hashDraw = Animator.StringToHash("Draw");
-    private readonly int hashWeaponSkill = Animator.StringToHash("WeaponSkill");
     //private int hashIsCharging = Animator.StringToHash("IsCharging");
     #endregion
 
@@ -51,7 +51,6 @@ public class WeaponParent : MonoBehaviour
         EventManager<InputType>.StartListening((int)InputAction.Dash, OnDash);
         EventManager<InputType, InputAction>.StartListening((int)InputAction.FirstWeapon, SelectWeapon);
         EventManager<InputType, InputAction>.StartListening((int)InputAction.SecondWeapon, SelectWeapon);
-        EventManager<InputType>.StartListening((int)InputAction.WeaponSkill, OnWeaponSkill);
         EventManager.StartListening(Define.ON_END_READ_DATA, SetWeapons);
     }
 
@@ -85,13 +84,14 @@ public class WeaponParent : MonoBehaviour
     }
     #endregion
 
-
+    //매개변수의 무기를 인벤토리에 넣는과 동시에 장착하고 만약 인벤토리가 가득 찼다면 해당 무기를 버리고 장착
     public void GetWeapon(WeaponScript weapon)
     {
         if (curWeaponCnt >= maxWeaponCnt)
         {
             weapon.Equip(handPosition, isEnemy);
             weapons[curWeaponIndex] = weapon;
+            //DropWeapon();
             SelectWeapon(curWeaponIndex);
         }
         else
@@ -136,7 +136,7 @@ public class WeaponParent : MonoBehaviour
     {
         if (input != InputType.GetKeyDown || curWeapon == null || !IsCanAttack) return;
 
-        if (!animator.GetCurrentAnimatorStateInfo(1).IsName(curWeapon.GetType().Name + "Idle"))
+        if (animator.GetCurrentAnimatorStateInfo(1).IsTag(Define.ANIM_TAG_ATTACK))
         {
             attackIndex = (attackIndex + 1) % curWeapon.Data.attackPattern;
         }
@@ -191,17 +191,6 @@ public class WeaponParent : MonoBehaviour
     }
     #endregion
 
-    private void OnWeaponSkill(InputType type)
-    {
-        if (type == InputType.GetKeyDown)
-        {
-            animator.SetTrigger(hashWeaponSkill);
-            //Effect("Skill");
-        }
-     
-        curWeapon.UseSkill(type);
-    }
-
     private void Effect(string remain = "")
     {
         string name = $"{ResourceType.Effect}{curWeapon.GetType().Name}{remain}";
@@ -217,9 +206,9 @@ public class WeaponParent : MonoBehaviour
     private void OnDestroy()
     {
         EventManager<InputType>.StopListening((int)InputAction.Attack, OnAttack);
-        if (curWeapon != null)
-            EventManager<InputType>.StopListening((int)InputAction.WeaponSkill, OnWeaponSkill);
         EventManager<InputType>.StopListening((int)InputAction.Dash, OnDash);
         EventManager.StopListening(Define.ON_END_READ_DATA, SetWeapons);
+        EventManager<InputType, InputAction>.StopListening((int)InputAction.FirstWeapon, SelectWeapon);
+        EventManager<InputType, InputAction>.StopListening((int)InputAction.SecondWeapon, SelectWeapon);
     }
 }

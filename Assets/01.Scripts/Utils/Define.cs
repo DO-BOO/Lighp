@@ -9,11 +9,13 @@ public class Define
 {
     public const string STAY        = "Stay";
 
+    public const string ANIM_TAG_ATTACK = "Attack";
     #region SHEET_URL
     public const string SKILL_URL           = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:H&gid=1746391345";
     public const string KEY_URL             = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=A2:B&gid=623781096";
     public const string ELEMENT_MARBLE_URL  = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=C3:F&gid=846138262";
     public const string WEAPON_URL  = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:Q&gid=0";
+    public const string ENEMY_URL  = "https://docs.google.com/spreadsheets/d/1fBTpWcRQGfyKeq0S3ZvXEh_r4YQZlY6ELVGRMWtoKbw/export?format=tsv&range=B3:M&gid=570481040";
     #endregion
 
     #region LAYER_MASK
@@ -32,8 +34,16 @@ public class Define
 
     #region AVOID
 
-    public const float AVOID_COOLTIME = 2f;
-    public const float AVOID_DURATION = 0.2f;
+    public const float AVOID_DISTANCE = 20f;
+    public const float AVOID_DURATION = 0.3f;
+    public const float AVOID_COOLTIME = 5f;
+
+    #endregion
+
+    #region WARNINGLINE
+
+    public const float WARNING_DISTANCE = 0.35f;
+    public const float WARNING_DURATION = 0.2f;
 
     #endregion
 
