@@ -30,7 +30,6 @@ public class CallWeaponSkill : MonoBehaviour
         if (type == InputType.GetKeyDown && skill.CanUse)
         {
             animator.SetTrigger(hashWeaponSkill);
-            //Effect("Skill");
         }
     }
 

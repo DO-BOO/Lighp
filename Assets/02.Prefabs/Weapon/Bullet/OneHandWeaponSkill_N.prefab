@@ -29,8 +29,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3829558996991593764}
   - {fileID: 7833483762982842284}
+  - {fileID: 3829558996991593764}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,9 +50,11 @@ MonoBehaviour:
   data:
     num: -1
     name: OneHandWeaponSkill
-    speed: 30
+    speed: 35
     damage: 20
     hitStun: 0
+    isCritical: 0
+    criticalFactor: 0
     isEnemy: 0
 --- !u!1 &1850249495349884495
 GameObject:
@@ -86,7 +88,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2069006035481421032}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0.144, y: -270.224, z: 32.873}
 --- !u!33 &6632304107856045618
 MeshFilter:
@@ -177,14 +179,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2708953801431465727}
-  m_LocalRotation: {x: -0.39649194, y: -0.58473957, z: -0.39465404, w: -0.5874709}
-  m_LocalPosition: {x: -0.0006980345, y: -0.12340985, z: 0.09884092}
+  m_LocalRotation: {x: -0.6384986, y: -0.30621517, z: -0.63553494, w: -0.30764794}
+  m_LocalPosition: {x: -0.0006980345, y: -0.12340985, z: 0.41}
   m_LocalScale: {x: 1, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2069006035481421032}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0.154, y: 0.048, z: 35.159}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0.209, y: 90.166, z: 128.548}
 --- !u!198 &8215787734697061395
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -194,7 +196,7 @@ ParticleSystem:
   m_GameObject: {fileID: 2708953801431465727}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 4
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -437,7 +439,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.99
+      scalar: 0.8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -490,7 +492,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -543,7 +545,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 5.26
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -649,7 +651,7 @@ ParticleSystem:
     startRotationY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.13212143
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -755,7 +757,7 @@ ParticleSystem:
     randomizeRotationDirection: 0
     maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
-    size3D: 0
+    size3D: 1
     rotation3D: 1
     gravityModifier:
       serializedVersion: 2

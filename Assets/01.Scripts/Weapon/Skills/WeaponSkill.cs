@@ -62,8 +62,6 @@ public abstract class WeaponSkill
             offset += 2;
 
         skillData = GameManager.Instance.SpreadData.GetData<WeaponSkillData>(data.number * 3 + offset);
-
-        Debug.Log(skillData);
     }
 
     ~WeaponSkill()
