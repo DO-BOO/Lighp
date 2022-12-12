@@ -89,7 +89,6 @@ public abstract class WeaponScript : MonoBehaviour
     public void AttackEnemey(GameObject enemy, int damage = -1)
     {
         int attackDamage = (damage < 0) ? (int)Damage : damage;
-        attackDamage *= 2;
 
         if (enemy.tag == "CLOSE")
         {

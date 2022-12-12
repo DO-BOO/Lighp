@@ -57,7 +57,7 @@ MonoBehaviour:
     usingPrefab: 0
     weight: 9
     damage: 10
-    range: 0
+    attackPattern: 0
     criticalChance: 0
     preDelay: 0.1
     postDelay: 0.125
@@ -66,7 +66,7 @@ MonoBehaviour:
     chargingDamage: 0
     hitStunTime: 0.3
     isEnemy: 0
-  skill: {fileID: 0}
+    criticalFactor: 2
   marbleController:
     marbles: []
   atkArea: {fileID: 8443288132878792493}
@@ -82,7 +82,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 6, z: 1}
+  m_Size: {x: 3.52, y: 10.76, z: 5.82}
   m_Center: {x: 0, y: 4.5, z: 0}
 --- !u!1 &8443288132930385660
 GameObject:

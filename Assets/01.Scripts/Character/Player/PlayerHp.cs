@@ -29,7 +29,7 @@ public class PlayerHp : CharacterHp
 
     private void FixedUpdate()
     {
-        if (IsDead) return;
+        //if (IsDead) return;
         if (!isStart) return;
 
         UpdateHp();

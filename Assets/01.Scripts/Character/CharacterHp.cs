@@ -19,8 +19,6 @@ public class CharacterHp : Character
 
     public void Hit(int damage)
     {
-        if (damage > 1)
-            Debug.Log("HIT");
         hp -= damage;
 
         if (hp <= 0)
