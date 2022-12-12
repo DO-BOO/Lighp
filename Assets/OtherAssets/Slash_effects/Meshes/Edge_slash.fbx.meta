@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/04.Models/bulb_Character/Model/PlayerRig1210.fbx.meta
+guid: 294e9342441f4864687ff78269744580
+========
 guid: 81f85491b90c1174a954c6bf8e9b3e94
+>>>>>>>> main:Assets/OtherAssets/Slash_effects/Meshes/Edge_slash.fbx.meta
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -91,6 +95,11 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+<<<<<<<< HEAD:Assets/04.Models/bulb_Character/Model/PlayerRig1210.fbx.meta
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+========
+>>>>>>>> main:Assets/OtherAssets/Slash_effects/Meshes/Edge_slash.fbx.meta
   additionalBone: 0
   userData: 
   assetBundleName: 
