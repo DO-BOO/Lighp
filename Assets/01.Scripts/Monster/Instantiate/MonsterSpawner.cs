@@ -7,7 +7,7 @@ public class MonsterSpawner : MonoBehaviour
 
     private float xPos = 0.0f;
     private float zPos = 0.0f;
-    private float spawnDuration = 2.0f;
+    private float spawnDuration = 3f;
 
     private void Start()
     {

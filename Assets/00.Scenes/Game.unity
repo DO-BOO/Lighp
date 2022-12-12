@@ -10556,7 +10556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5926249814434975643, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6068288286989765370, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: inputAction
@@ -10565,6 +10565,10 @@ PrefabInstance:
     - target: {fileID: 6068288286989765370, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: animatorTrigger
       value: WeaponSkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 6234428345852029159, guid: be02706d20869814f85913b624a6dfd1, type: 3}
+      propertyPath: hp
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6234428345852029159, guid: be02706d20869814f85913b624a6dfd1, type: 3}
       propertyPath: dropHp
