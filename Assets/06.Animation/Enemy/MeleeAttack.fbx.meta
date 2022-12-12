@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: mixamo.com
+    second: MeleeAttack
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: mixamo.com
+      name: MeleeAttack
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -60,7 +60,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.31421754
+      - time: 0.527276
         functionName: Attack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e6b51c0257b4c1449b3ce84067cc3e96, type: 3}

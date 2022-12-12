@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MonsterLove.StateMachine;
 using DG.Tweening;
+using System.Net.Mime;
 
 public class MeleeMonster : Character
 {
@@ -31,7 +32,7 @@ public class MeleeMonster : Character
     public LayerMask blockLayerMask;
 
     private float moveRange = 50.0f;
-    private float attackRange = 13.0f;
+    private float attackRange = 8.5f;
     private float colRadius = 100f;
     const float dash_distance = 40f;
 
@@ -112,6 +113,7 @@ public class MeleeMonster : Character
     {
         Vector3 dir = GetDirection();
         Quaternion rot = Quaternion.LookRotation(dir.normalized);
+       // transform.Rotate(dir.normalized);
         transform.rotation = rot;
     }
 
@@ -220,7 +222,6 @@ public class MeleeMonster : Character
     private void Attack_Enter()
     {
         AnimationPlay(hashAttack, true);
-        Invoke("Attack", 1f);
     }
 
     private void Attack_Update()
@@ -235,7 +236,16 @@ public class MeleeMonster : Character
 
     public void Attack()
     {
+        if(target!=null)
+        {
+            if(distance <= attackRange+1.0f)
+            {
+                Debug.Log("MeleeAttack");
+                LookTarget(target);
+                
         target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
+            }
+        }
     }
 
     #endregion
@@ -377,14 +387,6 @@ public class MeleeMonster : Character
     }
 
     #endregion
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.collider.tag == "Player")
-    //    {
-    //        Damaged(true);
-    //    }
-    //}
 
     private void OnDestroy()
     {
