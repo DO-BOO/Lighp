@@ -16,25 +16,24 @@ public class PlayerHp : CharacterHp
     public float Dark => dark.DarkValue;
     #endregion
 
+    private bool isStart = false;
+
     protected override void Start()
     {
         base.Start();
 
         EventManager.StartListening(Define.ON_START_DARK, OnStartDark);
         EventManager.StartListening(Define.ON_END_DARK, OnEndDark);
+        EventManager.StartListening(Define.ON_END_READ_DATA, Load);
     }
 
     private void FixedUpdate()
     {
         if (IsDead) return;
+        if (!isStart) return;
 
         UpdateHp();
         dark.Update(Hp, MaxHp);
-
-        if (IsOverHp)
-        {
-            Hp = MaxHp - dark.DarkValue;
-        }
 
 #if UNITY_EDITOR
         Test_AddHp();
@@ -71,9 +70,12 @@ public class PlayerHp : CharacterHp
     private void OnStartDark() => dropHp += 5;
     private void OnEndDark() => dropHp -= 5;
 
+    private void Load() => isStart = true;
+
     private void OnDestroy()
     {
         EventManager.StopListening(Define.ON_START_DARK, OnStartDark);
         EventManager.StopListening(Define.ON_END_DARK, OnEndDark);
+        EventManager.StopListening(Define.ON_END_READ_DATA, Load);
     }
 }

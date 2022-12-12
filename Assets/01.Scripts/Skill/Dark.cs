@@ -43,17 +43,17 @@ public class Dark
 
     private void OnInactiveDarkUpdate(int hp, int maxHp)
     {
-        // over hp라면 darkValue를 정리
-        if (hp + darkValue > maxHp)
-        {
-            darkValue = maxHp - hp;
-        }
-
         // 초당 늘어야할 darkvalue를 증가시킴
         if (accDrop >= 1f)
         {
             darkValue++;
             accDrop -= 1f;
+        }
+
+        // over hp라면 darkValue를 정리
+        if (hp + darkValue > maxHp)
+        {
+            darkValue = maxHp - hp;
         }
 
         // 조건이 되었다면 잠식 상태 활성화

@@ -86,6 +86,25 @@ public abstract class WeaponScript : MonoBehaviour
         return this;
     }
 
+    public void AttackEnemey(GameObject enemy, int damage = -1)
+    {
+        int attackDamage = (damage < 0) ? (int)Damage : damage;
+        attackDamage *= 2;
+
+        if (enemy.tag == "CLOSE")
+        {
+            enemy.GetComponent<MeleeMonster>()?.Damaged(attackDamage, false);
+            marbleController.ExecuteAttack(enemy.GetComponent<StateMachine>());
+        }
+        else if (enemy.tag == "FAR")
+        {
+            enemy.GetComponent<FarMonster>()?.Damaged(attackDamage, false);
+            marbleController.ExecuteAttack(enemy.GetComponent<StateMachine>());
+        }
+
+        parent.GetComponent<CharacterHp>().Heal(attackDamage);
+    }
+
     protected void OnDestroy()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, SetData);

@@ -41,21 +41,7 @@ public class OneHandWeapon : MeleeWeapon
     {
         if (1 << other.gameObject.layer == Define.MONSTER_LAYER)
         {
-            //StateMachine monster = other.GetComponent<StateMachine>();
-
-            //if (monster)
-            {
-                marbleController.ExecuteAttack(other.GetComponent<StateMachine>());
-                //monster.GetComponent<CharacterHp>()?.Hit((int)Damage);
-                if (other.tag == "CLOSE")
-                {
-                    other.GetComponent<MeleeMonster>()?.Damaged((int)Damage, false);
-                }
-                else if (other.tag == "FAR")
-                {
-                    other.GetComponent<FarMonster>()?.Damaged((int)Damage, false);
-                }
-            }
+            AttackEnemey(other.gameObject);
         }
     }
 

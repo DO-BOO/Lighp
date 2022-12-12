@@ -75,7 +75,7 @@ public sealed class PlayerMove : CharacterMove
     // 마우스쪽으로 바라보는 함수
     private void InputRotate(InputType inputType)
     {
-        if (CanMove && inputType == InputType.GetKeyDown)
+        if (inputType == InputType.GetKeyDown)
         {
             Camera cam = GameManager.Instance.MainCam;
             Ray cameraRay = cam.ScreenPointToRay(Input.mousePosition);
