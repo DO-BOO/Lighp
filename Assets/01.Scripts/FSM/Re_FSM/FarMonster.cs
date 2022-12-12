@@ -348,11 +348,11 @@ public class FarMonster : Character
     }
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged(bool stunPlay)
+    public void Damaged(int damage, bool stunPlay)
     {
         AnimationPlay(hashHit);
         flashEffect.DamageEffect();
-        monsterHP.Hit(10);
+        monsterHP.Hit(damage);
         if (monsterHP.IsDead)
         {
             fsm.ChangeState(States.Die);
@@ -386,13 +386,13 @@ public class FarMonster : Character
 
     #endregion
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.tag == "Player")
-        {
-            Damaged(false);
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.collider.tag == "Player")
+    //    {
+    //        Damaged(false);
+    //    }
+    //}
 
     private void OnDestroy()
     {

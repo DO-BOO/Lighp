@@ -76,7 +76,13 @@ public class MeleeMonster : Character
     public Vector3 dir => GetDirection();
 
     // 타겟과의 거리 구하기
-    private float GetDistance() { return Vector3.Distance(transform.position, target.position); }
+    private float GetDistance()
+    {
+        if (target == null)
+            return 0f;
+
+        return Vector3.Distance(transform.position, target.position);
+    }
 
     // 타겟과의 방향 구하기
     private Vector3 GetDirection()
@@ -333,10 +339,10 @@ public class MeleeMonster : Character
     }
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged(bool stunPlay)
+    public void Damaged(int damage, bool stunPlay)
     {
         flashEffect.DamageEffect();
-        monsterHP.Hit(10);
+        monsterHP.Hit(damage);
         if (monsterHP.IsDead)
         {
             fsm.ChangeState(States.Die);
@@ -372,13 +378,13 @@ public class MeleeMonster : Character
 
     #endregion
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.tag == "Player")
-        {
-            Damaged(true);
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.collider.tag == "Player")
+    //    {
+    //        Damaged(true);
+    //    }
+    //}
 
     private void OnDestroy()
     {

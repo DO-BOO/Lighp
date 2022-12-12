@@ -56,12 +56,10 @@ public class MonsterSpawner : MonoBehaviour
     // 몬스터 스폰
     private void CreateMeleeMonster(Vector3 spawnPos)
     {
-        Debug.Log("Melee");
         MeleeMonster meleeMonster = GameManager.Instance.Pool.Pop("MeleeMonster", null, spawnPos, Quaternion.identity) as MeleeMonster;
     }
     private void CreateFarMonster(Vector3 spawnPos)
     {
-        Debug.Log("Far");
         FarMonster farMonster = GameManager.Instance.Pool.Pop("FarMonster", null, spawnPos, Quaternion.identity) as FarMonster;
     }
 

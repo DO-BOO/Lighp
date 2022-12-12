@@ -1104,11 +1104,11 @@ GameObject:
   - component: {fileID: 1942647353}
   m_Layer: 0
   m_Name: FarMonster
-  m_TagString: Untagged
+  m_TagString: FAR
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7441560104420324666
 Transform:
   m_ObjectHideFlags: 0
@@ -1215,6 +1215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709495a51bda6144bb8087f66e57a3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsing: 0
   hp: 50
 --- !u!114 &8402618256543835453
 MonoBehaviour:
@@ -1228,6 +1229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee051d2ebf7d8ec498e99ee0e862f999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsing: 0
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 128
