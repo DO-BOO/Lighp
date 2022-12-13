@@ -67,8 +67,16 @@ public class PlayerHp : CharacterHp
         }
     }
 
-    private void OnStartDark() => dropHp += 5;
-    private void OnEndDark() => dropHp -= 5;
+    private void OnStartDark()
+    {
+        Player.AddAttackWeight(20);
+        dropHp += 5;
+    }
+    private void OnEndDark()
+    {
+        Player.AddAttackWeight(-20);
+        dropHp -= 5;
+    }
 
     private void Load() => isStart = true;
 

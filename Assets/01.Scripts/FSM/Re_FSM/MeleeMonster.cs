@@ -53,6 +53,9 @@ public class MeleeMonster : Character
         {
             SetMonster();
         }
+
+        EventManager.StartListening(Define.ON_START_DARK, StartDark);
+        EventManager.StartListening(Define.ON_START_DARK, EndDark);
     }
 
     private void ResetMonster()
@@ -113,7 +116,7 @@ public class MeleeMonster : Character
     {
         Vector3 dir = GetDirection();
         Quaternion rot = Quaternion.LookRotation(dir.normalized);
-       // transform.Rotate(dir.normalized);
+        // transform.Rotate(dir.normalized);
         transform.rotation = rot;
     }
 
@@ -166,7 +169,7 @@ public class MeleeMonster : Character
 
     private void SetMove(bool isMove)
     {
-            agent.isStopped = !isMove;
+        agent.isStopped = !isMove;
     }
 
     private void Move()
@@ -236,14 +239,14 @@ public class MeleeMonster : Character
 
     public void Attack()
     {
-        if(target!=null)
+        if (target != null)
         {
-            if(distance <= attackRange+1.0f)
+            if (distance <= attackRange + 1.0f)
             {
                 Debug.Log("MeleeAttack");
                 LookTarget(target);
-                
-        target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
+
+                target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
             }
         }
     }
@@ -388,8 +391,26 @@ public class MeleeMonster : Character
 
     #endregion
 
+    private void StartDark()
+    {
+        agent.speed *= 0.7f;
+
+        float speed = animator.GetFloat("Speed");
+        animator.SetFloat("Speed", speed * 1/0.7f); ;
+    }
+
+    private void EndDark()
+    {
+        agent.speed *= 1 / 0.7f;
+
+        float speed = animator.GetFloat("Speed");
+        animator.SetFloat("Speed", speed * 1/0.7f); ;
+    }
+
     private void OnDestroy()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, SetMonster);
+        EventManager.StopListening(Define.ON_START_DARK, StartDark);
+        EventManager.StopListening(Define.ON_START_DARK, EndDark);
     }
 }
