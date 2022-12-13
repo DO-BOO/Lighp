@@ -8,35 +8,50 @@ public class DamagePopup : Poolable
 {
     #region Compo
     private RectTransform rect;
+
+    //자식 텍스트
     private TextMeshProUGUI textMesh;
+    private Transform textTransform;
     #endregion
 
     #region 애니메이션 변수
     private Sequence seq;
+    private Transform target;
     #endregion
 
-    public void SpawnPopup(Vector3 pos, int damage, PopupData data, bool isCritical)
+    private void Awake()
     {
         //필요 컴포넌트 가져오기
         rect = GetComponent<RectTransform>();
-        textMesh = GetComponent<TextMeshProUGUI>();
+        textMesh = GetComponentInChildren<TextMeshProUGUI>();
+        textTransform = textMesh.transform;
+    }
 
+    private void Update()
+    {
+        rect.position = GameManager.Instance.MainCam.WorldToScreenPoint(target.position);
+    }
+
+    public void SpawnPopup(Transform target, int damage, bool isCritical , PopupData data)
+    {
         //텍스트 설정
         textMesh.text = damage.ToString();
         if(isCritical)
             textMesh.faceColor = Color.yellow;
 
-        //생성될 위치 구하고 스폰하기
-        //카메라 디파인에 있는 걸로 바꿀 것
-        Debug.Log(Camera.main.WorldToScreenPoint(pos));
-        rect.position = Camera.main.WorldToScreenPoint(pos);
+        //생성될 위치 구하고 애니메이션 실행
+        this.target = target;
+        ExecuteTextAnimation(data);
+    }
 
+    private void ExecuteTextAnimation(PopupData data)
+    {
         //닷트윈 애니메이션 실행하기
         seq = DOTween.Sequence();
-        seq.Append(rect.DOAnchorPosY(rect.anchoredPosition.y + data.upValue, data.moveTime * 0.5f).SetEase(Ease.OutSine).OnComplete(
-            () => rect.DOAnchorPosY(rect.anchoredPosition.y - data.upValue * 0.75f, data.moveTime * 0.5f).SetEase(Ease.InSine)));
-        seq.Join(rect.DOScale(Vector3.one, data.sizeTime));
-        seq.Join(rect.DOAnchorPosX(rect.anchoredPosition.x + Random.Range(-data.sideValue, data.sideValue), data.moveTime));
+        seq.Append(textTransform.DOLocalMoveY(data.upValue, data.moveTime * 0.5f).SetEase(Ease.OutSine).OnComplete(
+            () => textTransform.DOLocalMoveY(data.upValue * 0.5f, data.moveTime * 0.5f).SetEase(Ease.InSine)));
+        seq.Join(textTransform.DOScale(Vector3.one, data.sizeTime));
+        seq.Join(textTransform.DOLocalMoveX(Random.Range(-data.sideValue, data.sideValue), data.moveTime));
         seq.AppendInterval(data.afterLifetime);
         seq.AppendCallback(() => GameManager.Instance.Pool.Push(this));
         seq.Play();
@@ -44,7 +59,7 @@ public class DamagePopup : Poolable
     public override void ResetData()
     {
         seq.Kill();
-        transform.localScale = Vector3.zero;
+        textTransform.localScale = Vector3.zero;
         textMesh.faceColor = Color.white;
     }
 }

@@ -19,19 +19,17 @@ public class UIManager
     }
 
     #region ÆË¾÷ ±¸Çö
-    private DamagePopup damagePopupPref;
-
-    public void SpawnDamagePopup(Vector3 targetPos, int damage, bool isCritical)
+    public void SpawnDamagePopup(Transform target, int damage, bool isCritical)
     {
-        DamagePopup obj = GameManager.Instance.Pool.Pop(damagePopupPref.gameObject) as DamagePopup;
-        obj.transform.SetParent(canvas.transform);
-        obj.SpawnPopup(targetPos, damage, PopupData.Default, isCritical);
+        DamagePopup obj = GameManager.Instance.Pool.Pop(GameManager.Instance.DamagePopup.gameObject) as DamagePopup;
+        obj.transform.SetParent(GameManager.Instance.PopupCanvas.transform);
+        obj.SpawnPopup(target, damage, isCritical, PopupData.Default);
     }
-    public void SpawnDamagePopup(Vector3 targetPos, int damage, bool isCritical, PopupData popupData)
+    public void SpawnDamagePopup(Transform target, int damage, bool isCritical, PopupData popupData)
     {
-        DamagePopup obj = GameManager.Instance.Pool.Pop(damagePopupPref.gameObject) as DamagePopup;
-        obj.transform.SetParent(canvas.transform);
-        obj.SpawnPopup(targetPos, damage, popupData, isCritical);
+        DamagePopup obj = GameManager.Instance.Pool.Pop(GameManager.Instance.DamagePopup.gameObject) as DamagePopup;
+        obj.transform.SetParent(GameManager.Instance.PopupCanvas.transform);
+        obj.SpawnPopup(target, damage, isCritical, popupData);
     }
     #endregion
 }

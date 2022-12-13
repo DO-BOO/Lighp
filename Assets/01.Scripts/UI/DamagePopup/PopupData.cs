@@ -20,6 +20,6 @@ public struct PopupData
     public float sizeTime;
     public float afterLifetime;
 
-    private static PopupData defualt = new PopupData(100, 50, 1, 1, 0.1f);
+    private static PopupData defualt = new PopupData(150, 100, 0.5f, 0.5f, 0.1f);
     public static PopupData Default => defualt;
 }
