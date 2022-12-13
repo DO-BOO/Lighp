@@ -21,8 +21,7 @@ public class FlashBurst : Skill
 
         foreach (Collider col in cols)
         {
-            // 스턴
-            Debug.Log(col.gameObject.name + $" {rewardValue}초 스턴! ");
+            //col.GetComponent<>
         }
     }
 }

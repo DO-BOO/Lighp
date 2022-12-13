@@ -99,7 +99,6 @@ public abstract class Skill
         }
     }
 
-
     protected virtual void OnUpdate() { }
 
     public void FixedUpdate() { OnFixedUpdate(); }

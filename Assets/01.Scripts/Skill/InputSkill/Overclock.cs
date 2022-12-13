@@ -22,7 +22,9 @@ public class Overclock : Skill
 
         StartEffect(character.transform, effectPos, null, duration);    // 이펙트 생성
         move.moveStat.speed *= 1.5f;                                    // 움직임 스탯 바꿔 스킬 능력 실행
-        prevMoveStat = move.moveStat;                                   
+        prevMoveStat = move.moveStat;
+
+        Player.AddAttackWeight(Define.DARK_ADD_POWER);
     }
 
     protected override void OnFixedUpdate()
@@ -39,5 +41,6 @@ public class Overclock : Skill
     protected override void OnEnd()
     {
         move.moveStat = prevMoveStat;   // 움직임 스탯을 원래 기본 스탯으로 만든다
+        Player.AddAttackWeight(-Define.DARK_ADD_POWER);
     }
 }

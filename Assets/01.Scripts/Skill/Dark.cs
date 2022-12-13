@@ -16,7 +16,6 @@ public class Dark
     public float DarkSpeed { get; set; }
     private const float DARK_CONDITION = 0.65f;
     private const float LIGHT_CONDITION = 0.35f;
-    private const int DAMAGE_WEIGHT = 20;
 
     private bool isDarkActive;
 
@@ -92,7 +91,7 @@ public class Dark
         accDrop = 0f;
 
         EventManager.TriggerEvent(Define.ON_START_DARK);
-        Player.AddAttackWeight(DAMAGE_WEIGHT);
+        Player.AddAttackWeight(Define.DARK_ADD_POWER);
     }
 
     private void InactiveDark()
@@ -101,6 +100,6 @@ public class Dark
         accDrop = 0f;
 
         EventManager.TriggerEvent(Define.ON_END_DARK);
-        Player.AddAttackWeight(-DAMAGE_WEIGHT);
+        Player.AddAttackWeight(-Define.DARK_ADD_POWER);
     }
 }

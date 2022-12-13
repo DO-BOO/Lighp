@@ -32,6 +32,7 @@ public class CharacterSkill : Character
     {
         if (curSkill[index].CanUseSkill)
         {
+            Debug.Log(curSkill[index].GetType().Name);
             curSkill[index].Start();
         }
     }
