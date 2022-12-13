@@ -32,7 +32,6 @@ public class MeleeMonster : Character, IHittable
     public LayerMask blockLayerMask;
 
     private float moveRange = 50.0f;
-    private float attackRange = 8.5f;
     private float colRadius = 100f;
     const float dash_distance = 40f;
 
@@ -62,7 +61,7 @@ public class MeleeMonster : Character, IHittable
     {
         monsterHP.Hp = monsterData.maxHp;
         agent.speed = monsterData.moveSpeed;
-        agent.stoppingDistance = attackRange;
+        agent.stoppingDistance = monsterData.attackRange;
         //colRadius = monsterData.viewDistance;
         colRadius = 100f;
     }
@@ -181,7 +180,7 @@ public class MeleeMonster : Character, IHittable
 
     private void CheckDistanceWalk()
     {
-        if (distance <= attackRange)
+        if (distance <= monsterData.attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -216,7 +215,7 @@ public class MeleeMonster : Character, IHittable
 
     private void CheckDistanceAttack()
     {
-        if (distance > attackRange)
+        if (distance > monsterData.attackRange)
         {
             fsm.ChangeState(States.Walk);
         }
@@ -241,7 +240,7 @@ public class MeleeMonster : Character, IHittable
     {
         if (target != null)
         {
-            if (distance <= attackRange + 1.0f)
+            if (distance <= monsterData.attackRange + 1.0f)
             {
                 Debug.Log("MeleeAttack");
                 LookTarget(target);

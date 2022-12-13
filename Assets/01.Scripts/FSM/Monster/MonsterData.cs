@@ -16,7 +16,7 @@ public class MonsterData
     public string pt2Shame;
     public string pt2Special_2;
     public string pt2Shame_2;
-    public int moveSpeed;
-    public int viewDistance;
-    public int attackRange;
+    public float moveSpeed;
+    public float viewDistance;
+    public float attackRange;
 }

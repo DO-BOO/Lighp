@@ -32,7 +32,6 @@ public class FarMonster : Character, IHittable
     public LayerMask blockLayerMask;
 
     private float moveRange = 50.0f;
-    private float attackRange = 30.0f;
     private float avoidRange = 20.0f;
     private const float colRadius = 100f;
 
@@ -66,7 +65,7 @@ public class FarMonster : Character, IHittable
     {
         monsterHP.Hp = monsterData.maxHp;
         agent.speed = monsterData.moveSpeed;
-        agent.stoppingDistance = attackRange;
+        agent.stoppingDistance = monsterData.attackRange;
     }
 
     #region GET
@@ -135,7 +134,7 @@ public class FarMonster : Character, IHittable
 
     private void CheckDistanceIdle()
     {
-        if (distance <= attackRange)
+        if (distance <= monsterData.attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -175,7 +174,7 @@ public class FarMonster : Character, IHittable
         {
             fsm.ChangeState(States.Avoid);
         }
-        else if (distance <= attackRange)
+        else if (distance <= monsterData.attackRange)
         {
             fsm.ChangeState(States.Attack);
         }
@@ -231,8 +230,9 @@ public class FarMonster : Character, IHittable
         {
             fsm.ChangeState(States.Avoid);
         }
-        else if (distance > attackRange)
+        else if (distance > monsterData.attackRange)
         {
+
             fsm.ChangeState(States.Walk);
         }
     }
