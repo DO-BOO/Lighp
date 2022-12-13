@@ -7,10 +7,21 @@ public class UIManager
     public SkillUIController Skill { get; set; }
     public MarbleUIController MarbleUI { get; set; }
 
+    #region Canvas
+    private Transform canvasParent;
+    private Canvas popupCanvas;
+    #endregion
+
+    #region ÌåùÏóÖ Í¥ÄÎ†® Î≥ÄÏàò
+    private DamagePopup damagePopupPref;
+    #endregion
+
     public void OnAwake()
     {
         Skill = Object.FindObjectOfType<SkillUIController>();
         MarbleUI = Object.FindObjectOfType<MarbleUIController>();
+        FindCanvas();
+        FindAsset();
     }
 
     public void OnStart()
@@ -18,17 +29,28 @@ public class UIManager
         
     }
 
-    #region ∆Àæ˜ ±∏«ˆ
-    public void SpawnDamagePopup(Transform target, int damage, bool isCritical)
+    private void FindCanvas()
     {
-        DamagePopup obj = GameManager.Instance.Pool.Pop(GameManager.Instance.DamagePopup.gameObject) as DamagePopup;
-        obj.transform.SetParent(GameManager.Instance.PopupCanvas.transform);
-        obj.SpawnPopup(target, damage, isCritical, PopupData.Default);
+        canvasParent = GameObject.Find("UI").transform;
+        popupCanvas = canvasParent.Find("PopupCanvas").GetComponent<Canvas>();
     }
-    public void SpawnDamagePopup(Transform target, int damage, bool isCritical, PopupData popupData)
+
+    private void FindAsset()
     {
-        DamagePopup obj = GameManager.Instance.Pool.Pop(GameManager.Instance.DamagePopup.gameObject) as DamagePopup;
-        obj.transform.SetParent(GameManager.Instance.PopupCanvas.transform);
+        damagePopupPref = Resources.Load<DamagePopup>("UI/DamagePopup");
+    }
+
+    #region ÌåùÏóÖ Íµ¨ÌòÑ
+    public void SpawnDamagePopup(Transform target, int damage, bool isCritical = false)
+    {
+        DamagePopup obj = GameManager.Instance.Pool.Pop(damagePopupPref.gameObject) as DamagePopup;
+        obj.transform.SetParent(popupCanvas.transform);
+        obj.SpawnPopup(target, damage, isCritical, PopupData.Original);
+    }
+    public void SpawnDamagePopup(Transform target, int damage, PopupData popupData, bool isCritical = false)
+    {
+        DamagePopup obj = GameManager.Instance.Pool.Pop(damagePopupPref.gameObject) as DamagePopup;
+        obj.transform.SetParent(popupCanvas.transform);
         obj.SpawnPopup(target, damage, isCritical, popupData);
     }
     #endregion

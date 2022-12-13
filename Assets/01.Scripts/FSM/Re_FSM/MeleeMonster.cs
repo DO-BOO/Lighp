@@ -241,9 +241,14 @@ public class MeleeMonster : Character
             if(distance <= attackRange+1.0f)
             {
                 Debug.Log("MeleeAttack");
-                LookTarget(target);
+                LookTarget(target); 
                 
-        target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
+                target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
+
+                //ÆË¾÷
+                PopupData popupData = PopupData.Original;
+                popupData.defaultColor = Color.red;
+                GameManager.Instance.UI.SpawnDamagePopup(target.transform, monsterData.attackPower, popupData);
             }
         }
     }

@@ -48,6 +48,10 @@ public class FarMonsterBullet : Poolable
         if (other.tag == "Player")
         {
             other.GetComponent<PlayerHp>().Hit(damage);
+            //ÆË¾÷
+            PopupData popupData = PopupData.Original;
+            popupData.defaultColor = Color.red;
+            GameManager.Instance.UI.SpawnDamagePopup(other.transform, damage, popupData);
             DeleteBullet();
         }
     }
