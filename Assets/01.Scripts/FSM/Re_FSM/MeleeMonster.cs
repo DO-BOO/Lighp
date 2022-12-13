@@ -5,7 +5,7 @@ using MonsterLove.StateMachine;
 using DG.Tweening;
 using System.Net.Mime;
 
-public class MeleeMonster : Character
+public class MeleeMonster : Character, IHittable
 {
     MonsterData monsterData = null;
     private int ID => monsterData.number;
@@ -257,7 +257,10 @@ public class MeleeMonster : Character
 
     private bool isStun = false;
     private bool IsStun => isStun;
-    private float coolTime = 2f;
+
+    public bool isEnemy => throw new System.NotImplementedException();
+
+    private float stunTime = 0f;
 
     private void Stun_Enter()
     {
@@ -276,7 +279,7 @@ public class MeleeMonster : Character
     private IEnumerator Stun()
     {
         isStun = true;
-        yield return new WaitForSeconds(coolTime);
+        yield return new WaitForSeconds(stunTime);
         fsm.ChangeState(States.Walk);
     }
 
@@ -352,7 +355,7 @@ public class MeleeMonster : Character
     }
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged(int damage, bool stunPlay)
+    public void GetDamage(int damage, float hitStun, bool isCritical, float criticalFactor)
     {
         flashEffect.DamageEffect();
         monsterHP.Hit(damage);
@@ -363,8 +366,9 @@ public class MeleeMonster : Character
         }
 
         if (isStun) return;
-        if (stunPlay)
+        if (hitStun > 0)
         {
+            stunTime = hitStun;
             fsm.ChangeState(States.Stun);
         }
         else
@@ -413,4 +417,5 @@ public class MeleeMonster : Character
         EventManager.StopListening(Define.ON_START_DARK, StartDark);
         EventManager.StopListening(Define.ON_START_DARK, EndDark);
     }
+
 }

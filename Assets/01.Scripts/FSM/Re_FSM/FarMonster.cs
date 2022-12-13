@@ -5,7 +5,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using System.Threading;
 
-public class FarMonster : Character
+public class FarMonster : Character, IHittable
 {
     MonsterData monsterData = null;
     private int ID => monsterData.number;
@@ -257,7 +257,10 @@ public class FarMonster : Character
 
     private bool isStun = false;
     private bool IsStun => isStun;
-    private float coolTime = 2f;
+
+    public bool isEnemy => throw new System.NotImplementedException();
+
+    private float stunTime = 0f;
 
     private void Stun_Enter()
     {
@@ -276,7 +279,7 @@ public class FarMonster : Character
     private IEnumerator Stun()
     {
         isStun = true;
-        yield return new WaitForSeconds(coolTime);
+        yield return new WaitForSeconds(stunTime);
         fsm.ChangeState(States.Walk);
     }
 
@@ -313,8 +316,16 @@ public class FarMonster : Character
         transform.Rotate(addTurnDir, Space.Self);
         velocity = (-1 * transform.forward);
         Vector3 destination = transform.position + velocity.normalized * Define.AVOID_DISTANCE;
-        transform.DOKill();
-        transform.DOMove(destination, AVOID_DURATION).OnComplete(() => { EndAvoid(); });
+        if(!Physics.Raycast(transform.position, velocity, Define.AVOID_DISTANCE, blockLayerMask))
+        {
+            transform.DOKill();
+            transform.DOMove(destination, AVOID_DURATION).OnComplete(() => { EndAvoid(); });
+        }
+        else
+        {
+            Debug.Log("NONE");
+            fsm.ChangeState(States.Walk);
+        }
     }
 
     private void EndAvoid()
@@ -348,7 +359,8 @@ public class FarMonster : Character
     }
 
     // 데미지 입었을 때 호출 (데미지 입은 상태로 전환)
-    public void Damaged(int damage, bool stunPlay)
+
+    public void GetDamage(int damage, float hitStun, bool isCritical, float criticalFactor)
     {
         AnimationPlay(hashHit);
         flashEffect.DamageEffect();
@@ -360,8 +372,9 @@ public class FarMonster : Character
         }
 
         if (isStun) return;
-        if (stunPlay)
+        if (hitStun>0)
         {
+            stunTime = hitStun;
             fsm.ChangeState(States.Stun);
         }
         else
@@ -386,16 +399,9 @@ public class FarMonster : Character
 
     #endregion
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.collider.tag == "Player")
-    //    {
-    //        Damaged(false);
-    //    }
-    //}
-
     private void OnDestroy()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, SetMonster);
     }
+
 }
