@@ -29,3 +29,5 @@ MonoBehaviour:
     instanceCount: 10
   - poolObject: {fileID: 6454639629731489036, guid: ce9381fd066dae5438e7f0e17957cc60, type: 3}
     instanceCount: 10
+  - poolObject: {fileID: 6013594201799398388, guid: 6005f93e84b580c45a63719581e978f0, type: 3}
+    instanceCount: 20

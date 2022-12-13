@@ -27,6 +27,10 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Effect
+  - m_GUID: 6005f93e84b580c45a63719581e978f0
+    m_Address: Assets/02.Prefabs/UI/DamagePopup/DamagePopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cd4026295c4ed4f4da6019be1111f248, type: 2}
   m_SchemaSet:
