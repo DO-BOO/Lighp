@@ -15,6 +15,21 @@ public class UIManager
 
     public void OnStart()
     {
-
+        
     }
+
+    #region ÆË¾÷ ±¸Çö
+    public void SpawnDamagePopup(Transform target, int damage, bool isCritical)
+    {
+        DamagePopup obj = GameManager.Instance.Pool.Pop(GameManager.Instance.DamagePopup.gameObject) as DamagePopup;
+        obj.transform.SetParent(GameManager.Instance.PopupCanvas.transform);
+        obj.SpawnPopup(target, damage, isCritical, PopupData.Default);
+    }
+    public void SpawnDamagePopup(Transform target, int damage, bool isCritical, PopupData popupData)
+    {
+        DamagePopup obj = GameManager.Instance.Pool.Pop(GameManager.Instance.DamagePopup.gameObject) as DamagePopup;
+        obj.transform.SetParent(GameManager.Instance.PopupCanvas.transform);
+        obj.SpawnPopup(target, damage, isCritical, popupData);
+    }
+    #endregion
 }

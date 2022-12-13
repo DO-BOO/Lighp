@@ -23,6 +23,14 @@ public class GameManager : MonoSingleton<GameManager>
     }
     #endregion
 
+    #region UIPref
+    //수정 예정
+    [SerializeField] private Canvas popupCanvas;
+    public Canvas PopupCanvas => popupCanvas;
+    [SerializeField] private DamagePopup damagePopup;
+    public DamagePopup DamagePopup => damagePopup;
+    #endregion
+
     private int gold;
     public int Gold => gold;
 
