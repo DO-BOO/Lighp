@@ -1,0 +1,9 @@
+diff a/Assets/01.Scripts/FSM/Re_FSM/MeleeMonster.cs b/Assets/01.Scripts/FSM/Re_FSM/MeleeMonster.cs	(rejected hunks)
+@@ -368,7 +368,6 @@
+     }
+ 
+     // ������ �Ծ��� �� ȣ�� (������ ���� ���·� ��ȯ)
+-    public void Damaged(int damage, bool stunPlay)
+     public void GetDamage(int damage, float hitStun, bool isCritical, float criticalFactor)
+     {
+         flashEffect.DamageEffect();

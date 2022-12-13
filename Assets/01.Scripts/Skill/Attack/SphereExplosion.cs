@@ -24,7 +24,7 @@ public class SphereExplosion : Poolable
             //CharacterHp hp = collider.GetComponent<CharacterHp>();
             //hp?.Hit(10);
 
-            collider.GetComponent<MeleeMonster>().Damaged(10,true);
+            collider.GetComponent<MeleeMonster>().GetDamage(10, 0, false, 0);
         }
     }
 

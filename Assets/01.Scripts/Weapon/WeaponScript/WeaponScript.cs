@@ -92,14 +92,14 @@ public abstract class WeaponScript : MonoBehaviour
 
         if (enemy.tag == "CLOSE")
         {
-            enemy.GetComponent<MeleeMonster>()?.Damaged(attackDamage, false);
+            enemy.GetComponent<MeleeMonster>().GetDamage(10, 0, false, 0);
             //임시
             GameManager.Instance.UI.SpawnDamagePopup(enemy.transform, attackDamage, data.IsCritical);
             marbleController.ExecuteAttack(enemy.GetComponent<StateMachine>());
         }
         else if (enemy.tag == "FAR")
         {
-            enemy.GetComponent<FarMonster>()?.Damaged(attackDamage, false);
+            enemy.GetComponent<FarMonster>().GetDamage(10, 0, false, 0);
             //임시
             GameManager.Instance.UI.SpawnDamagePopup(enemy.transform, attackDamage, data.IsCritical);
             marbleController.ExecuteAttack(enemy.GetComponent<StateMachine>());

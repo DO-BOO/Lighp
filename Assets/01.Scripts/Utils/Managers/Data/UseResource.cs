@@ -23,7 +23,6 @@ public class UseResource
     /// </summary>
     private Dictionary<string, AsyncOperationHandle> handles = new Dictionary<string, AsyncOperationHandle>();
 
-    // ------------ 여기 전부 NULL 반환 ---------------
     #region Instantiate
     public static GameObject Instantiate(string path)
     {
