@@ -5,7 +5,6 @@ using MonsterLove.StateMachine;
 using DG.Tweening;
 using System.Net.Mime;
 
-public class MeleeMonster : Character
 public class MeleeMonster : Character, IHittable
 {
     MonsterData monsterData = null;
@@ -169,7 +168,6 @@ public class MeleeMonster : Character, IHittable
 
     private void SetMove(bool isMove)
     {
-            agent.isStopped = !isMove;
         agent.isStopped = !isMove;
     }
 
@@ -268,7 +266,6 @@ public class MeleeMonster : Character, IHittable
 
     private bool isStun = false;
     private bool IsStun => isStun;
-    private float coolTime = 2f;
 
     public bool isEnemy => throw new System.NotImplementedException();
 
@@ -291,7 +288,6 @@ public class MeleeMonster : Character, IHittable
     private IEnumerator Stun()
     {
         isStun = true;
-        yield return new WaitForSeconds(coolTime);
         yield return new WaitForSeconds(stunTime);
         fsm.ChangeState(States.Walk);
     }
