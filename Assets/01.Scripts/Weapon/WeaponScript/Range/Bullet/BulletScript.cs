@@ -16,6 +16,12 @@ public class BulletScript : Poolable
     private IHittable target;
     #endregion
 
+    private void Awake()
+    {
+        EventManager.StartListening(Define.ON_START_DARK, StartDark);
+        EventManager.StartListening(Define.ON_END_DARK, EndDark);
+    }
+
     public void FireBullet(Vector3 pos, Vector3 dir, WeaponData parentData, bool isEnemy = false)
     {
         transform.position = pos;
@@ -23,7 +29,7 @@ public class BulletScript : Poolable
         data.hitStun = parentData.hitStunTime;
         data.isCritical = parentData.IsCritical;
         data.criticalFactor = parentData.criticalFactor;
-        
+
         FireBullet(dir, parentData.damage);
         SetEnemyLayer(data.isEnemy);
     }
@@ -75,5 +81,21 @@ public class BulletScript : Poolable
         {
             enemyLayer = LayerMask.GetMask("Enemy");
         }
+    }
+
+    private void StartDark()
+    {
+        data.speed *= Define.DARK_SUB_ENEMY_SPEED_WEIGHT;
+    }
+
+    private void EndDark()
+    {
+        data.speed *= 1 / Define.DARK_SUB_ENEMY_SPEED_WEIGHT;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening(Define.ON_START_DARK, StartDark);
+        EventManager.StopListening(Define.ON_END_DARK, EndDark);
     }
 }

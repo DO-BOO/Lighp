@@ -15,13 +15,22 @@ public class FlashBurst : Skill
 
     protected override void Execute()
     {
+        // Hp -= 50
         hp.Hit(Mathf.RoundToInt(costValue));
+
         StartEffect(null, character.transform.position, Quaternion.identity, 1f);
         Collider[] cols = Physics.OverlapSphere(character.transform.position, radius, Define.MONSTER_LAYER);
 
         foreach (Collider col in cols)
         {
-            //col.GetComponent<>
+            if (col.CompareTag("CLOSE"))
+            {
+                col.GetComponent<MeleeMonster>().GetDamage(0, rewardValue, false, 0f);
+            }
+            else if (col.CompareTag("FAR"))
+            {
+                col.GetComponent<FarMonster>().GetDamage(0, rewardValue, false, 0f);
+            }
         }
     }
 }

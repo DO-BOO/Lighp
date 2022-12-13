@@ -10,7 +10,7 @@ public class PlayerSkill : CharacterSkill
     protected override void ChildAwake()
     {
         EventManager.StartListening(Define.ON_END_READ_DATA, AddFirstSkill);
-        EventManager<InputType>.StartListening((int)InputAction.ActiveSkill, (type) => InputSkill(type, 1));
+        EventManager<InputType>.StartListening((int)InputAction.ActiveSkill, (type) => InputSkill(type, 2));
     }
 
     private void InputSkill(InputType type, int index)
@@ -38,20 +38,12 @@ public class PlayerSkill : CharacterSkill
     // TEST
     private void AddFirstSkill()
     {
-        Skill overclock = GameManager.Instance.GetSkill<Overclock>();
-        AddSkill(overclock);
-        GameManager.Instance.UI.Skill.RegisterSkill(overclock);
+        curSkill = GameManager.Instance.SpreadData.GetDatasAsChildren<Skill>();
 
-        if (!isOne)
+        for (int i = 0; i < 3; i++)
         {
-            Skill flashburst = GameManager.Instance.GetSkill<FlashBurst>();
-            Skill portableCharger = GameManager.Instance.GetSkill<PortableCharger>();
-
-            AddSkill(flashburst);
-            AddSkill(portableCharger);
-
-            GameManager.Instance.UI.Skill.RegisterSkill(flashburst, 1);
-            GameManager.Instance.UI.Skill.RegisterSkill(portableCharger, 2);
+            curSkill[i].Init(this);
+            GameManager.Instance.UI.Skill.RegisterSkill(curSkill[i], i);
         }
     }
 

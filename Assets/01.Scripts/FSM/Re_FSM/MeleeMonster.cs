@@ -55,7 +55,7 @@ public class MeleeMonster : Character, IHittable
         }
 
         EventManager.StartListening(Define.ON_START_DARK, StartDark);
-        EventManager.StartListening(Define.ON_START_DARK, EndDark);
+        EventManager.StartListening(Define.ON_END_DARK, EndDark);
     }
 
     private void ResetMonster()
@@ -243,7 +243,6 @@ public class MeleeMonster : Character, IHittable
         {
             if (distance <= attackRange + 1.0f)
             {
-                Debug.Log("MeleeAttack");
                 LookTarget(target);
 
                 target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
@@ -397,25 +396,20 @@ public class MeleeMonster : Character, IHittable
 
     private void StartDark()
     {
-        agent.speed *= 0.7f;
-
-        float speed = animator.GetFloat("Speed");
-        animator.SetFloat("Speed", speed * 1/0.7f); ;
+        agent.speed *= Define.DARK_SUB_ENEMY_SPEED_WEIGHT;
+        animator.SetFloat("Speed", Define.DARK_SUB_ENEMY_SPEED_WEIGHT); ;
     }
 
     private void EndDark()
     {
-        agent.speed *= 1 / 0.7f;
-
-        float speed = animator.GetFloat("Speed");
-        animator.SetFloat("Speed", speed * 1/0.7f); ;
+        agent.speed *= 1 / Define.DARK_SUB_ENEMY_SPEED_WEIGHT;
+        animator.SetFloat("Speed", 1f); ;
     }
 
     private void OnDestroy()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, SetMonster);
         EventManager.StopListening(Define.ON_START_DARK, StartDark);
-        EventManager.StopListening(Define.ON_START_DARK, EndDark);
+        EventManager.StopListening(Define.ON_END_DARK, EndDark);
     }
-
 }

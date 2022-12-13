@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CharacterSkill : Character
 {
-    [SerializeField]
     protected List<Skill> curSkill = new List<Skill>(); // 현재 가지고 있는 스킬
     public int SkillCount { get => curSkill.Count; }
 
@@ -32,7 +31,6 @@ public class CharacterSkill : Character
     {
         if (curSkill[index].CanUseSkill)
         {
-            Debug.Log(curSkill[index].GetType().Name);
             curSkill[index].Start();
         }
     }

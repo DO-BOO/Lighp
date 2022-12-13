@@ -53,6 +53,9 @@ public class FarMonster : Character, IHittable
         {
             SetMonster();
         }
+
+        EventManager.StartListening(Define.ON_START_DARK, StartDark);
+        EventManager.StartListening(Define.ON_END_DARK, EndDark);
     }
 
     private void SetMonster()
@@ -323,7 +326,7 @@ public class FarMonster : Character, IHittable
         }
         else
         {
-            Debug.Log("NONE");
+            //Debug.Log("NONE");
             fsm.ChangeState(States.Walk);
         }
     }
@@ -399,9 +402,22 @@ public class FarMonster : Character, IHittable
 
     #endregion
 
+    private void StartDark()
+    {
+        agent.speed *= Define.DARK_SUB_ENEMY_SPEED_WEIGHT;
+        animator.SetFloat("Speed", Define.DARK_SUB_ENEMY_SPEED_WEIGHT); ;
+    }
+
+    private void EndDark()
+    {
+        agent.speed *= 1 / Define.DARK_SUB_ENEMY_SPEED_WEIGHT;
+        animator.SetFloat("Speed", 1f); ;
+    }
+
     private void OnDestroy()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, SetMonster);
+        EventManager.StopListening(Define.ON_START_DARK, StartDark);
+        EventManager.StopListening(Define.ON_END_DARK, EndDark);
     }
-
 }

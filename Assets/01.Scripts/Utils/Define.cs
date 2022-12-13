@@ -63,7 +63,7 @@ public class Define
 
     #region DARK
     public const int DARK_ADD_POWER = 20;
-    public const int DARK_SUB_ENEMY_SPEED = 30;
+    public const float DARK_SUB_ENEMY_SPEED_WEIGHT = 0.7f;
     public const int DARK_SUB_HP = 5;
     #endregion
 
