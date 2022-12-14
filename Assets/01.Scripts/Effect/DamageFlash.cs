@@ -10,12 +10,13 @@ public class DamageFlash : MonoBehaviour
 {
     private readonly int hashEmmision = Shader.PropertyToID("_EmissionColor");
 
-    List<Color> colors = new List<Color>();
-    Renderer[] renderers;
+    private List<Color> colors = new List<Color>();
+    private Renderer[] renderers;
 
-    Color32 flashColor = Color.red;
+    private Color32 flashColor = Color.red;
 
-    bool isDamage = false;
+    private bool isDamage = false;
+    private float flashDuration = 0.2f;
 
     private void Awake()
     {
@@ -60,7 +61,7 @@ public class DamageFlash : MonoBehaviour
     private IEnumerator TwinkleDamageEffect()
     {
         ChangeColor();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(flashDuration);
         ChangeBeforeColor();
         isDamage = false;
     }
