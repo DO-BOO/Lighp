@@ -53,9 +53,6 @@ public class FarMonster : Character, IHittable
         {
             SetMonster();
         }
-
-        EventManager.StartListening(Define.ON_START_DARK, StartDark);
-        EventManager.StartListening(Define.ON_END_DARK, EndDark);
     }
 
     private void SetMonster()
@@ -222,6 +219,7 @@ public class FarMonster : Character, IHittable
         Vector3 pos = new Vector3(transform.position.x + 2.0f, 1.0f, transform.position.z);
         Transform tDir = SearchTarget();
         Vector3 direction = (tDir.position - pos).normalized;
+        direction.y = 0f;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         FarMonsterBullet obj = GameManager.Instance.Pool.Pop("BasicFarMonsterBullet", null, pos, lookRotation) as FarMonsterBullet;
         obj.SetDamage(monsterData.attackPower);
@@ -326,7 +324,6 @@ public class FarMonster : Character, IHittable
         }
         else
         {
-            //Debug.Log("NONE");
             fsm.ChangeState(States.Walk);
         }
     }
@@ -402,22 +399,9 @@ public class FarMonster : Character, IHittable
 
     #endregion
 
-    private void StartDark()
-    {
-        agent.speed *= Define.DARK_SUB_ENEMY_SPEED_WEIGHT;
-        animator.SetFloat("Speed", Define.DARK_SUB_ENEMY_SPEED_WEIGHT); ;
-    }
-
-    private void EndDark()
-    {
-        agent.speed *= 1 / Define.DARK_SUB_ENEMY_SPEED_WEIGHT;
-        animator.SetFloat("Speed", 1f); ;
-    }
-
     private void OnDestroy()
     {
         EventManager.StopListening(Define.ON_END_READ_DATA, SetMonster);
-        EventManager.StopListening(Define.ON_START_DARK, StartDark);
-        EventManager.StopListening(Define.ON_END_DARK, EndDark);
     }
+
 }

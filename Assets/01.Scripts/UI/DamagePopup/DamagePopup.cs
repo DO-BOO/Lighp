@@ -36,8 +36,10 @@ public class DamagePopup : Poolable
     {
         //텍스트 설정
         textMesh.text = damage.ToString();
-        if(isCritical)
-            textMesh.faceColor = Color.yellow;
+        if (isCritical)
+            textMesh.faceColor = data.specialColor;
+        else
+            textMesh.faceColor = data.defaultColor;
 
         //생성될 위치 구하고 애니메이션 실행
         this.target = target;
