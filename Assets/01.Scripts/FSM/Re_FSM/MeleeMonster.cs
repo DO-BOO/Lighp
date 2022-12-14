@@ -17,6 +17,7 @@ public class MeleeMonster : Character, IHittable
     public float DASH_DURATION = Define.DASH_DURATION; // 대쉬 시간
     public float DASH_COOLTIME = Define.DASH_COOLTIME; // 대쉬 쿨타임
     public float DASH_DISTANCE = Define.DASH_DISTANCE; // 대쉬하는 거리
+    public float DASH_DELAY = 0.5f; // 대쉬하는 거리
 
     MonsterData monsterData = null;
     private int ID => monsterData.number;
@@ -321,14 +322,16 @@ public class MeleeMonster : Character, IHittable
     private IEnumerator Dash(Vector3 velocity)
     {
         agent.isStopped = true;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(DASH_DELAY);
         Vector3 destination = transform.position + velocity.normalized * DASH_DISTANCE;
+        Debug.Log("Dash");
         transform.DOKill();
         transform.DOMove(destination, DASH_DURATION).OnComplete(() => { EndDash(); });
     }
 
     private void EndDash()
     {
+        Debug.Log("Dash_ENd");
         agent.isStopped = false;
         fsm.ChangeState(States.Walk);
         rigid.velocity = Vector3.zero;
