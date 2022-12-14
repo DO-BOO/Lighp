@@ -7,6 +7,17 @@ using System.Net.Mime;
 
 public class MeleeMonster : Character, IHittable
 {
+    [Header("기획 수치")]
+    public float moveRange = 50.0f;
+
+    public float attackCheckRange = 10f; // 공격 사거리
+
+    [Header("DASH")]
+    public float DASH_CHECKDISTANCE = 40.0f; // 대쉬 가능해진 거리
+    public float DASH_DURATION = Define.DASH_DURATION; // 대쉬 시간
+    public float DASH_COOLTIME = Define.DASH_COOLTIME; // 대쉬 쿨타임
+    public float DASH_DISTANCE = Define.DASH_DISTANCE; // 대쉬하는 거리
+
     MonsterData monsterData = null;
     private int ID => monsterData.number;
 
@@ -31,12 +42,11 @@ public class MeleeMonster : Character, IHittable
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
 
-    private float moveRange = 50.0f;
-    private float colRadius = 100f;
-    const float dash_distance = 40f;
+    private float colRadius=100f; // 처음 타겟이 인식되는 거리
 
     public GameObject dashWarningLine;
     private DamageFlash flashEffect;
+
 
     protected override void ChildAwake()
     {
@@ -62,6 +72,7 @@ public class MeleeMonster : Character, IHittable
         monsterHP.Hp = monsterData.maxHp;
         agent.speed = monsterData.moveSpeed;
         agent.stoppingDistance = monsterData.attackRange;
+        DASH_DURATION = 
         //colRadius = monsterData.viewDistance;
         colRadius = 100f;
     }
@@ -184,7 +195,7 @@ public class MeleeMonster : Character, IHittable
         {
             fsm.ChangeState(States.Attack);
         }
-        else if (distance >= dash_distance && canDash)
+        else if (distance >= DASH_CHECKDISTANCE && canDash)
         {
             fsm.ChangeState(States.Dash);
         }
@@ -240,7 +251,7 @@ public class MeleeMonster : Character, IHittable
     {
         if (target != null)
         {
-            if (distance <= monsterData.attackRange + 1.0f)
+            if (distance <= attackCheckRange)
             {
                 Debug.Log("MeleeAttack");
                 LookTarget(target);
@@ -285,11 +296,6 @@ public class MeleeMonster : Character, IHittable
     #endregion
 
     #region DASH
-
-    private const float DASH_DURATION = Define.DASH_DURATION;
-    private const float DASH_DISTANCE = Define.DASH_DISTANCE;
-    private float DASH_COOLTIME = Define.DASH_COOLTIME;
-
     private bool isDash = false;
     private bool canDash = true;
 
