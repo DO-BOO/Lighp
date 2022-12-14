@@ -42,7 +42,14 @@ public class DamageFlash : MonoBehaviour
     {
         foreach (Renderer renderer in renderers)
         {
-            colors.Add(renderer.material.GetColor(hashEmmision));
+            try
+            {
+                colors.Add(renderer.material.GetColor(hashEmmision));
+            }
+            catch
+            {
+                Debug.Log("ㅠㅠ");
+            }
         }
     }
 
@@ -70,15 +77,30 @@ public class DamageFlash : MonoBehaviour
     {
         foreach (Renderer renderer in renderers)
         {
-            renderer.material.SetColor(hashEmmision, flashColor);
+            try
+            {
+                renderer.material.SetColor(hashEmmision, flashColor);
+            }
+            catch
+            {
+                Debug.Log("머티리얼없음");
+            }
         }
     }
 
     private void ChangeBeforeColor()
     {
-        for(int i=0;i<renderers.Length;i++)
+        for (int i = 0; i < renderers.Length; i++)
         {
-            renderers[i].material.SetColor(hashEmmision, colors[i]);
+            try
+            {
+                renderers[i].material.SetColor(hashEmmision, colors[i]);
+            }
+            catch
+            {
+                Debug.Log("머티리얼없음");
+            }
+
         }
     }
 

@@ -17,6 +17,7 @@ public class PlayerHp : CharacterHp
     #endregion
 
     private bool isStart = false;
+    DamageFlash damageFlash;
 
     protected override void Start()
     {
@@ -25,6 +26,8 @@ public class PlayerHp : CharacterHp
         EventManager.StartListening(Define.ON_START_DARK, OnStartDark);
         EventManager.StartListening(Define.ON_END_DARK, OnEndDark);
         EventManager.StartListening(Define.ON_END_READ_DATA, Load);
+
+        damageFlash = gameObject.GetComponent<DamageFlash>();
     }
 
     private void FixedUpdate()
@@ -46,7 +49,7 @@ public class PlayerHp : CharacterHp
 
         if (accDropHp >= 1f)
         {
-            Hit(1);
+            Hit(1, false);
             accDropHp -= 1f;
         }
     }
@@ -70,6 +73,7 @@ public class PlayerHp : CharacterHp
     private void OnStartDark()
     {
         Player.AddAttackWeight(20);
+
         dropHp += 5;
     }
     private void OnEndDark()
@@ -79,6 +83,14 @@ public class PlayerHp : CharacterHp
     }
 
     private void Load() => isStart = true;
+
+    protected override void ChildHit(bool isEffect)
+    {
+        if (isEffect)
+        {
+            damageFlash.DamageEffect();
+        }
+    }
 
     private void OnDestroy()
     {
