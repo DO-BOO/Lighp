@@ -11,7 +11,6 @@ public class GameManager : MonoSingleton<GameManager>
     public InputManager Input { get; private set; } = new InputManager();
     public PoolManager Pool { get; private set; } = new PoolManager();
     public UIManager UI { get; private set; } = new UIManager();
-
     #endregion
 
     #region TEST
@@ -21,14 +20,6 @@ public class GameManager : MonoSingleton<GameManager>
     {
         return skills.Find(x => x.GetType() == typeof(T));
     }
-    #endregion
-
-    #region UIPref
-    //수정 예정
-    [SerializeField] private Canvas popupCanvas;
-    public Canvas PopupCanvas => popupCanvas;
-    [SerializeField] private DamagePopup damagePopup;
-    public DamagePopup DamagePopup => damagePopup;
     #endregion
 
     private int gold;

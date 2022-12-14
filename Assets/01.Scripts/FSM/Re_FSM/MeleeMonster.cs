@@ -7,17 +7,17 @@ using System.Net.Mime;
 
 public class MeleeMonster : Character, IHittable
 {
-    [Header("±âÈ¹ ¼öÄ¡")]
+    [Header("ï¿½ï¿½È¹ ï¿½ï¿½Ä¡")]
     public float moveRange = 50.0f;
 
-    public float attackCheckRange = 10f; // °ø°Ý »ç°Å¸®
+    public float attackCheckRange = 10f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½
 
     [Header("DASH")]
-    public float DASH_CHECKDISTANCE = 40.0f; // ´ë½¬ °¡´ÉÇØÁø °Å¸®
-    public float DASH_DURATION = Define.DASH_DURATION; // ´ë½¬ ½Ã°£
-    public float DASH_COOLTIME = Define.DASH_COOLTIME; // ´ë½¬ ÄðÅ¸ÀÓ
-    public float DASH_DISTANCE = Define.DASH_DISTANCE; // ´ë½¬ÇÏ´Â °Å¸®
-    public float DASH_DELAY = 0.5f; // ´ë½¬ÇÏ´Â °Å¸®
+    public float DASH_CHECKDISTANCE = 40.0f; // ï¿½ë½¬ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½
+    public float DASH_DURATION = Define.DASH_DURATION; // ï¿½ë½¬ ï¿½Ã°ï¿½
+    public float DASH_COOLTIME = Define.DASH_COOLTIME; // ï¿½ë½¬ ï¿½ï¿½Å¸ï¿½ï¿½
+    public float DASH_DISTANCE = Define.DASH_DISTANCE; // ï¿½ë½¬ï¿½Ï´ï¿½ ï¿½Å¸ï¿½
+    public float DASH_DELAY = 0.5f; // ï¿½ë½¬ï¿½Ï´ï¿½ ï¿½Å¸ï¿½
 
     MonsterData monsterData = null;
     private int ID => monsterData.number;
@@ -35,7 +35,7 @@ public class MeleeMonster : Character, IHittable
 
     StateMachine<States> fsm;
 
-    private Transform target = null; // Å¸°Ù
+    private Transform target = null; // Å¸ï¿½ï¿½
 
     private CharacterHp monsterHP; // HP
 
@@ -43,7 +43,7 @@ public class MeleeMonster : Character, IHittable
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
 
-    private float colRadius=100f; // Ã³À½ Å¸°ÙÀÌ ÀÎ½ÄµÇ´Â °Å¸®
+    private float colRadius=100f; // Ã³ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ÄµÇ´ï¿½ ï¿½Å¸ï¿½
 
     public GameObject dashWarningLine;
     private DamageFlash flashEffect;
@@ -55,7 +55,7 @@ public class MeleeMonster : Character, IHittable
         target = SearchTarget();
         monsterHP = GetComponent<CharacterHp>();
         flashEffect = GetComponent<DamageFlash>();
-        if (GameManager.Instance.SpreadData.IsLoading)  // ·ÎµùÀÌ ¾È µÈ »óÅÂ
+        if (GameManager.Instance.SpreadData.IsLoading)  // ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             EventManager.StartListening(Define.ON_END_READ_DATA, SetMonster);
         }
@@ -90,7 +90,7 @@ public class MeleeMonster : Character, IHittable
     public float distance => GetDistance();
     public Vector3 dir => GetDirection();
 
-    // Å¸°Ù°úÀÇ °Å¸® ±¸ÇÏ±â
+    // Å¸ï¿½Ù°ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
     private float GetDistance()
     {
         if (target == null)
@@ -99,7 +99,7 @@ public class MeleeMonster : Character, IHittable
         return Vector3.Distance(transform.position, target.position);
     }
 
-    // Å¸°Ù°úÀÇ ¹æÇâ ±¸ÇÏ±â
+    // Å¸ï¿½Ù°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
     private Vector3 GetDirection()
     {
         Vector3 dir = target.position - transform.position;
@@ -111,7 +111,7 @@ public class MeleeMonster : Character, IHittable
 
     #region TARGET
 
-    // Å¸°Ù ±¸ÇÏ±â
+    // Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
     public Transform SearchTarget()
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, colRadius, targetLayerMask);
@@ -122,12 +122,11 @@ public class MeleeMonster : Character, IHittable
         else return null;
     }
 
-    // Å¸°Ù ÃÄ´Ùº¸±â
+    // Å¸ï¿½ï¿½ ï¿½Ä´Ùºï¿½ï¿½ï¿½
     public void LookTarget(Transform target)
     {
         Vector3 dir = GetDirection();
         Quaternion rot = Quaternion.LookRotation(dir.normalized);
-        // transform.Rotate(dir.normalized);
         transform.rotation = rot;
     }
 
@@ -255,6 +254,14 @@ public class MeleeMonster : Character, IHittable
             if (distance <= attackCheckRange)
             {
                 Debug.Log("MeleeAttack");
+                LookTarget(target); 
+                
+                target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
+
+                //ï¿½Ë¾ï¿½
+                PopupData popupData = PopupData.Original;
+                popupData.defaultColor = Color.red;
+                GameManager.Instance.UI.SpawnDamagePopup(target.transform, monsterData.attackPower, popupData);
                 LookTarget(target);
 
                 target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
@@ -362,7 +369,7 @@ public class MeleeMonster : Character, IHittable
         fsm.ChangeState(States.Walk);
     }
 
-    // µ¥¹ÌÁö ÀÔ¾úÀ» ¶§ È£Ãâ (µ¥¹ÌÁö ÀÔÀº »óÅÂ·Î ÀüÈ¯)
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¾ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½È¯)
     public void GetDamage(int damage, float hitStun, bool isCritical, float criticalFactor)
     {
         flashEffect.DamageEffect();
