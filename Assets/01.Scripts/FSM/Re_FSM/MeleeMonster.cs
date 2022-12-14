@@ -7,6 +7,19 @@ using System.Net.Mime;
 
 public class MeleeMonster : Character, IHittable
 {
+    [Header("VALUE")]
+    public float moveRange = 50.0f;
+
+    public float attackCheckRange = 10f;
+
+    [Header("DASH")]
+    public float DASH_CHECKDISTANCE = 40.0f; 
+    public float DASH_DURATION = Define.DASH_DURATION;
+    public float DASH_COOLTIME = Define.DASH_COOLTIME;
+    public float DASH_DISTANCE = Define.DASH_DISTANCE; 
+    public float DASH_DELAY = 0.5f;
+    public int dash_damage = 10;
+
     MonsterData monsterData = null;
     private int ID => monsterData.number;
 
@@ -31,7 +44,6 @@ public class MeleeMonster : Character, IHittable
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
 
-    private float moveRange = 50.0f;
     private float attackRange = 8.5f;
     private float colRadius = 100f;
     const float dash_distance = 40f;
@@ -236,15 +248,33 @@ public class MeleeMonster : Character, IHittable
         AnimationPlay(hashAttack, false);
     }
 
-    public void Attack()
+    public void DashAttack()
     {
-        if(target!=null)
         if (target != null)
         {
-            if(distance <= attackRange+1.0f)
-            if (distance <= attackRange + 1.0f)
+                if (distance <= attackRange + 1.0f)
+                {
+                    LookTarget(target);
+
+                    target.GetComponent<CharacterHp>()?.Hit(dash_damage);
+
+                    //ÆË¾÷
+                    PopupData popupData = PopupData.Original;
+                    popupData.defaultColor = Color.red;
+                    GameManager.Instance.UI.SpawnDamagePopup(target.transform, monsterData.attackPower, popupData);
+                    LookTarget(target);
+
+                    target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
+                }
+        }
+    }
+
+    public void Attack(int dashHit)
+    {
+        if (target != null)
+        {
+            if (distance <= attackCheckRange)
             {
-                Debug.Log("MeleeAttack");
                 LookTarget(target); 
                 
                 target.GetComponent<CharacterHp>()?.Hit(monsterData.attackPower);
@@ -296,10 +326,6 @@ public class MeleeMonster : Character, IHittable
 
     #region DASH
 
-    private const float DASH_DURATION = Define.DASH_DURATION;
-    private const float DASH_DISTANCE = Define.DASH_DISTANCE;
-    private float DASH_COOLTIME = Define.DASH_COOLTIME;
-
     private bool isDash = false;
     private bool canDash = true;
 
@@ -325,7 +351,7 @@ public class MeleeMonster : Character, IHittable
     private IEnumerator Dash(Vector3 velocity)
     {
         agent.isStopped = true;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(DASH_DELAY);
         Vector3 destination = transform.position + velocity.normalized * DASH_DISTANCE;
         transform.DOKill();
         transform.DOMove(destination, DASH_DURATION).OnComplete(() => { EndDash(); });
@@ -334,6 +360,7 @@ public class MeleeMonster : Character, IHittable
     private void EndDash()
     {
         agent.isStopped = false;
+        Attack(dash_damage);
         fsm.ChangeState(States.Walk);
         rigid.velocity = Vector3.zero;
     }

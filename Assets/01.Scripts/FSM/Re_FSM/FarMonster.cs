@@ -7,6 +7,17 @@ using System.Threading;
 
 public class FarMonster : Character, IHittable
 {
+    [Header("기획 수치")]
+    public float moveRange = 50.0f;
+
+    public float attackCheckRange = 10f; // 공격 사거리
+
+    [Header("AVOID")]
+    public float avoidRange = 40.0f; // 회피 가능해진 거리
+    public float AVOID_DURATION = Define.AVOID_DURATION; // 회피 시간
+    public float AVOID_COOLTIME = Define.AVOID_COOLTIME; // 회피 쿨타임
+    public float AVOID_DISTANCE = Define.AVOID_DISTANCE; // 회피하는 거리
+
     MonsterData monsterData = null;
     private int ID => monsterData.number;
 
@@ -31,9 +42,7 @@ public class FarMonster : Character, IHittable
     public LayerMask targetLayerMask;
     public LayerMask blockLayerMask;
 
-    private float moveRange = 50.0f;
     private float attackRange = 30.0f;
-    private float avoidRange = 20.0f;
     private const float colRadius = 100f;
 
     private DamageFlash flashEffect;
@@ -287,9 +296,6 @@ public class FarMonster : Character, IHittable
 
     #region AVOID
 
-    private const float AVOID_DURATION = Define.AVOID_DURATION;
-    private float AVOID_COOLTIME = Define.AVOID_COOLTIME;
-
     private bool isAvoid = false;
     private bool canAvoid = true;
 
@@ -298,6 +304,7 @@ public class FarMonster : Character, IHittable
         canAvoid = false;
         isAvoid = true;
         Avoid(-dir);
+        Debug.Log("AVOID");
         StartCoroutine(AvoidCoolTime());
     }
 
@@ -323,7 +330,6 @@ public class FarMonster : Character, IHittable
         }
         else
         {
-            Debug.Log("NONE");
             fsm.ChangeState(States.Walk);
         }
     }
