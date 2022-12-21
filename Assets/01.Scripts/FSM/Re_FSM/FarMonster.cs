@@ -228,6 +228,7 @@ public class FarMonster : Character, IHittable
         Vector3 pos = new Vector3(transform.position.x + 2.0f, 1.0f, transform.position.z);
         Transform tDir = SearchTarget();
         Vector3 direction = (tDir.position - pos).normalized;
+        direction.y = 0f;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         FarMonsterBullet obj = GameManager.Instance.Pool.Pop("BasicFarMonsterBullet", null, pos, lookRotation) as FarMonsterBullet;
         obj.SetDamage(monsterData.attackPower);

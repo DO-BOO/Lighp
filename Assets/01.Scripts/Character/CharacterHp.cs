@@ -17,7 +17,7 @@ public class CharacterHp : Character
         maxHp = hp;
     }
 
-    public void Hit(int damage)
+    public void Hit(int damage, bool isEffect = true)
     {
         hp -= damage;
 
@@ -27,9 +27,9 @@ public class CharacterHp : Character
             IsDead = true;
         }
 
-        ChildHit();
+        ChildHit(isEffect);
     }
-    protected virtual void ChildHit() { }
+    protected virtual void ChildHit(bool isEffect) { }
 
     public void Heal(int heal)
     {
