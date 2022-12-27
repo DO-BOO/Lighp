@@ -30,10 +30,12 @@ public class ReadSpreadData
     // 시작 했을 때 URL에서 데이터 읽어서 string에 저장
     public IEnumerator LoadDataCoroutine(Action aftaerLoad = null)
     {
+        Debug.Log("Load");
         List<Type> sheetTypes = new List<Type>(sheetDatas.Keys);
 
         foreach (Type type in sheetTypes)
         {
+            Debug.Log(type.Name + " LOAD");
             UnityWebRequest www = UnityWebRequest.Get(sheetDatas[type]);
             yield return www.SendWebRequest();
 
@@ -56,6 +58,8 @@ public class ReadSpreadData
 
         string[] row = sheetDatas[spreadType].Split('\n');
         int rowSize = row.Length;
+
+        Debug.Log(string.Join(", ", row[0].Split('\t')));
 
         for (int i = 0; i < rowSize; i++)
         {

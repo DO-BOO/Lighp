@@ -11,7 +11,7 @@ using System.Text;
 /// <summary>
 /// 유니티 메뉴바를 이용해 시트에 있는 데이터를 Enum cs 파일로 생성하는 클래스
 /// </summary>
-public class EditorMenu_CreateEnumScript
+public class EditorMenu_CreateEnumScript : MonoBehaviour
 {
     private static List<StringClass> stringDatas;
     private static ReadSpreadData dataLoader;
@@ -28,12 +28,12 @@ public class EditorMenu_CreateEnumScript
 
         Action afterLoad = null;
         afterLoad += () => CreateFile<InputManager.InputKey>("InputAction", 0);
-        afterLoad += () => CreateFile<WeaponData>("Rarity", 2);
+        afterLoad += () => CreateFile<WeaponData>("Rarity", 3);
         afterLoad += () => CreateFile<WeaponData>("WeaponGrip", 3);
         afterLoad += () => CreateFile<WeaponData>("WeaponType", 4);
         afterLoad += () => CreateFile<MonsterData>("MonsterPatternType", 7);
 
-        EditorCoroutineUtility.StartCoroutine(dataLoader.LoadDataCoroutine(afterLoad), null);
+        EditorCoroutineUtility.StartCoroutine(dataLoader.LoadDataCoroutine(afterLoad), new object());
     }
 
     /// <summary>
@@ -44,6 +44,8 @@ public class EditorMenu_CreateEnumScript
     /// <param name="idx">가져올 Enum값이 시트에 몇번째 열인지</param>
     private static void CreateFile<T>(string enumName, int idx)
     {
+        Debug.Log("CREATE");
+
         stringDatas = dataLoader.GetDatas<StringClass>(typeof(T));
         string path = Directory.GetCurrentDirectory() + ENUM_FILE_PATH + $"\\{enumName}.cs";
 
